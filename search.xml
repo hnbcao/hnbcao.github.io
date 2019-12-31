@@ -4,6 +4,161 @@
   
     
     <entry>
+      <title>Kubernetes集群安装Cert Manager</title>
+      <link href="/2019/12/31/kubernetes-ji-qun-an-zhuang-cert-manager/"/>
+      <url>/2019/12/31/kubernetes-ji-qun-an-zhuang-cert-manager/</url>
+      
+        <content type="html"><![CDATA[<h1 id="安装Cert-Manager"><a href="#安装Cert-Manager" class="headerlink" title="安装Cert Manager"></a>安装Cert Manager</h1><h2 id="一、Installing-the-Chart"><a href="#一、Installing-the-Chart" class="headerlink" title="一、Installing the Chart"></a>一、Installing the Chart</h2><p><a href="https://cert-manager.io/docs/installation/kubernetes/" target="_blank" rel="noopener">https://cert-manager.io/docs/installation/kubernetes/</a></p><h2 id="二、创建ClusterIssuer-集群内所有命名空间公用方案"><a href="#二、创建ClusterIssuer-集群内所有命名空间公用方案" class="headerlink" title="二、创建ClusterIssuer(集群内所有命名空间公用方案)"></a>二、创建ClusterIssuer(集群内所有命名空间公用方案)</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2<span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterIssuer<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>prod<span class="token key atrule">spec</span><span class="token punctuation">:</span>  <span class="token key atrule">acme</span><span class="token punctuation">:</span>    <span class="token key atrule">email</span><span class="token punctuation">:</span> hnbcao@qq.com    <span class="token key atrule">privateKeySecretRef</span><span class="token punctuation">:</span>      <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>prod    <span class="token key atrule">server</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//acme<span class="token punctuation">-</span>v02.api.letsencrypt.org/directory    <span class="token key atrule">solvers</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">http01</span><span class="token punctuation">:</span>        <span class="token key atrule">ingress</span><span class="token punctuation">:</span>          <span class="token key atrule">class</span><span class="token punctuation">:</span> traefik</code></pre><h2 id="三、创建Issuer-集群内单个命名空间独享方案"><a href="#三、创建Issuer-集群内单个命名空间独享方案" class="headerlink" title="三、创建Issuer(集群内单个命名空间独享方案)"></a>三、创建Issuer(集群内单个命名空间独享方案)</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2<span class="token key atrule">kind</span><span class="token punctuation">:</span> Issuer<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> letsencrypt<span class="token punctuation">-</span>prod<span class="token key atrule">spec</span><span class="token punctuation">:</span>  <span class="token key atrule">acme</span><span class="token punctuation">:</span>    <span class="token key atrule">email</span><span class="token punctuation">:</span> hnbcao@qq.com    <span class="token key atrule">privateKeySecretRef</span><span class="token punctuation">:</span>      <span class="token key atrule">name</span><span class="token punctuation">:</span> letsencrypt<span class="token punctuation">-</span>prod    <span class="token key atrule">server</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//acme<span class="token punctuation">-</span>v02.api.letsencrypt.org/directory    <span class="token key atrule">solvers</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">http01</span><span class="token punctuation">:</span>        <span class="token key atrule">ingress</span><span class="token punctuation">:</span>          <span class="token key atrule">class</span><span class="token punctuation">:</span> traefik</code></pre><h2 id="四、Ingress应用ClusterIssuer"><a href="#四、Ingress应用ClusterIssuer" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> extensions/v1beta1<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>ingress  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> ns<span class="token punctuation">-</span>harbor  <span class="token key atrule">labels</span><span class="token punctuation">:</span>    <span class="token key atrule">app</span><span class="token punctuation">:</span> harbor    <span class="token key atrule">chart</span><span class="token punctuation">:</span> harbor    <span class="token key atrule">heritage</span><span class="token punctuation">:</span> Helm    <span class="token key atrule">release</span><span class="token punctuation">:</span> harbor  <span class="token key atrule">annotations</span><span class="token punctuation">:</span>    <span class="token key atrule">cert-manager.io/cluster-issuer</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>prod<span class="token key atrule">spec</span><span class="token punctuation">:</span>  <span class="token key atrule">tls</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span>        <span class="token punctuation">-</span> harbor.domian.io      <span class="token key atrule">secretName</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>tls  <span class="token key atrule">rules</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> harbor.domian.io      <span class="token key atrule">http</span><span class="token punctuation">:</span>        <span class="token key atrule">paths</span><span class="token punctuation">:</span>          <span class="token punctuation">-</span> <span class="token key atrule">path</span><span class="token punctuation">:</span> /            <span class="token key atrule">backend</span><span class="token punctuation">:</span>              <span class="token key atrule">serviceName</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>harbor<span class="token punctuation">-</span>portal              <span class="token key atrule">servicePort</span><span class="token punctuation">:</span> <span class="token number">80</span></code></pre><p>Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。</p><h2 id="四、Ingress应用ClusterIssuer-1"><a href="#四、Ingress应用ClusterIssuer-1" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> extensions/v1beta1<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>ingress  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> ns<span class="token punctuation">-</span>harbor  <span class="token key atrule">labels</span><span class="token punctuation">:</span>    <span class="token key atrule">app</span><span class="token punctuation">:</span> harbor    <span class="token key atrule">chart</span><span class="token punctuation">:</span> harbor    <span class="token key atrule">heritage</span><span class="token punctuation">:</span> Helm    <span class="token key atrule">release</span><span class="token punctuation">:</span> harbor  <span class="token key atrule">annotations</span><span class="token punctuation">:</span>    <span class="token key atrule">cert-manager.io/issuer</span><span class="token punctuation">:</span> letsencrypt<span class="token punctuation">-</span>prod<span class="token key atrule">spec</span><span class="token punctuation">:</span>  <span class="token key atrule">tls</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span>        <span class="token punctuation">-</span> harbor.domian.io      <span class="token key atrule">secretName</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>tls  <span class="token key atrule">rules</span><span class="token punctuation">:</span>    <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> harbor.domian.io      <span class="token key atrule">http</span><span class="token punctuation">:</span>        <span class="token key atrule">paths</span><span class="token punctuation">:</span>          <span class="token punctuation">-</span> <span class="token key atrule">path</span><span class="token punctuation">:</span> /            <span class="token key atrule">backend</span><span class="token punctuation">:</span>              <span class="token key atrule">serviceName</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>harbor<span class="token punctuation">-</span>portal              <span class="token key atrule">servicePort</span><span class="token punctuation">:</span> <span class="token number">80</span></code></pre><p>Ingress通过在annotations中添加cert-manager.io/issuer: letsencrypt-prod为ingress中的域名自动生成证书。</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><ul><li>使用Cert Manager时，ingress中host配置的域名必须指定，不能有通配符；</li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Kubernetes优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Kubernetes集群创建用户</title>
+      <link href="/2019/12/31/kubernetes-ji-qun-chuang-jian-yong-hu/"/>
+      <url>/2019/12/31/kubernetes-ji-qun-chuang-jian-yong-hu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="创建集群用户"><a href="#创建集群用户" class="headerlink" title="创建集群用户"></a>创建集群用户</h1><p>1、创建用户</p><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system<span class="token punctuation">---</span><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> rbac.authorization.k8s.io/v1beta1<span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRoleBinding<span class="token key atrule">metadata</span><span class="token punctuation">:</span>   <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user  <span class="token key atrule">annotations</span><span class="token punctuation">:</span>    <span class="token key atrule">rbac.authorization.kubernetes.io/autoupdate</span><span class="token punctuation">:</span> <span class="token string">"true"</span><span class="token key atrule">roleRef</span><span class="token punctuation">:</span>  <span class="token key atrule">apiGroup</span><span class="token punctuation">:</span> rbac.authorization.k8s.io  <span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRole  <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>admin<span class="token key atrule">subjects</span><span class="token punctuation">:</span><span class="token punctuation">-</span> <span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount  <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system</code></pre><p>2、获取管理员用户的Token，通过执行如下命令获取系统Token信息</p><pre class=" language-sh"><code class="language-sh">kubectl describe secret admin-user --namespace=kube-system</code></pre><p>3、导入kubeconfig文件</p><pre class=" language-sh"><code class="language-sh">DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d)kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.confkubectl config set-credentials admin-user --token=$DASH_TOCKEN --kubeconfig=/root/kube-admin.confkubectl config set-context admin-user@kubernetes --cluster=kubernetes --user=admin-user --kubeconfig=/root/kube-admin.confkubectl config use-context admin-user@kubernetes --kubeconfig=/root/kube-admin.conf</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Kubernetes优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Kubernetes集群跨namespace服务访问</title>
+      <link href="/2019/12/31/kubernetes-ji-qun-kua-namespace-fu-wu-fang-wen/"/>
+      <url>/2019/12/31/kubernetes-ji-qun-kua-namespace-fu-wu-fang-wen/</url>
+      
+        <content type="html"><![CDATA[<h2 id="集群跨namespace服务访问"><a href="#集群跨namespace服务访问" class="headerlink" title="集群跨namespace服务访问"></a>集群跨namespace服务访问</h2><hr><p>ns-02需要访问ns-01下面的服务service01</p><hr><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service<span class="token key atrule">metadata</span><span class="token punctuation">:</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> service02 <span class="token key atrule">namespace</span><span class="token punctuation">:</span> ns<span class="token punctuation">-</span><span class="token number">02</span><span class="token key atrule">spec</span><span class="token punctuation">:</span> <span class="token key atrule">ports</span><span class="token punctuation">:</span> <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> http   <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>   <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP   <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">80</span> <span class="token key atrule">sessionAffinity</span><span class="token punctuation">:</span> None <span class="token key atrule">type</span><span class="token punctuation">:</span> ExternalName <span class="token key atrule">externalName</span><span class="token punctuation">:</span> service01.ns<span class="token punctuation">-</span>01.svc.cluster.local</code></pre><ul><li>externalName：需要访问的服务域名，service01指服务名字，ns-01指命名空间，svc.cluster.local指kubernetes内部服务域名结尾，默认是svc.cluster.local</li></ul><hr><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Kubernetes优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Kubernetes集群创建Image Pull Secret</title>
+      <link href="/2019/12/31/kubernetes-ji-qun-chuang-jian-image-pull-secret/"/>
+      <url>/2019/12/31/kubernetes-ji-qun-chuang-jian-image-pull-secret/</url>
+      
+        <content type="html"><![CDATA[<h2 id="创建ImagePullSecret"><a href="#创建ImagePullSecret" class="headerlink" title="创建ImagePullSecret"></a>创建ImagePullSecret</h2><h3 id="一、登录镜像仓库，成功之后会生成如下-root-docker-config-json文件"><a href="#一、登录镜像仓库，成功之后会生成如下-root-docker-config-json文件" class="headerlink" title="一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件"></a>一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件</h3><pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>    <span class="token property">"auths"</span><span class="token operator">:</span> <span class="token punctuation">{</span>        <span class="token property">"harbor.hnbcao.tech"</span><span class="token operator">:</span> <span class="token punctuation">{</span>            <span class="token property">"auth"</span><span class="token operator">:</span> <span class="token string">"YWRtaW4******lRlY2g="</span>        <span class="token punctuation">}</span>    <span class="token punctuation">}</span><span class="token punctuation">,</span>    <span class="token property">"HttpHeaders"</span><span class="token operator">:</span> <span class="token punctuation">{</span>        <span class="token property">"User-Agent"</span><span class="token operator">:</span> <span class="token string">"Docker-Client/***"</span>    <span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre><h3 id="二、执行如下命令创建ImagePullSecret"><a href="#二、执行如下命令创建ImagePullSecret" class="headerlink" title="二、执行如下命令创建ImagePullSecret"></a>二、执行如下命令创建ImagePullSecret</h3><pre class=" language-sh"><code class="language-sh">kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore</code></pre><p>说明：</p><ul><li>harbor-admin-secret： ImagePullSecret名字</li><li>type： 指定secret类型为kubernetes.io/dockerconfigjson</li><li>namespace：secret命名空间</li></ul><h3 id="四、为项目添加ImagePullSecret"><a href="#四、为项目添加ImagePullSecret" class="headerlink" title="四、为项目添加ImagePullSecret"></a>四、为项目添加ImagePullSecret</h3><ul><li>Deployment</li></ul><p>在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：</p><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1<span class="token key atrule">metadata</span><span class="token punctuation">:</span>  <span class="token key atrule">name</span><span class="token punctuation">:</span> app<span class="token punctuation">-</span>test<span class="token key atrule">spec</span><span class="token punctuation">:</span>  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>  <span class="token key atrule">selector</span><span class="token punctuation">:</span>    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>      <span class="token key atrule">app.kubernetes.io/instance</span><span class="token punctuation">:</span> app<span class="token punctuation">-</span>test      <span class="token key atrule">app.kubernetes.io/name</span><span class="token punctuation">:</span> hnbcao  <span class="token key atrule">template</span><span class="token punctuation">:</span>    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>      <span class="token key atrule">labels</span><span class="token punctuation">:</span>        <span class="token key atrule">app.kubernetes.io/instance</span><span class="token punctuation">:</span> app<span class="token punctuation">-</span>test        <span class="token key atrule">app.kubernetes.io/name</span><span class="token punctuation">:</span> hnbcao    <span class="token key atrule">spec</span><span class="token punctuation">:</span>      <span class="token key atrule">containers</span><span class="token punctuation">:</span>        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> hnbcao          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx      <span class="token key atrule">imagePullSecrets</span><span class="token punctuation">:</span>        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>admin<span class="token punctuation">-</span>secret</code></pre><h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>附上官网教程：<a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/" target="_blank" rel="noopener">https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Kubernetes优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Kubernetes集群安装Traefik Ingress</title>
+      <link href="/2019/12/31/kubernetes-ji-qun-an-zhuang-traefik-ingress/"/>
+      <url>/2019/12/31/kubernetes-ji-qun-an-zhuang-traefik-ingress/</url>
+      
+        <content type="html"><![CDATA[<h2 id="部署TraefikIngress"><a href="#部署TraefikIngress" class="headerlink" title="部署TraefikIngress"></a>部署TraefikIngress</h2><h3 id="使用OpenSSL创建TLS证书（已有证书则跳过该选项）"><a href="#使用OpenSSL创建TLS证书（已有证书则跳过该选项）" class="headerlink" title="使用OpenSSL创建TLS证书（已有证书则跳过该选项）"></a>使用OpenSSL创建TLS证书（已有证书则跳过该选项）</h3><ul><li>设置证书信息</li></ul><pre class=" language-sh"><code class="language-sh">cd ~ && mkdir tls echo """[req] distinguished_name = req_distinguished_nameprompt = yes[ req_distinguished_name ]countryName                     = Country Name (2 letter code)countryName_value               = CNstateOrProvinceName             = State or Province Name (full name)stateOrProvinceName_value       = ChongqinglocalityName                    = Locality Name (eg, city)localityName_value              = YubeiorganizationName                = Organization Name (eg, company)organizationName_value          = HNBCAOorganizationalUnitName          = Organizational Unit Name (eg, section)organizationalUnitName_value    = R & D DepartmentcommonName                      = Common Name (eg, your name or your server\'s hostname)commonName_value                = *.hnbcao.ioemailAddress                    = Email AddressemailAddress_value              = hnbcao@163.com""" > ~/tls/openssl.cnf</code></pre><ul><li>生成证书</li></ul><pre class=" language-sh"><code class="language-sh">openssl req -newkey rsa:4096 -nodes -config ~/tls/openssl.cnf -days 3650 -x509 -out ~/tls/tls.crt -keyout ~/tls/tls.key</code></pre><h3 id="部署Traefik"><a href="#部署Traefik" class="headerlink" title="部署Traefik"></a>部署Traefik</h3><ul><li>添加证书至集群</li></ul><pre class=" language-sh"><code class="language-sh">kubectl create -n kube-system secret tls ssl --cert ~/ikube/tls/tls.crt --key ~/ikube/tls/tls.key</code></pre><ul><li>部署Traefik</li></ul><pre class=" language-sh"><code class="language-sh">kubectl apply -f https://raw.githubusercontent.com/hnbcao/kubeadm-ha/master/addons/yaml/traefik/traefik-daemonset-full.yaml</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Kubernetes优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubernetes集群安装</title>
       <link href="/2019/12/31/kubernetes-ji-qun-an-zhuang/"/>
       <url>/2019/12/31/kubernetes-ji-qun-an-zhuang/</url>
