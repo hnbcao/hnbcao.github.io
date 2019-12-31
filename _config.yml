@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
+title: HNBCAO
+subtitle: 'Hannibal'
 description: ''
 keywords:
-author: John Doe
-language: en
+author: hnbcao
+language: cn
 timezone: ''
 
 # URL
@@ -45,12 +45,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
-  line_number: true
-  auto_detect: false
-  tab_replace: ''
-  wrap: true
-  hljs: false
+  enable: false
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -93,9 +88,40 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: matery
+
+prism_plugin:
+  mode: 'preprocess'    # realtime/preprocess
+  theme: 'tomorrow'
+  line_number: false    # default false
+  custom_css:
+
+search:
+  path: search.xml
+  field: post
+
+permalink_pinyin:
+  enable: true
+  separator: '-' # default: '-'
+
+postInfo:
+  date: true
+  update: false
+  wordCount: false # 设置文章字数统计为 true.
+  totalCount: false # 设置站点文章总字数统计为 true.
+  min2read: false # 阅读时长.
+  readCount: false # 阅读次数.
+
+githubEmojis:
+  enable: true
+  className: github-emoji
+  inject: true
+  styles:
+  customEmojis:
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ''
+  type: 'git'
+  repository: https://github.com/hnbcao/hnbcao.github.io
+  branch: master
