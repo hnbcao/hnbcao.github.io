@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>kubernetes集群运行问题记录</title>
+      <link href="/2020/01/02/kubernetes-ji-qun-yun-xing-wen-ti-ji-lu/"/>
+      <url>/2020/01/02/kubernetes-ji-qun-yun-xing-wen-ti-ji-lu/</url>
+      
+        <content type="html"><![CDATA[<h2 id="kubernetes集群运行问题记录"><a href="#kubernetes集群运行问题记录" class="headerlink" title="kubernetes集群运行问题记录"></a>kubernetes集群运行问题记录</h2><ul><li><p>集群内部容器无法解析外部DNS</p><p>原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为<em>.domain.xx，所以会将外网域名解析至</em>.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。</p><p>解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。</p></li><li><p>gitlab迁移之后系统异常</p><p>原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。</p><p>解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。</p></li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 运维 </tag>
+            
+            <tag> 容器化 </tag>
+            
+            <tag> Bugs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubernetes集群安装Cert Manager</title>
       <link href="/2019/12/31/kubernetes-ji-qun-an-zhuang-cert-manager/"/>
       <url>/2019/12/31/kubernetes-ji-qun-an-zhuang-cert-manager/</url>
