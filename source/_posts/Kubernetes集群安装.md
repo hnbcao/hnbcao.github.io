@@ -42,7 +42,7 @@ tags:
 | node2 | node2 | 192.168.56.107 |
 | node3 | node3 | 192.168.56.108 |
 
-### 二、离线安装包准备（可选）
+### 二、安装包准备（可选）
 
 ```sh
 # 设置yum缓存路径，cachedir 缓存路径 keepcache=1保持安装包在软件安装之后不删除
@@ -93,7 +93,7 @@ yum install -y kubelet kubeadm kubectl ebtables
 yum install wget
 
 # 拷贝离线包到集群节点
-# 安装
+# 离线安装，需要包下载服务器与安装服务器系统版本等同步。建议采用离线镜像源的方式。
 # rpm -ivh *.rpm --force --nodeps
 rpm -ivh ./base/packages/*.rpm --nodeps --force
 rpm -ivh ./docker-ce-stable/packages/*.rpm --nodeps --force
@@ -254,89 +254,7 @@ CIDR=10.244.0.0/16
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/keepalived-haproxy.sh)"
 ```
 
-
-### 五、部署HA Master
-
-HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;
-
-脚本主要执行三步：
-
-1)、重置kubelet设置
-
-```sh
-kubeadm reset -f
-rm -rf /etc/kubernetes/pki/
-```
-
-2)、编写节点配置文件并初始化master1的kubelet
-
-```sh
-echo """
-apiVersion: kubeadm.k8s.io/v1beta1
-kind: ClusterConfiguration
-kubernetesVersion: v1.14.0
-controlPlaneEndpoint: "${VIP}:8443"
-maxPods: 100
-networkPlugin: cni
-imageRepository: registry.aliyuncs.com/google_containers
-apiServer:
-  certSANs:
-  - ${CP0_IP}
-  - ${CP1_IP}
-  - ${CP2_IP}
-  - ${VIP}
-networking:
-  # This CIDR is a Calico default. Substitute or remove for your CNI provider.
-  podSubnet: ${CIDR}
----
-apiVersion: kubeproxy.config.k8s.io/v1alpha1
-kind: KubeProxyConfiguration
-mode: ipvs
-""" > /etc/kubernetes/kubeadm-config.yaml
-kubeadm init --config /etc/kubernetes/kubeadm-config.yaml
-mkdir -p $HOME/.kube
-cp -f /etc/kubernetes/admin.conf ${HOME}/.kube/config
-```
-
-* 关于默认网关问题，如果有多张网卡，需要先将默认网关切换到集群使用的那张网卡上，否则可能会出现etcd无法连接等问题。（应用我用的虚拟机，有一张网卡无法做到各个节点胡同；route查看当前网关信息，route del default删除默认网关，route add default enth0设置默认网关enth0为网卡名）
-
-3)、拷贝相关证书到master2、master3
-
-```sh
-for index in 1 2; do
-  ip=${IPS[${index}]}
-  ssh $ip "mkdir -p /etc/kubernetes/pki/etcd; mkdir -p ~/.kube/"
-  scp /etc/kubernetes/pki/ca.crt $ip:/etc/kubernetes/pki/ca.crt
-  scp /etc/kubernetes/pki/ca.key $ip:/etc/kubernetes/pki/ca.key
-  scp /etc/kubernetes/pki/sa.key $ip:/etc/kubernetes/pki/sa.key
-  scp /etc/kubernetes/pki/sa.pub $ip:/etc/kubernetes/pki/sa.pub
-  scp /etc/kubernetes/pki/front-proxy-ca.crt $ip:/etc/kubernetes/pki/front-proxy-ca.crt
-  scp /etc/kubernetes/pki/front-proxy-ca.key $ip:/etc/kubernetes/pki/front-proxy-ca.key
-  scp /etc/kubernetes/pki/etcd/ca.crt $ip:/etc/kubernetes/pki/etcd/ca.crt
-  scp /etc/kubernetes/pki/etcd/ca.key $ip:/etc/kubernetes/pki/etcd/ca.key
-  scp /etc/kubernetes/admin.conf $ip:/etc/kubernetes/admin.conf
-  scp /etc/kubernetes/admin.conf $ip:~/.kube/config
-
-  ssh ${ip} "${JOIN_CMD} --experimental-control-plane"
-done
-```
-
-4)、master2、master3加入节点
-
-```sh
-JOIN_CMD=`kubeadm token create --print-join-command`
-ssh ${ip} "${JOIN_CMD} --experimental-control-plane"
-```
-
-完整脚本：
-
-```sh
-# 部署HA master
- 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh)"
-```
-
-### 六、加入节点
+### 安装Keepalived、Haproxy
 
 * 这是个错误的操作，并不需要在node部署keepalived+haproxy，如果node节点无法ping通虚拟IP（VIP），其原因是当前环境无法实现vip，具体原因由于能力有限，只能麻烦自己找找咯，方便分享的话不胜感激。
 
@@ -440,6 +358,90 @@ systemctl stop haproxy
 systemctl enable haproxy
 systemctl start haproxy
 ```
+
+### 五、部署HA Master
+
+HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;
+
+脚本主要执行三步：
+
+1)、重置kubelet设置
+
+```sh
+kubeadm reset -f
+rm -rf /etc/kubernetes/pki/
+```
+
+2)、编写节点配置文件并初始化master1的kubelet
+
+```sh
+echo """
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: v1.14.0
+controlPlaneEndpoint: "${VIP}:8443"
+maxPods: 100
+networkPlugin: cni
+imageRepository: registry.aliyuncs.com/google_containers
+apiServer:
+  certSANs:
+  - ${CP0_IP}
+  - ${CP1_IP}
+  - ${CP2_IP}
+  - ${VIP}
+networking:
+  # This CIDR is a Calico default. Substitute or remove for your CNI provider.
+  podSubnet: ${CIDR}
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: ipvs
+""" > /etc/kubernetes/kubeadm-config.yaml
+kubeadm init --config /etc/kubernetes/kubeadm-config.yaml
+mkdir -p $HOME/.kube
+cp -f /etc/kubernetes/admin.conf ${HOME}/.kube/config
+```
+
+* 关于默认网关问题，如果有多张网卡，需要先将默认网关切换到集群使用的那张网卡上，否则可能会出现etcd无法连接等问题。（应用我用的虚拟机，有一张网卡无法做到各个节点胡同；route查看当前网关信息，route del default删除默认网关，route add default enth0设置默认网关enth0为网卡名）
+
+3)、拷贝相关证书到master2、master3
+
+```sh
+for index in 1 2; do
+  ip=${IPS[${index}]}
+  ssh $ip "mkdir -p /etc/kubernetes/pki/etcd; mkdir -p ~/.kube/"
+  scp /etc/kubernetes/pki/ca.crt $ip:/etc/kubernetes/pki/ca.crt
+  scp /etc/kubernetes/pki/ca.key $ip:/etc/kubernetes/pki/ca.key
+  scp /etc/kubernetes/pki/sa.key $ip:/etc/kubernetes/pki/sa.key
+  scp /etc/kubernetes/pki/sa.pub $ip:/etc/kubernetes/pki/sa.pub
+  scp /etc/kubernetes/pki/front-proxy-ca.crt $ip:/etc/kubernetes/pki/front-proxy-ca.crt
+  scp /etc/kubernetes/pki/front-proxy-ca.key $ip:/etc/kubernetes/pki/front-proxy-ca.key
+  scp /etc/kubernetes/pki/etcd/ca.crt $ip:/etc/kubernetes/pki/etcd/ca.crt
+  scp /etc/kubernetes/pki/etcd/ca.key $ip:/etc/kubernetes/pki/etcd/ca.key
+  scp /etc/kubernetes/admin.conf $ip:/etc/kubernetes/admin.conf
+  scp /etc/kubernetes/admin.conf $ip:~/.kube/config
+
+  ssh ${ip} "${JOIN_CMD} --control-plane"
+done
+```
+
+4)、master2、master3加入节点
+
+```sh
+JOIN_CMD=`kubeadm token create --print-join-command`
+ssh ${ip} "${JOIN_CMD} --control-plane"
+```
+
+完整脚本：
+
+```sh
+# 部署HA master
+ 
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh)"
+```
+
+### 六、加入节点
+
 * 节点加入命令获取
 
 ```sh
