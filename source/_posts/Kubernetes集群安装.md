@@ -254,7 +254,7 @@ CIDR=10.244.0.0/16
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/keepalived-haproxy.sh)"
 ```
 
-### 安装Keepalived、Haproxy
+安装Keepalived、Haproxy
 
 * 这是个错误的操作，并不需要在node部署keepalived+haproxy，如果node节点无法ping通虚拟IP（VIP），其原因是当前环境无法实现vip，具体原因由于能力有限，只能麻烦自己找找咯，方便分享的话不胜感激。
 
