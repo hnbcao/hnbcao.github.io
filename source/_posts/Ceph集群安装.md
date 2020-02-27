@@ -1,6 +1,7 @@
 ---
 title: Ceph集群安装
 date: 2020-02-14 10:28:30
+categories: 运维
 tags:
   - Ceph 
   - 运维
