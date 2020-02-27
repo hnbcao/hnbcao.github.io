@@ -4,26 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Ceph集群安装, HNBCAO">
-    <meta name="description" content="CephFS集群安装一、集群规划
+    <meta name="keywords" content="FTP服务器搭建, HNBCAO">
+    <meta name="description" content="FTP服务搭建
+系统： centos 7.4
 
-
-节点
-ip
-os
-节点说明
-
-
-
-master1
-10.73.13.61
-centos7.4
-mon+rgw+manger节点、ceph-deploy
-
-
-master2
-10.73.13.60
-cen">
+一、安装vsftpdyum -y install vsftpd
+二、配置服务[root@ecs-7fd0 vsftpd]# cat /etc/vsftpd/vsftpd.conf
+anonym">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -31,7 +18,7 @@ cen">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ceph集群安装 | HNBCAO</title>
+    <title>FTP服务器搭建 | HNBCAO</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -214,12 +201,12 @@ cen">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Ceph集群安装</h1>
+                    <h1 class="description center-align post-title">FTP服务器搭建</h1>
                 </div>
             </div>
         </div>
@@ -336,16 +323,16 @@ cen">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Ceph/">
-                                <span class="chip bg-color">Ceph</span>
-                            </a>
-                        
                             <a href="/tags/%E8%BF%90%E7%BB%B4/">
                                 <span class="chip bg-color">运维</span>
                             </a>
                         
-                            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">
-                                <span class="chip bg-color">分布式存储</span>
+                            <a href="/tags/FTP/">
+                                <span class="chip bg-color">FTP</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/">
+                                <span class="chip bg-color">共享存储</span>
                             </a>
                         
                     </div>
@@ -369,7 +356,7 @@ cen">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-02-14
+                    2020-02-19
                 </div>
                 
 
@@ -386,190 +373,107 @@ cen">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="CephFS集群安装"><a href="#CephFS集群安装" class="headerlink" title="CephFS集群安装"></a>CephFS集群安装</h1><h3 id="一、集群规划"><a href="#一、集群规划" class="headerlink" title="一、集群规划"></a>一、集群规划</h3><table>
-<thead>
-<tr>
-<th>节点</th>
-<th>ip</th>
-<th>os</th>
-<th>节点说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>master1</td>
-<td>10.73.13.61</td>
-<td>centos7.4</td>
-<td>mon+rgw+manger节点、ceph-deploy</td>
-</tr>
-<tr>
-<td>master2</td>
-<td>10.73.13.60</td>
-<td>centos7.4</td>
-<td>mon+rgw+manger节点</td>
-</tr>
-<tr>
-<td>master3</td>
-<td>10.73.13.59</td>
-<td>centos7.4</td>
-<td>mon+rgw+manger节点</td>
-</tr>
-</tbody></table>
-<h3 id="二、安装ceph-deploy"><a href="#二、安装ceph-deploy" class="headerlink" title="二、安装ceph-deploy"></a>二、安装ceph-deploy</h3><ol>
-<li>Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</code></pre>
-<ol start="2">
-<li>添加ceph仓库（阿里源，同时在所有节点进行如下操作）</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">cat << EOM > /etc/yum.repos.d/ceph.repo
-[Ceph]
-name=Ceph packages for $basearch
-baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/$basearch
-enabled=1
-gpgcheck=1
-type=rpm-md
-gpgkey=https://download.ceph.com/keys/release.asc
-priority=1
-
-[Ceph-noarch]
-name=Ceph noarch packages
-baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/noarch
-enabled=1
-gpgcheck=1
-type=rpm-md
-gpgkey=https://download.ceph.com/keys/release.asc
-priority=1
-
-[ceph-source]
-name=Ceph source packages
-baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/SRPMS
-enabled=1
-EOM</code></pre>
-<ol start="3">
-<li>安装python-setuptools、ceph-deploy</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">sudo yum install python-setuptools
-sudo yum install ceph-deploy</code></pre>
-<h3 id="三、节点准备"><a href="#三、节点准备" class="headerlink" title="三、节点准备"></a>三、节点准备</h3><p>以下操作需在所有节点进行。</p>
-<ol>
-<li>免密登录</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh"># 1、三次回车后，密钥生成完成
-ssh-keygen
-# 2、拷贝密钥到其他节点
-ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx</code></pre>
-<ol start="2">
-<li>时间同步</li>
-</ol>
-<p>网上教程很多，具体可参考网上文档。</p>
-<pre class=" language-sh"><code class="language-sh">sudo yum install ntpdate
-ntpdate -u ntp.api.bz</code></pre>
-<ol start="3">
-<li>关闭SELinux、防火墙</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">systemctl stop firewalld
-systemctl disable firewalld
-setenforce 0
-sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config</code></pre>
-<ol start="4">
-<li>关闭系统的Swap（Kubernetes 1.8开始要求）</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">swapoff -a
-yes | cp /etc/fstab /etc/fstab_bak
-cat /etc/fstab_bak |grep -v swap > /etc/fstab</code></pre>
-<h3 id="四、集群安装"><a href="#四、集群安装" class="headerlink" title="四、集群安装"></a>四、集群安装</h3><p>以下操作在ceph-deploy节点。</p>
-<ol>
-<li>创建集群</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">mkdir /etc/ceph && cd /etc/ceph
-# ceph-deploy new {initial-monitor-node(s)}
-ceph-deploy new master1 master2 master3 </code></pre>
-<ol start="2">
-<li>设置集群配置</li>
-</ol>
-<ul>
-<li>具体集群配置说明，待后续更新</li>
+                <h1 id="FTP服务搭建"><a href="#FTP服务搭建" class="headerlink" title="FTP服务搭建"></a>FTP服务搭建</h1><ul>
+<li>系统： centos 7.4</li>
 </ul>
-<pre class=" language-sh"><code class="language-sh">cat /etc/ceph/ceph.conf
-[global]
-public_network = 10.73.13.0/16
-cluster_network = 10.73.13.0/16
+<h3 id="一、安装vsftpd"><a href="#一、安装vsftpd" class="headerlink" title="一、安装vsftpd"></a>一、安装vsftpd</h3><pre class=" language-sh"><code class="language-sh">yum -y install vsftpd</code></pre>
+<h3 id="二、配置服务"><a href="#二、配置服务" class="headerlink" title="二、配置服务"></a>二、配置服务</h3><pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat /etc/vsftpd/vsftpd.conf
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+dirmessage_enable=YES
+xferlog_enable=YES
+xferlog_std_format=YES
+ascii_upload_enable=YES
+ascii_download_enable=YES
+chroot_local_user=YES
+listen=NO
+listen_ipv6=YES
 
-fsid = 464c2aa2-7426-4d6b-a0ae-961d1589ee53
-mon_initial_members = master1, master2, master3
-mon_host = 10.73.13.61,10.73.13.60,10.73.13.59
-auth_cluster_required = cephx
-auth_service_required = cephx
-auth_client_required = cephx
+connect_from_port_20=NO
 
-osd_pool_default_size = 3
-osd_pool_default_min_size = 1
-osd_pool_default_pg_num = 8
-osd_pool_default_pgp_num = 8
-osd_crush_chooseleaf_type = 1
+#设置使用主动模式
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=65536
 
-[mon]
-mon_clock_drift_allowed = 0.5
-mon allow pool delete = true
-
-[osd]
-osd_mkfs_type = xfs
-osd_mkfs_options_xfs = -f
-filestore_max_sync_interval = 5
-filestore_min_sync_interval = 0.1
-filestore_fd_cache_size = 655350
-filestore_omap_header_cache_size = 655350
-filestore_fd_cache_random = true
-osd op threads = 8
-osd disk threads = 4
-filestore op threads = 8
-max_open_files = 655350
-
-[mgr]
-mgr modules = dashboard
+pam_service_name=vsftpd
+guest_enable=YES
+#设置使用虚拟用户的真实访问用户
+guest_username=ftpuser
+user_config_dir=/etc/vsftpd/vsftpd_user_conf
+allow_writeable_chroot=YES
+#设置使用虚拟用户
+virtual_use_local_privs=YES
+userlist_enable=YES
+userlist_deny=NO
+tcp_wrappers=YES
 </code></pre>
-<ol start="3">
-<li>为所有节点安装ceph</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh"># ceph-deploy install {initial-monitor-node(s)} --no-adjust-repos
-# --no-adjust-repos参数的意思是不更新节点配置的ceph源，因为在安装ceph-deploy的步骤下已经为节点配置了阿里云的ceph源
-ceph-deploy new master1 master2 master3 --no-adjust-repos</code></pre>
-<ol start="4">
-<li>初始化节点配置,生产相应的keys</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph-deploy mon create-initial</code></pre>
-<p>完成之后会在/etc/ceph目录下生成以下几个文件</p>
-<pre class=" language-sh"><code class="language-sh">ceph.client.admin.keyring
-ceph.bootstrap-mgr.keyring
-ceph.bootstrap-osd.keyring
-ceph.bootstrap-mds.keyring
-ceph.bootstrap-rgw.keyring
-ceph.bootstrap-rbd.keyring
-ceph.bootstrap-rbd-mirror.keyring</code></pre>
-<ol start="5">
-<li>拷贝文件至部署节点</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph-deploy admin master1 master2 master3</code></pre>
-<ol start="6">
-<li>部署mgr</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph-deploy mgr create master1 master2 master3</code></pre>
-<ol start="7">
-<li>添加OSD</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph-deploy osd create --data /dev/vdb master1
-ceph-deploy osd create --data /dev/vdb master2
-ceph-deploy osd create --data /dev/vdb master3</code></pre>
-<h3 id="五、创建CephFS文件系统"><a href="#五、创建CephFS文件系统" class="headerlink" title="五、创建CephFS文件系统"></a>五、创建CephFS文件系统</h3><ol>
-<li>部署metadata服务</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph-deploy mds create master1 master2 master3</code></pre>
-<ol start="2">
-<li>生成CephFS</li>
-</ol>
-<pre class=" language-sh"><code class="language-sh">ceph osd pool create cephfs_data 128
-ceph osd pool create cephfs_meta 128
-ceph fs new mycephfs cephfs_meta cephfs_data</code></pre>
+<h3 id="三、创建ftpuser账户"><a href="#三、创建ftpuser账户" class="headerlink" title="三、创建ftpuser账户"></a>三、创建ftpuser账户</h3><pre class=" language-sh"><code class="language-sh">useradd -d /home/ftpuser -s /sbin/nologin ftpuser</code></pre>
+<h3 id="三、虚拟用户"><a href="#三、虚拟用户" class="headerlink" title="三、虚拟用户"></a>三、虚拟用户</h3><ul>
+<li>设置pam策略</li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat /etc/pam.d/vsftpd
+#%PAM-1.0
+#session    optional     pam_keyinit.so    force revoke
+#auth       required    pam_listfile.so item=user sense=deny file=/etc/vsftpd/ftpusers onerr=succeed
+#auth       required    pam_shells.so
+#auth       include    password-auth
+#account    include    password-auth
+#session    required     pam_loginuid.so
+#session    include    password-auth
+auth       required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login
+account    required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login</code></pre>
+<ul>
+<li>配置虚拟账户</li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat ftp_virtual_user 
+User001
+PasswordForUser001
+User002
+PasswordForUser002
+User003
+PasswordForUser003
+</code></pre>
+<ul>
+<li>生成虚拟账号数据库</li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# db_load -T -t hash -f /etc/vsftpd/ftp_virtual_user /etc/vsftpd/vsftpd_login.db</code></pre>
+<ul>
+<li>配置虚拟账户访问目录</li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">
+[root@ecs-7fd0 vsftpd]# mkdir -p /etc/vsftpd/vsftpd_user_conf
+
+[root@ecs-7fd0 vsftpd]# cat User001
+local_root=/home/ftpuser/User001
+write_enable=YES
+anon_world_readable_only=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+
+[root@ecs-7fd0 vsftpd]# cat User002
+local_root=/home/ftpuser/User002
+write_enable=YES
+anon_world_readable_only=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+
+[root@ecs-7fd0 vsftpd]# cat User003
+local_root=/home/ftpuser/User003
+write_enable=YES
+anon_world_readable_only=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES</code></pre>
+<ul>
+<li>启动vsftpd</li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# systemctl enable vsftpd
+[root@ecs-7fd0 vsftpd]# systemctl start vsftpd</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -601,16 +505,16 @@ ceph fs new mycephfs cephfs_meta cephfs_data</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Ceph/">
-                                    <span class="chip bg-color">Ceph</span>
-                                </a>
-                            
                                 <a href="/tags/%E8%BF%90%E7%BB%B4/">
                                     <span class="chip bg-color">运维</span>
                                 </a>
                             
-                                <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">
-                                    <span class="chip bg-color">分布式存储</span>
+                                <a href="/tags/FTP/">
+                                    <span class="chip bg-color">FTP</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/">
+                                    <span class="chip bg-color">共享存储</span>
                                 </a>
                             
                         </div>
@@ -651,9 +555,10 @@ ceph fs new mycephfs cephfs_meta cephfs_data</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/02/19/ftp-fu-wu-qi-da-jian/">
                     <div class="card-image">
@@ -676,9 +581,9 @@ anonym
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-02-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -691,6 +596,7 @@ anonym
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -717,26 +623,42 @@ anonym
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/01/02/kubernetes-ji-qun-yun-xing-wen-ti-ji-lu/">
+                <a href="/2020/02/14/ceph-ji-qun-an-zhuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="kubernetes集群运行问题记录">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Ceph集群安装">
                         
-                        <span class="card-title">kubernetes集群运行问题记录</span>
+                        <span class="card-title">Ceph集群安装</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            kubernetes集群运行问题记录
-集群内部容器无法解析外部DNS
-原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网
+                            CephFS集群安装一、集群规划
+
+
+节点
+ip
+os
+节点说明
+
+
+
+master1
+10.73.13.61
+centos7.4
+mon+rgw+manger节点、ceph-deploy
+
+
+master2
+10.73.13.60
+cen
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-01-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-14
                             </span>
                         <span class="publish-author">
                             
@@ -753,20 +675,16 @@ anonym
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/Ceph/">
+                        <span class="chip bg-color">Ceph</span>
+                    </a>
+                    
                     <a href="/tags/%E8%BF%90%E7%BB%B4/">
                         <span class="chip bg-color">运维</span>
                     </a>
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/">
-                        <span class="chip bg-color">容器化</span>
-                    </a>
-                    
-                    <a href="/tags/Bugs/">
-                        <span class="chip bg-color">Bugs</span>
+                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">
+                        <span class="chip bg-color">分布式存储</span>
                     </a>
                     
                 </div>
