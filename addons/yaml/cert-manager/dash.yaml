@@ -1,0 +1,23 @@
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata: 
+    name: jenkins-out
+    namespace: kube-system
+    annotations:
+      certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+      certmanager.k8s.io/acme-challenge-type: http01
+      kubernetes.io/ingress.class: traefik
+spec:
+    tls:
+    - hosts:
+      - jenkins.seos.segma.tech
+      secretName: jenkins-tls
+    rules:
+    - host: jenkins.seos.segma.tech
+      http:
+        paths:
+        - backend:
+            serviceName: jenkins
+            servicePort: 8080
+          path: /

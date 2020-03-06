@@ -1,30 +1,12 @@
-# hnbcao.github.io
+# kube-docs
+kubernetes运维记录
 
-## Installation
+### 一、[部署kubernetes集群](file://docs/1、部署kubernetes集群.md)
 
-Install Git
+### 二、[创建TraefikIngress](file://docs/2、创建TraefikIngress.md)
 
-- Windows: Download & install [git](https://git-scm.com/download/win).
-- Mac: Install it with [Homebrew](https://brew.sh/), [MacPorts](https://www.macports.org/) or [installer](https://git-scm.com/download/mac).
-- Linux (Ubuntu, Debian): sudo apt-get install git-core
+### 三、[创建ImagePullSecret](file://docs/3、创建ImagePullSecret.md)
 
-Install Node.js
+### 四、[集群跨namespace服务访问](file://docs/4、集群跨namespace服务访问.md)
 
-
-
-## Writing
-
-New post or a new page
-```sh
-$ hexo new [layout] <title>
-```
-
-Layout
-
-There are three default layouts in Hexo: post, page and draft. Files created by each of them is saved to a different path. Newly created posts are saved to the source/_posts folder.
-
- | Layout | Path 
- - | - 
-post | source/_posts
-page |	source
-draft | source/_drafts
+### X、[集群问题记录](file://docs/x、集群问题记录.md)
