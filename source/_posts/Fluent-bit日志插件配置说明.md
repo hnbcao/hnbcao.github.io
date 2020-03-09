@@ -10,7 +10,7 @@ tags:
 
 fluent-bit配置文件中，主要由输入（Input）、解析器（Parser）、过滤器（Filter）、缓存（Buffer）、路由（Routing）、输出（Output）六大模块组成，各个模块的详细说明如下：
 
-![fluent-bit数据流图](../medias/logging_pipeline.png)
+![fluent-bit数据流图](/medias/logging_pipeline.png)
 
 |Interface|Description(英文)|Description(中文)|
 |-|-|-|
