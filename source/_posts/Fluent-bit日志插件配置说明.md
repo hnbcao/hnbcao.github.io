@@ -68,7 +68,7 @@ Service各个配置项如下：
 |-|-|-|-|
 |Flush| Set the flush time in seconds. Everytime it timeouts, the engine will flush the records to the output plugin. | 设置Flush时间（以秒为单位）。每次超时，引擎都会将记录刷新到输出插件。| 5|
 |Daemon|Boolean value to set if Fluent Bit should run as a Daemon (background) or not. Allowed values are: yes, no, on and off.	|一个布尔值，用于设置Fluent Bit是否应作为守护程序（后台）运行。允许的值为：是，否，打开和关闭。|Off|
-|Log_File	|Absolute path for an optional log file.|可选日志文件的绝对路径。|	|
+|Log_File	|Absolute path for an optional log file.|可选日志文件的绝对路径。|
 |Log_Level|	Set the logging verbosity level. Allowed values are: error, info, debug and trace. Values are accumulative, e.g: if 'debug' is set, it will include error, info and debug. Note that trace mode is only available if Fluent Bit was built with the WITH_TRACE option enabled.	|设置日志记录的详细程度。允许的值为：error, info, debug 和 trace。值是累积值，例如：如果设置了“ debug”，则它将包括error, info 和 debug。请注意，只有在启用WITH_TRACE选项的情况下构建Fluent Bit时，跟踪模式才可用。|info|
 |Parsers_File	|Path for a parsers configuration file. Multiple Parsers_File entries can be used.	|配置文件的路径。可以使用多个Parsers_File条目。 |
 |HTTP_Server|	Enable built-in HTTP Server	|启用内置的HTTP服务器|Off|
