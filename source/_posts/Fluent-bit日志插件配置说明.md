@@ -1,7 +1,11 @@
 ---
 title: Fluent-bit日志插件配置说明
 date: 2020-03-06 18:24:08
+categories: 运维
 tags:
+  - 日志 
+  - 运维
+  - Fluent-Bit
 ---
 
 # Fluent-bit日志插件配置说明
