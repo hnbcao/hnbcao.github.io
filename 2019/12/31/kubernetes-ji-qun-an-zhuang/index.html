@@ -369,7 +369,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Kubernetes集群搭建"><a href="#Kubernetes集群搭建" class="headerlink" title="Kubernetes集群搭建"></a>Kubernetes集群搭建</h2><ul>
+                <h1 id="Kubernetes集群搭建"><a href="#Kubernetes集群搭建" class="headerlink" title="Kubernetes集群搭建"></a>Kubernetes集群搭建</h1><ul>
 <li>1、本文基于<a href="https://www.kubernetes.org.cn/4948.html" target="_blank" rel="noopener">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。</li>
 <li>2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。</li>
 <li>3、关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡）</li>

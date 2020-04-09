@@ -278,8 +278,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="安装Cert-Manager"><a href="#安装Cert-Manager" class="headerlink" title="安装Cert Manager"></a>安装Cert Manager</h1><h2 id="一、Installing-the-Chart"><a href="#一、Installing-the-Chart" class="headerlink" title="一、Installing the Chart"></a>一、Installing the Chart</h2><p><a href="https://cert-manager.io/docs/installation/kubernetes/" target="_blank" rel="noopener">https://cert-manager.io/docs/installation/kubernetes/</a></p>
-<h2 id="二、创建ClusterIssuer-集群内所有命名空间公用方案"><a href="#二、创建ClusterIssuer-集群内所有命名空间公用方案" class="headerlink" title="二、创建ClusterIssuer(集群内所有命名空间公用方案)"></a>二、创建ClusterIssuer(集群内所有命名空间公用方案)</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2
+                <h1 id="安装Cert-Manager"><a href="#安装Cert-Manager" class="headerlink" title="安装Cert Manager"></a>安装Cert Manager</h1><h3 id="一、Installing-the-Chart"><a href="#一、Installing-the-Chart" class="headerlink" title="一、Installing the Chart"></a>一、Installing the Chart</h3><p><a href="https://cert-manager.io/docs/installation/kubernetes/" target="_blank" rel="noopener">https://cert-manager.io/docs/installation/kubernetes/</a></p>
+<h3 id="二、创建ClusterIssuer-集群内所有命名空间公用方案"><a href="#二、创建ClusterIssuer-集群内所有命名空间公用方案" class="headerlink" title="二、创建ClusterIssuer(集群内所有命名空间公用方案)"></a>二、创建ClusterIssuer(集群内所有命名空间公用方案)</h3><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterIssuer
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>letsencrypt<span class="token punctuation">-</span>prod
@@ -293,7 +293,7 @@
     <span class="token punctuation">-</span> <span class="token key atrule">http01</span><span class="token punctuation">:</span>
         <span class="token key atrule">ingress</span><span class="token punctuation">:</span>
           <span class="token key atrule">class</span><span class="token punctuation">:</span> traefik</code></pre>
-<h2 id="三、创建Issuer-集群内单个命名空间独享方案"><a href="#三、创建Issuer-集群内单个命名空间独享方案" class="headerlink" title="三、创建Issuer(集群内单个命名空间独享方案)"></a>三、创建Issuer(集群内单个命名空间独享方案)</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2
+<h3 id="三、创建Issuer-集群内单个命名空间独享方案"><a href="#三、创建Issuer-集群内单个命名空间独享方案" class="headerlink" title="三、创建Issuer(集群内单个命名空间独享方案)"></a>三、创建Issuer(集群内单个命名空间独享方案)</h3><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> cert<span class="token punctuation">-</span>manager.io/v1alpha2
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> Issuer
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> letsencrypt<span class="token punctuation">-</span>prod
@@ -307,7 +307,7 @@
     <span class="token punctuation">-</span> <span class="token key atrule">http01</span><span class="token punctuation">:</span>
         <span class="token key atrule">ingress</span><span class="token punctuation">:</span>
           <span class="token key atrule">class</span><span class="token punctuation">:</span> traefik</code></pre>
-<h2 id="四、Ingress应用ClusterIssuer"><a href="#四、Ingress应用ClusterIssuer" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress
+<h3 id="四、Ingress应用ClusterIssuer"><a href="#四、Ingress应用ClusterIssuer" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h3><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress
 <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> extensions/v1beta1
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>ingress
@@ -334,7 +334,7 @@
               <span class="token key atrule">servicePort</span><span class="token punctuation">:</span> <span class="token number">80</span>
 </code></pre>
 <p>Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。</p>
-<h2 id="四、Ingress应用ClusterIssuer-1"><a href="#四、Ingress应用ClusterIssuer-1" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h2><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress
+<h3 id="四、Ingress应用ClusterIssuer-1"><a href="#四、Ingress应用ClusterIssuer-1" class="headerlink" title="四、Ingress应用ClusterIssuer"></a>四、Ingress应用ClusterIssuer</h3><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Ingress
 <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> extensions/v1beta1
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> harbor<span class="token punctuation">-</span>ingress
@@ -361,7 +361,7 @@
               <span class="token key atrule">servicePort</span><span class="token punctuation">:</span> <span class="token number">80</span>
 </code></pre>
 <p>Ingress通过在annotations中添加cert-manager.io/issuer: letsencrypt-prod为ingress中的域名自动生成证书。</p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><ul>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><ul>
 <li>使用Cert Manager时，ingress中host配置的域名必须指定，不能有通配符；</li>
 </ul>
 <script>
