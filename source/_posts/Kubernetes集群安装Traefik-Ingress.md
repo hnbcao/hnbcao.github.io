@@ -11,7 +11,7 @@ tags:
   - 容器化
   - Kubernetes优化
 ---
-## 部署TraefikIngress
+# 部署TraefikIngress
 
 ### 使用OpenSSL创建TLS证书（已有证书则跳过该选项）
 

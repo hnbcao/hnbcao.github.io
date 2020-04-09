@@ -11,7 +11,7 @@ tags:
   - 容器化
   - Kubernetes优化
 ---
-## 创建ImagePullSecret
+# 创建ImagePullSecret
 
 ### 一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
 

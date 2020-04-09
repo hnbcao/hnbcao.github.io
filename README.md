@@ -10,7 +10,19 @@ Install Git
 
 Install Node.js
 
+Install Hexo-Cli
 
+```sh
+npm install hexo-cli -g
+```
+
+Install Hexo
+
+```sh
+npm install hexo --save
+```
+
+## 
 
 ## Writing
 

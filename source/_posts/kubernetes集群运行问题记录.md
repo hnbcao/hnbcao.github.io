@@ -11,7 +11,7 @@ tags:
   - 容器化
   - Bugs
 ---
-## kubernetes集群运行问题记录
+# kubernetes集群运行问题记录
 
 - 集群内部容器无法解析外部DNS
 

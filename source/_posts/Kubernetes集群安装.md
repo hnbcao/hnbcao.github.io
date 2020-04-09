@@ -10,7 +10,7 @@ tags:
   - 运维
   - 容器化
 ---
-## Kubernetes集群搭建
+# Kubernetes集群搭建
 
 * 1、本文基于[kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora](https://www.kubernetes.org.cn/4948.html)编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。
 * 2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。
