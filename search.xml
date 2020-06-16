@@ -4,6 +4,89 @@
   
     
     <entry>
+      <title>Kubernetes集群GPU共享解决方案</title>
+      <link href="/2020/06/16/kubernetes-ji-qun-gpu-gong-xiang-jie-jue-fang-an/"/>
+      <url>/2020/06/16/kubernetes-ji-qun-gpu-gong-xiang-jie-jue-fang-an/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Kubernetes集群GPU共享解决方案"><a href="#Kubernetes集群GPU共享解决方案" class="headerlink" title="Kubernetes集群GPU共享解决方案"></a>Kubernetes集群GPU共享解决方案</h1><h3 id="基于阿里云的GPU共享方案"><a href="#基于阿里云的GPU共享方案" class="headerlink" title="基于阿里云的GPU共享方案"></a>基于阿里云的GPU共享方案</h3><p><a href="https://github.com/AliyunContainerService/gpushare-scheduler-extender/blob/master/docs/install.md" target="_blank" rel="noopener">https://github.com/AliyunContainerService/gpushare-scheduler-extender/blob/master/docs/install.md</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 运维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 运维 </tag>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> 容器化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java容器学习笔记</title>
+      <link href="/2020/06/11/java-rong-qi-xue-xi-bi-ji/"/>
+      <url>/2020/06/11/java-rong-qi-xue-xi-bi-ji/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Java容器学习笔记"><a href="#Java容器学习笔记" class="headerlink" title="Java容器学习笔记"></a>Java容器学习笔记</h1><h3 id="ArrayList与LinkList对比："><a href="#ArrayList与LinkList对比：" class="headerlink" title="ArrayList与LinkList对比："></a>ArrayList与LinkList对比：</h3><ul><li>性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。</li><li>建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。</li></ul><h3 id="ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections-synchronizedList-。Collections-synchronizedList-使用装饰模式为传入的List操作加上同步锁。"><a href="#ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections-synchronizedList-。Collections-synchronizedList-使用装饰模式为传入的List操作加上同步锁。" class="headerlink" title="ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。"></a>ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。</h3><h3 id="Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。"><a href="#Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。" class="headerlink" title="Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。"></a>Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。</h3><h3 id="HashSet底层数据结构是HashMap"><a href="#HashSet底层数据结构是HashMap" class="headerlink" title="HashSet底层数据结构是HashMap"></a>HashSet底层数据结构是HashMap</h3><h3 id="LinkedHashSet底层数据结构是LinkedHashMap"><a href="#LinkedHashSet底层数据结构是LinkedHashMap" class="headerlink" title="LinkedHashSet底层数据结构是LinkedHashMap"></a>LinkedHashSet底层数据结构是LinkedHashMap</h3><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 集合 </tag>
+            
+            <tag> Collection </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Spring Kafka参数配置详情</title>
+      <link href="/2020/06/04/spring-kafka-can-shu-pei-zhi-xiang-qing/"/>
+      <url>/2020/06/04/spring-kafka-can-shu-pei-zhi-xiang-qing/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Spring-Kafka参数配置详情"><a href="#Spring-Kafka参数配置详情" class="headerlink" title="Spring Kafka参数配置详情"></a>Spring Kafka参数配置详情</h1><h3 id="一、全局配置"><a href="#一、全局配置" class="headerlink" title="一、全局配置"></a>一、全局配置</h3><pre class=" language-yml"><code class="language-yml"># 用逗号分隔的主机:端口对列表，用于建立到Kafka群集的初始连接。覆盖全局连接设置属性spring.kafka.bootstrap-servers# 在发出请求时传递给服务器的ID。用于服务器端日志记录spring.kafka.client-id，默认无# 用于配置客户端的其他属性，生产者和消费者共有的属性spring.kafka.properties.*# 消息发送的默认主题，默认无spring.kafka.template.default-topic</code></pre><h3 id="二、生产者"><a href="#二、生产者" class="headerlink" title="二、生产者"></a>二、生产者</h3><p>Spring Boot中，Kafka 生产者相关配置(所有配置前缀为spring.kafka.producer.)：</p><pre class=" language-yml"><code class="language-yml"># 生产者要求Leader在考虑请求完成之前收到的确认数spring.kafka.producer.acks# 默认批量大小。较小的批处理大小将使批处理不太常见，并可能降低吞吐量（批处理大小为零将完全禁用批处理）spring.kafka.producer.batch-sizespring.kafka.producer.bootstrap-servers# 生产者可用于缓冲等待发送到服务器的记录的总内存大小。spring.kafka.producer.buffer-memory# 在发出请求时传递给服务器的ID。用于服务器端日志记录。spring.kafka.producer.client-id# 生产者生成的所有数据的压缩类型spring.kafka.producer.compression-type# 键的序列化程序类spring.kafka.producer.key-serializerspring.kafka.producer.properties.*# 大于零时，启用失败发送的重试次数spring.kafka.producer.retriesspring.kafka.producer.ssl.key-passwordspring.kafka.producer.ssl.key-store-locationspring.kafka.producer.ssl.key-store-passwordspring.kafka.producer.ssl.key-store-typespring.kafka.producer.ssl.protocolspring.kafka.producer.ssl.trust-store-locationspring.kafka.producer.ssl.trust-store-passwordspring.kafka.producer.ssl.trust-store-type# 非空时，启用对生产者的事务支持spring.kafka.producer.transaction-id-prefixspring.kafka.producer.value-serializer</code></pre><h3 id="三、消费者"><a href="#三、消费者" class="headerlink" title="三、消费者"></a>三、消费者</h3><p>Spring Boot中，Kafka 消费者相关配置(所有配置前缀为spring.kafka.consumer.)：</p><pre class=" language-yml"><code class="language-yml"># 如果“enable.auto.commit”设置为true，设置消费者偏移自动提交到Kafka的频率，默认值无，单位毫秒(ms)spring.kafka.consumer.auto-commit-interval# 当Kafka中没有初始偏移或服务器上不再存在当前偏移时策略设置，默认值无，latest/earliest/none三个值设置# earliest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费# latest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据# none topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常spring.kafka.consumer.auto-offset-reset# 用逗号分隔的主机:端口对列表，用于建立到Kafka群集的初始连接。覆盖全局连接设置属性spring.kafka.consumer.bootstrap-servers# 在发出请求时传递给服务器的ID，用于服务器端日志记录spring.kafka.consumer.client-id# 消费者的偏移量是否在后台定期提交spring.kafka.consumer.enable-auto-commit# 如果没有足够的数据来立即满足“fetch-min-size”的要求，则服务器在取回请求之前阻塞的最大时间量spring.kafka.consumer.fetch-max-wait# 服务器应为获取请求返回的最小数据量。spring.kafka.consumer.fetch-min-size# 标识此消费者所属的默认消费者组的唯一字符串spring.kafka.consumer.group-id# 消费者协调员的预期心跳间隔时间。spring.kafka.consumer.heartbeat-interval# 用于读取以事务方式写入的消息的隔离级别。spring.kafka.consumer.isolation-level# 密钥的反序列化程序类spring.kafka.consumer.key-deserializer# 在对poll()的单个调用中返回的最大记录数。spring.kafka.consumer.max-poll-records# 用于配置客户端的其他特定于消费者的属性。spring.kafka.consumer.properties.*# 密钥存储文件中私钥的密码。spring.kafka.consumer.ssl.key-password# 密钥存储文件的位置。spring.kafka.consumer.ssl.key-store-location# 密钥存储文件的存储密码。spring.kafka.consumer.ssl.key-store-password# 密钥存储的类型，如JKSspring.kafka.consumer.ssl.key-store-type# 要使用的SSL协议，如TLSv1.2, TLSv1.1, TLSv1spring.kafka.consumer.ssl.protocol# 信任存储文件的位置。spring.kafka.consumer.ssl.trust-store-location# 信任存储文件的存储密码。spring.kafka.consumer.ssl.trust-store-password# 信任存储区的类型。spring.kafka.consumer.ssl.trust-store-type# 值的反序列化程序类。spring.kafka.consumer.value-deserializer</code></pre><h3 id="四、监听器"><a href="#四、监听器" class="headerlink" title="四、监听器"></a>四、监听器</h3><p>Spring Boot中，Kafka Listener相关配置(所有配置前缀为spring.kafka.listener.)：</p><pre class=" language-yml"><code class="language-yml"># ackMode为“COUNT”或“COUNT_TIME”时偏移提交之间的记录数spring.kafka.listener.ack-count=spring.kafka.listener.ack-modespring.kafka.listener.ack-timespring.kafka.listener.client-idspring.kafka.listener.concurrencyspring.kafka.listener.idle-event-intervalspring.kafka.listener.log-container-config# 如果Broker上不存在至少一个配置的主题（topic），则容器是否无法启动，# 该设置项结合Broker设置项allow.auto.create.topics=true，如果为false，则会自动创建不存在的topicspring.kafka.listener.missing-topics-fatal=true# 非响应消费者的检查间隔时间。如果未指定持续时间后缀，则将使用秒作为单位spring.kafka.listener.monitor-intervalspring.kafka.listener.no-poll-thresholdspring.kafka.listener.poll-timeoutspring.kafka.listener.type</code></pre><h3 id="五、管理"><a href="#五、管理" class="headerlink" title="五、管理"></a>五、管理</h3><pre class=" language-yml"><code class="language-yml">spring.kafka.admin.client-id# 如果启动时代理不可用，是否快速失败spring.kafka.admin.fail-fast=falsespring.kafka.admin.properties.*spring.kafka.admin.ssl.key-passwordspring.kafka.admin.ssl.key-store-locationspring.kafka.admin.ssl.key-store-passwordspring.kafka.admin.ssl.key-store-typespring.kafka.admin.ssl.protocolspring.kafka.admin.ssl.trust-store-locationspring.kafka.admin.ssl.trust-store-passwordspring.kafka.admin.ssl.trust-store-type</code></pre><h3 id="六、授权服务-JAAS"><a href="#六、授权服务-JAAS" class="headerlink" title="六、授权服务(JAAS)"></a>六、授权服务(JAAS)</h3><pre class=" language-yml"><code class="language-yml">spring.kafka.jaas.control-flag=requiredspring.kafka.jaas.enabled=falsespring.kafka.jaas.login-module=com.sun.security.auth.module.Krb5LoginModulespring.kafka.jaas.options.*</code></pre><h3 id="七、SSL认证"><a href="#七、SSL认证" class="headerlink" title="七、SSL认证"></a>七、SSL认证</h3><pre class=" language-yml"><code class="language-yml">spring.kafka.ssl.key-passwordspring.kafka.ssl.key-store-locationspring.kafka.ssl.key-store-passwordspring.kafka.ssl.key-store-typespring.kafka.ssl.protocolspring.kafka.ssl.trust-store-locationspring.kafka.ssl.trust-store-passwordspring.kafka.ssl.trust-store-type</code></pre><h3 id="八、Stream流处理"><a href="#八、Stream流处理" class="headerlink" title="八、Stream流处理"></a>八、Stream流处理</h3><pre class=" language-yml"><code class="language-yml">spring.kafka.streams.application-idspring.kafka.streams.auto-startupspring.kafka.streams.bootstrap-serversspring.kafka.streams.cache-max-size-bufferingspring.kafka.streams.client-idspring.kafka.streams.properties.*spring.kafka.streams.replication-factorspring.kafka.streams.ssl.key-passwordspring.kafka.streams.ssl.key-store-locationspring.kafka.streams.ssl.key-store-passwordspring.kafka.streams.ssl.key-store-typespring.kafka.streams.ssl.protocolspring.kafka.streams.ssl.trust-store-locationspring.kafka.streams.ssl.trust-store-passwordspring.kafka.streams.ssl.trust-store-typespring.kafka.streams.state-dir</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 大数据 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 运维 </tag>
+            
+            <tag> Kafka </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>设计模式</title>
       <link href="/2020/05/18/she-ji-mo-shi-jian-jie/"/>
       <url>/2020/05/18/she-ji-mo-shi-jian-jie/</url>
