@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Golang学习笔记之Select</title>
+      <link href="/2020/07/01/golang-xue-xi-bi-ji-zhi-select/"/>
+      <url>/2020/07/01/golang-xue-xi-bi-ji-zhi-select/</url>
+      
+        <content type="html"><![CDATA[<script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubernetes集群GPU共享解决方案</title>
       <link href="/2020/06/16/kubernetes-ji-qun-gpu-gong-xiang-jie-jue-fang-an/"/>
       <url>/2020/06/16/kubernetes-ji-qun-gpu-gong-xiang-jie-jue-fang-an/</url>
