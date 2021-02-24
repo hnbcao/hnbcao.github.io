@@ -428,12 +428,91 @@
 <td>192.168.56.108</td>
 </tr>
 </tbody></table>
-<h3 id="二、安装包准备（可选）"><a href="#二、安装包准备（可选）" class="headerlink" title="二、安装包准备（可选）"></a>二、安装包准备（可选）</h3><pre class=" language-sh"><code class="language-sh"># 设置yum缓存路径，cachedir 缓存路径 keepcache=1保持安装包在软件安装之后不删除
-cat /etc/yum.conf  
-[main]
-cachedir=/home/yum
-keepcache=1
+<h3 id="二、离线仓库制作（可选）"><a href="#二、离线仓库制作（可选）" class="headerlink" title="二、离线仓库制作（可选）"></a>二、离线仓库制作（可选）</h3><p>具体制作方式见：<a href="https://hnbcao.vip/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/" target="_blank" rel="noopener">CentOS离线镜像仓库创建</a></p>
+<p>需要制作的离线仓库有：</p>
+<ol>
+<li>base repo</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo</code></pre>
+<ol>
+<li>docker repo</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">[docker-ce-stable]
+name=Docker CE Stable - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/stable
+enabled=1
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
 
+[docker-ce-stable-debuginfo]
+name=Docker CE Stable - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/stable
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-stable-source]
+name=Docker CE Stable - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/stable
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-test]
+name=Docker CE Test - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-test-debuginfo]
+name=Docker CE Test - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-test-source]
+name=Docker CE Test - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-nightly]
+name=Docker CE Nightly - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-nightly-debuginfo]
+name=Docker CE Nightly - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg
+
+[docker-ce-nightly-source]
+name=Docker CE Nightly - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/centos/gpg</code></pre>
+<ol start="2">
+<li>kubernetes repo</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF</code></pre>
+<h3 id="三、软件安装"><a href="#三、软件安装" class="headerlink" title="三、软件安装"></a>三、软件安装</h3><pre class=" language-sh"><code class="language-sh">
 # 安装ifconfig
 yum install net-tools -y
 
@@ -441,10 +520,7 @@ yum install net-tools -y
 yum install -y ntpdate
 
 # 安装docker（建议18.06.3.ce）
-yum install -y yum-utils device-mapper-persistent-data lvm2
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-yum makecache fast
+
 ## 列出Docker版本
 yum list docker-ce --showduplicates | sort -r
 ## 安装指定版本
@@ -458,33 +534,14 @@ yum install lrzsz -y
 yum install -y socat keepalived ipvsadm haproxy
 
 # 安装kubernetes相关组件
-cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-[kubernetes]
-name=Kubernetes
-baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-enabled=1
-gpgcheck=0
-repo_gpgcheck=0
-gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
-        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-EOF
 
 # 建议指定各个软件的版本号，使用yum list 软件名（如kubelet） --showduplicates | sort -r列出版本号。
 yum install -y kubelet kubeadm kubectl ebtables
 
 # 其他软件安装
 yum install wget
-
-# 拷贝离线包到集群节点
-# 离线安装，需要包下载服务器与安装服务器系统版本等同步。建议采用离线镜像源的方式。
-# rpm -ivh *.rpm --force --nodeps
-rpm -ivh ./base/packages/*.rpm --nodeps --force
-rpm -ivh ./docker-ce-stable/packages/*.rpm --nodeps --force
-rpm -ivh ./extras/packages/*.rpm --nodeps --force
-rpm -ivh ./kubernetes/packages/*.rpm --nodeps --force
-rpm -ivh ./updates/packages/*.rpm --nodeps --force
 </code></pre>
-<h3 id="三、节点系统配置"><a href="#三、节点系统配置" class="headerlink" title="三、节点系统配置"></a>三、节点系统配置</h3><ul>
+<h3 id="四、节点系统配置"><a href="#四、节点系统配置" class="headerlink" title="四、节点系统配置"></a>四、节点系统配置</h3><ul>
 <li>关闭SELinux、防火墙</li>
 </ul>
 <pre class=" language-sh"><code class="language-sh">systemctl stop firewalld
@@ -594,7 +651,7 @@ ssh-keygen
 # 2、拷贝密钥到其他节点
 ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx</code></pre>
 <p>**、 Kubernetes要求集群中所有机器具有不同的Mac地址、产品uuid、Hostname。</p>
-<h3 id="四、keepalived-haproxy配置"><a href="#四、keepalived-haproxy配置" class="headerlink" title="四、keepalived+haproxy配置"></a>四、keepalived+haproxy配置</h3><pre class=" language-sh"><code class="language-sh">cd ~/
+<h3 id="五、keepalived-haproxy配置"><a href="#五、keepalived-haproxy配置" class="headerlink" title="五、keepalived+haproxy配置"></a>五、keepalived+haproxy配置</h3><pre class=" language-sh"><code class="language-sh">cd ~/
 # 创建集群信息文件
 echo """
 CP0_IP=192.168.56.103
@@ -699,7 +756,7 @@ systemctl start keepalived
 systemctl stop haproxy
 systemctl enable haproxy
 systemctl start haproxy</code></pre>
-<h3 id="五、部署HA-Master"><a href="#五、部署HA-Master" class="headerlink" title="五、部署HA Master"></a>五、部署HA Master</h3><p>HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;</p>
+<h3 id="六、部署HA-Master"><a href="#六、部署HA-Master" class="headerlink" title="六、部署HA Master"></a>六、部署HA Master</h3><p>HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;</p>
 <p>脚本主要执行三步：</p>
 <p>1)、重置kubelet设置</p>
 <pre class=" language-sh"><code class="language-sh">kubeadm reset -f
@@ -757,12 +814,12 @@ ssh ${ip} "${JOIN_CMD} --control-plane"</code></pre>
 <pre class=" language-sh"><code class="language-sh"># 部署HA master
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh)"</code></pre>
-<h3 id="六、加入节点"><a href="#六、加入节点" class="headerlink" title="六、加入节点"></a>六、加入节点</h3><ul>
+<h3 id="七、加入节点"><a href="#七、加入节点" class="headerlink" title="七、加入节点"></a>七、加入节点</h3><ul>
 <li>节点加入命令获取</li>
 </ul>
 <pre class=" language-sh"><code class="language-sh">#master节点执行该命令，再在节点执行获取到的命令
 kubeadm token create --print-join-command</code></pre>
-<h3 id="七、结束安装"><a href="#七、结束安装" class="headerlink" title="七、结束安装"></a>七、结束安装</h3><p>此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问<a href="https://www.projectcalico.org/" target="_blank" rel="noopener">calico官网</a>，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。</p>
+<h3 id="八、结束安装"><a href="#八、结束安装" class="headerlink" title="八、结束安装"></a>八、结束安装</h3><p>此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问<a href="https://www.projectcalico.org/" target="_blank" rel="noopener">calico官网</a>，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。</p>
 <p>文章只是在文章<a href="https://www.kubernetes.org.cn/4948.html" target="_blank" rel="noopener">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>的基础上，修改了master的HA方案。关于集群安装的详细步骤，建议访问<a href="https://www.kubernetes.org.cn/4948.html" target="_blank" rel="noopener">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>。</p>
 <script>
         document.querySelectorAll('.github-emoji')
