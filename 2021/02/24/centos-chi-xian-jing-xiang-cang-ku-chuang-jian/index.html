@@ -4,13 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="FTP服务器搭建, HNBCAO">
-    <meta name="description" content="FTP服务搭建
-系统： centos 7.4
+    <meta name="keywords" content="CentOS离线镜像仓库创建, HNBCAO">
+    <meta name="description" content="CentOS离线镜像仓库创建-以base仓库为例一、安装相关软件yum install createrepo  reposync  yum-utils -y
+二、替换镜像源
+备份
 
-一、安装vsftpdyum -y install vsftpd
-二、配置服务[root@ecs-7fd0 vsftpd]# cat /etc/vsftpd/vsftpd.conf
-anonym">
+mv /etc/yum.repos.d/CentOS-Ba">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@ anonym">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>FTP服务器搭建 | HNBCAO</title>
+    <title>CentOS离线镜像仓库创建 | HNBCAO</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -201,12 +200,12 @@ anonym">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">FTP服务器搭建</h1>
+                    <h1 class="description center-align post-title">CentOS离线镜像仓库创建</h1>
                 </div>
             </div>
         </div>
@@ -327,14 +326,6 @@ anonym">
                                 <span class="chip bg-color">运维</span>
                             </a>
                         
-                            <a href="/tags/FTP/">
-                                <span class="chip bg-color">FTP</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/">
-                                <span class="chip bg-color">共享存储</span>
-                            </a>
-                        
                     </div>
                     
                 </div>
@@ -356,7 +347,7 @@ anonym">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-02-19
+                    2021-02-24
                 </div>
                 
 
@@ -373,107 +364,43 @@ anonym">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="FTP服务搭建"><a href="#FTP服务搭建" class="headerlink" title="FTP服务搭建"></a>FTP服务搭建</h1><ul>
-<li>系统： centos 7.4</li>
-</ul>
-<h3 id="一、安装vsftpd"><a href="#一、安装vsftpd" class="headerlink" title="一、安装vsftpd"></a>一、安装vsftpd</h3><pre class=" language-sh"><code class="language-sh">yum -y install vsftpd</code></pre>
-<h3 id="二、配置服务"><a href="#二、配置服务" class="headerlink" title="二、配置服务"></a>二、配置服务</h3><pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat /etc/vsftpd/vsftpd.conf
-anonymous_enable=NO
-local_enable=YES
-write_enable=YES
-local_umask=022
-dirmessage_enable=YES
-xferlog_enable=YES
-xferlog_std_format=YES
-ascii_upload_enable=YES
-ascii_download_enable=YES
-chroot_local_user=YES
-listen=NO
-listen_ipv6=YES
-
-connect_from_port_20=NO
-
-#设置使用主动模式
-pasv_enable=YES
-pasv_min_port=1024
-pasv_max_port=65536
-
-pam_service_name=vsftpd
-guest_enable=YES
-#设置使用虚拟用户的真实访问用户
-guest_username=ftpuser
-user_config_dir=/etc/vsftpd/vsftpd_user_conf
-allow_writeable_chroot=YES
-#设置使用虚拟用户
-virtual_use_local_privs=YES
-userlist_enable=YES
-userlist_deny=NO
-tcp_wrappers=YES
-</code></pre>
-<h3 id="三、创建ftpuser账户"><a href="#三、创建ftpuser账户" class="headerlink" title="三、创建ftpuser账户"></a>三、创建ftpuser账户</h3><pre class=" language-sh"><code class="language-sh">useradd -d /home/ftpuser -s /sbin/nologin ftpuser</code></pre>
-<h3 id="三、虚拟用户"><a href="#三、虚拟用户" class="headerlink" title="三、虚拟用户"></a>三、虚拟用户</h3><ul>
-<li>设置pam策略</li>
-</ul>
-<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat /etc/pam.d/vsftpd
-#%PAM-1.0
-#session    optional     pam_keyinit.so    force revoke
-#auth       required    pam_listfile.so item=user sense=deny file=/etc/vsftpd/ftpusers onerr=succeed
-#auth       required    pam_shells.so
-#auth       include    password-auth
-#account    include    password-auth
-#session    required     pam_loginuid.so
-#session    include    password-auth
-auth       required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login
-account    required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login</code></pre>
-<ul>
-<li>配置虚拟账户</li>
-</ul>
-<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# cat ftp_virtual_user 
-User001
-PasswordForUser001
-User002
-PasswordForUser002
-User003
-PasswordForUser003
-</code></pre>
-<ul>
-<li>生成虚拟账号数据库</li>
-</ul>
-<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# db_load -T -t hash -f /etc/vsftpd/ftp_virtual_user /etc/vsftpd/vsftpd_login.db</code></pre>
-<ul>
-<li>配置虚拟账户访问目录</li>
-</ul>
-<pre class=" language-sh"><code class="language-sh">
-[root@ecs-7fd0 vsftpd]# mkdir -p /etc/vsftpd/vsftpd_user_conf
-
-[root@ecs-7fd0 vsftpd]# cat User001
-local_root=/home/ftpuser/User001
-write_enable=YES
-anon_world_readable_only=YES
-anon_upload_enable=YES
-anon_mkdir_write_enable=YES
-anon_other_write_enable=YES
-
-[root@ecs-7fd0 vsftpd]# cat User002
-local_root=/home/ftpuser/User002
-write_enable=YES
-anon_world_readable_only=YES
-anon_upload_enable=YES
-anon_mkdir_write_enable=YES
-anon_other_write_enable=YES
-
-[root@ecs-7fd0 vsftpd]# cat User003
-local_root=/home/ftpuser/User003
-write_enable=YES
-anon_world_readable_only=YES
-anon_upload_enable=YES
-anon_mkdir_write_enable=YES
-anon_other_write_enable=YES</code></pre>
-<ul>
-<li>启动vsftpd</li>
-</ul>
-<pre class=" language-sh"><code class="language-sh">[root@ecs-7fd0 vsftpd]# systemctl enable vsftpd
-[root@ecs-7fd0 vsftpd]# systemctl start vsftpd</code></pre>
+                <h1 id="CentOS离线镜像仓库创建-以base仓库为例"><a href="#CentOS离线镜像仓库创建-以base仓库为例" class="headerlink" title="CentOS离线镜像仓库创建-以base仓库为例"></a>CentOS离线镜像仓库创建-以base仓库为例</h1><h3 id="一、安装相关软件"><a href="#一、安装相关软件" class="headerlink" title="一、安装相关软件"></a>一、安装相关软件</h3><pre class=" language-sh"><code class="language-sh">yum install createrepo  reposync  yum-utils -y</code></pre>
+<h3 id="二、替换镜像源"><a href="#二、替换镜像源" class="headerlink" title="二、替换镜像源"></a>二、替换镜像源</h3><ol>
+<li>备份</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</code></pre>
+<ol start="2">
+<li>下载新的 CentOS-Base.repo 到 /etc/yum.repos.d/</li>
+</ol>
+<p>CentOS 7</p>
+<pre class=" language-sh"><code class="language-sh">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo</code></pre>
+<p>或者</p>
+<pre class=" language-sh"><code class="language-sh">curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo</code></pre>
+<h3 id="三、同步镜像-amp-创建本地仓库"><a href="#三、同步镜像-amp-创建本地仓库" class="headerlink" title="三、同步镜像&amp;创建本地仓库"></a>三、同步镜像&amp;创建本地仓库</h3><pre class=" language-sh"><code class="language-sh"># 新建文件夹，存储同步的仓库数据
+mkdir -p /data/yum.repo && cd /data/yum.repo
+# 镜像仓库同步
+reposync -r base -p ./
+# 创建本地仓库
+cd base && createrepo ./</code></pre>
+<h3 id="四、离线服务器使用"><a href="#四、离线服务器使用" class="headerlink" title="四、离线服务器使用"></a>四、离线服务器使用</h3><ol>
+<li><p>将同步的镜像仓库打包到离线服务器上，并解压至/mnt/yum.repo/base/下</p>
+</li>
+<li><p>备份</p>
+</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">mkdir /etc/yum.repos.d/backup
+mv /etc/yum.repos.d/* /etc/yum.repos.d/backup</code></pre>
+<ol start="3">
+<li>创建新的 repo 文件 到 /etc/yum.repos.d/</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">[base]
+name=CentOS-$releasever - Base - local-base-repo
+failovermethod=priority
+baseurl=file:///mnt/yum.repo/base/
+gpgcheck=0</code></pre>
+<ol start="4">
+<li>运行 yum makecache 生成缓存</li>
+</ol>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -507,14 +434,6 @@ anon_other_write_enable=YES</code></pre>
                             
                                 <a href="/tags/%E8%BF%90%E7%BB%B4/">
                                     <span class="chip bg-color">运维</span>
-                                </a>
-                            
-                                <a href="/tags/FTP/">
-                                    <span class="chip bg-color">FTP</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%85%B1%E4%BA%AB%E5%AD%98%E5%82%A8/">
-                                    <span class="chip bg-color">共享存储</span>
                                 </a>
                             
                         </div>
@@ -555,103 +474,33 @@ anon_other_write_enable=YES</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/06/fluent-bit-ri-zhi-cha-jian-pei-zhi-shuo-ming/">
+                <a href="/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Fluent-bit日志插件配置说明">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CentOS离线镜像仓库创建">
                         
-                        <span class="card-title">Fluent-bit日志插件配置说明</span>
+                        <span class="card-title">CentOS离线镜像仓库创建</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Fluent-bit日志插件配置说明一、概述fluent-bit配置文件中，主要由输入（Input）、解析器（Parser）、过滤器（Filter）、缓存（Buffer）、路由（Routing）、输出（Output）六大模块组成，各个模块的
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-06
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E8%BF%90%E7%BB%B4/" class="post-category">
-                                    运维
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E8%BF%90%E7%BB%B4/">
-                        <span class="chip bg-color">运维</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%97%A5%E5%BF%97/">
-                        <span class="chip bg-color">日志</span>
-                    </a>
-                    
-                    <a href="/tags/Fluent-Bit/">
-                        <span class="chip bg-color">Fluent-Bit</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/02/14/ceph-ji-qun-an-zhuang/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Ceph集群安装">
-                        
-                        <span class="card-title">Ceph集群安装</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            CephFS集群安装一、集群规划
+                            CentOS离线镜像仓库创建-以base仓库为例一、安装相关软件yum install createrepo  reposync  yum-utils -y
+二、替换镜像源
+备份
 
-
-节点
-ip
-os
-节点说明
-
-
-
-master1
-10.73.13.61
-centos7.4
-mon+rgw+manger节点、ceph-deploy
-
-
-master2
-10.73.13.60
-cen
+mv /etc/yum.repos.d/CentOS-Ba
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-24
                             </span>
                         <span class="publish-author">
                             
@@ -665,6 +514,7 @@ cen
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -672,12 +522,56 @@ cen
                         <span class="chip bg-color">运维</span>
                     </a>
                     
-                    <a href="/tags/Ceph/">
-                        <span class="chip bg-color">Ceph</span>
-                    </a>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/07/01/golang-xue-xi-bi-ji-zhi-select/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Golang学习笔记之Select">
+                        
+                        <span class="card-title">Golang学习笔记之Select</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Golang学习笔记之Select
+直接阻塞：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
+
+单一管道：select 条件只包含一个 case
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">
-                        <span class="chip bg-color">分布式存储</span>
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
                     </a>
                     
                 </div>
