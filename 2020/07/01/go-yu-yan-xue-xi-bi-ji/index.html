@@ -4,11 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Go语言学习笔记之运行时, HNBCAO">
-    <meta name="description" content="Go语言学习笔记之运行时一、 select 关键字
+    <meta name="keywords" content="Go语言学习笔记, HNBCAO">
+    <meta name="description" content="Go语言学习笔记一、 运行时1.1 select 关键字
 直接阻塞：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
 
-单一管道：select 条件只包">
+单一管道：select 条">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Go语言学习笔记之运行时 | HNBCAO</title>
+    <title>Go语言学习笔记 | HNBCAO</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -199,12 +199,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Go语言学习笔记之运行时</h1>
+                    <h1 class="description center-align post-title">Go语言学习笔记</h1>
                 </div>
             </div>
         </div>
@@ -363,7 +363,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Go语言学习笔记之运行时"><a href="#Go语言学习笔记之运行时" class="headerlink" title="Go语言学习笔记之运行时"></a>Go语言学习笔记之运行时</h1><h3 id="一、-select-关键字"><a href="#一、-select-关键字" class="headerlink" title="一、 select 关键字"></a>一、 select 关键字</h3><ul>
+                <h1 id="Go语言学习笔记"><a href="#Go语言学习笔记" class="headerlink" title="Go语言学习笔记"></a>Go语言学习笔记</h1><h3 id="一、-运行时"><a href="#一、-运行时" class="headerlink" title="一、 运行时"></a>一、 运行时</h3><h4 id="1-1-select-关键字"><a href="#1-1-select-关键字" class="headerlink" title="1.1 select 关键字"></a>1.1 select 关键字</h4><ul>
 <li><p><strong>直接阻塞</strong>：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。</p>
 </li>
 <li><p><strong>单一管道</strong>：select 条件只包含一个 case；如果当前的 select 条件只包含一个 case，当 case 中的 Channel 是空指针时，就会直接挂起当前 Goroutine 并永久休眠。</p>
@@ -373,7 +373,7 @@
 2.当不存在可以收发的 Channel 是，执行 default 中的语句；</code></pre><p>  当我们运行下面的代码时就不会阻塞当前的 Goroutine，它会直接执行 default 中的代码并返回。</p>
 </li>
 </ul>
-<h3 id="二、-上下文-Context"><a href="#二、-上下文-Context" class="headerlink" title="二、 上下文 Context"></a>二、 上下文 Context</h3><ul>
+<h4 id="1-2-上下文-Context"><a href="#1-2-上下文-Context" class="headerlink" title="1.2 上下文 Context"></a>1.2 上下文 Context</h4><ul>
 <li><p><strong>方法实现</strong> context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：</p>
 <ol>
 <li><p>Deadline — 返回 context.Context 被取消的时间，也就是完成工作的截止日期；</p>
@@ -406,7 +406,7 @@
 <p>在真正使用传值的功能时我们也应该非常谨慎，使用 context.Context 进行传递参数请求的所有参数一种非常差的设计，比较常见的使用场景是传递请求对应用户的认证令牌以及用于进行分布式追踪的请求 ID。</p>
 </li>
 </ul>
-<h3 id="三、-同步原语与锁"><a href="#三、-同步原语与锁" class="headerlink" title="三、 同步原语与锁"></a>三、 同步原语与锁</h3><p>本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。</p>
+<h4 id="1-4-同步原语与锁"><a href="#1-4-同步原语与锁" class="headerlink" title="1.4 同步原语与锁"></a>1.4 同步原语与锁</h4><p>本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
