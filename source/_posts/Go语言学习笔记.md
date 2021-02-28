@@ -1,14 +1,16 @@
 ---
-title: Go语言学习笔记之运行时
+title: Go语言学习笔记
 date: 2020-07-01 16:22:11
 categories: Go
 tags:
   - 学习笔记
 ---
 
-# Go语言学习笔记之运行时
+# Go语言学习笔记
 
-### 一、 select 关键字
+### 一、 运行时
+
+#### 1.1 select 关键字
 
 - **直接阻塞**：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
 - **单一管道**：select 条件只包含一个 case；如果当前的 select 条件只包含一个 case，当 case 中的 Channel 是空指针时，就会直接挂起当前 Goroutine 并永久休眠。
@@ -19,7 +21,7 @@ tags:
 
     当我们运行下面的代码时就不会阻塞当前的 Goroutine，它会直接执行 default 中的代码并返回。
 
-### 二、 上下文 Context
+#### 1.2 上下文 Context
 
 - **方法实现** context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
 
@@ -49,6 +51,6 @@ tags:
 
   在真正使用传值的功能时我们也应该非常谨慎，使用 context.Context 进行传递参数请求的所有参数一种非常差的设计，比较常见的使用场景是传递请求对应用户的认证令牌以及用于进行分布式追踪的请求 ID。
 
-### 三、 同步原语与锁
+#### 1.4 同步原语与锁
 
 本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
