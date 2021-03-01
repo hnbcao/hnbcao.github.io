@@ -1,14 +1,17 @@
 # Summary
 
-* [简介](README.md)
+* [目录](README.md)
 
 ## Go 语言学习笔记
 
 * [基础知识](golang/basic/README.md)
 
+  * [常用关键字 for 和 range](golang/basic/常用关键字-for和range.md)
+
+  * [常用关键字 select](golang/basic/常用关键字-select.md)
+
 * [运行时](golang/runtime/README.md)
 
-  * [Select 关键字](golang/runtime/select.md)
   
   * [上下文 Context](golang/runtime/context.md)
 
