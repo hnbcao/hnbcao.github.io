@@ -1,0 +1,811 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Spring-Kafka参数配置详情 · 学习笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="HNBCAO <hnbcao@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/customize.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../container/kubernetes/" />
+    
+    
+    <link rel="prev" href="Java容器学习笔记.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="http://hnbcao.vip" target="_blank" class="custom-link">Rick's Blog</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Go 语言学习笔记</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../golang/basic/">
+            
+                <a href="../golang/basic/">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    基础知识
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../golang/runtime/">
+            
+                <a href="../golang/runtime/">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../golang/runtime/select.html">
+            
+                <a href="../golang/runtime/select.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    Select 关键字
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../golang/runtime/context.html">
+            
+                <a href="../golang/runtime/context.html">
+            
+                    
+                        <b>2.2.2.</b>
+                    
+                    上下文 Context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../golang/runtime/mutex.html">
+            
+                <a href="../golang/runtime/mutex.html">
+            
+                    
+                        <b>2.2.3.</b>
+                    
+                    同步原语与锁
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../golang/advanced/">
+            
+                <a href="../golang/advanced/">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    进阶内容
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Java 语言学习笔记</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="Java容器学习笔记.html">
+            
+                <a href="Java容器学习笔记.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Java容器学习笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2" data-path="Spring-Kafka参数配置详情.html">
+            
+                <a href="Spring-Kafka参数配置详情.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Spring-Kafka参数配置详情
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">容器化</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../container/kubernetes/">
+            
+                <a href="../container/kubernetes/">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    Kubernetes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../container/kubernetes/Kubernetes集群安装.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装.html">
+            
+                    
+                        <b>4.1.1.</b>
+                    
+                    Kubernetes集群安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../container/kubernetes/Kubernetes集群安装Cert-Manager.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装Cert-Manager.html">
+            
+                    
+                        <b>4.1.2.</b>
+                    
+                    Kubernetes集群安装Cert-Manager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../container/kubernetes/Kubernetes集群安装Traefik-Ingress.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装Traefik-Ingress.html">
+            
+                    
+                        <b>4.1.3.</b>
+                    
+                    Kubernetes集群安装Traefik-Ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="../container/kubernetes/Kubernetes集群创建用户.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群创建用户.html">
+            
+                    
+                        <b>4.1.4.</b>
+                    
+                    Kubernetes集群创建用户
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../container/kubernetes/Kubernetes集群创建Image-Pull-Secret.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群创建Image-Pull-Secret.html">
+            
+                    
+                        <b>4.1.5.</b>
+                    
+                    Kubernetes集群创建Image-Pull-Secret
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6" data-path="../container/kubernetes/Kubernetes集群跨namespace服务访问.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群跨namespace服务访问.html">
+            
+                    
+                        <b>4.1.6.</b>
+                    
+                    Kubernetes集群跨namespace服务访问
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.7" data-path="../container/kubernetes/kubernetes集群运行问题记录.html">
+            
+                <a href="../container/kubernetes/kubernetes集群运行问题记录.html">
+            
+                    
+                        <b>4.1.7.</b>
+                    
+                    kubernetes集群运行问题记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.8" data-path="../container/kubernetes/Kubernetes集群GPU共享解决方案.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群GPU共享解决方案.html">
+            
+                    
+                        <b>4.1.8.</b>
+                    
+                    Kubernetes集群GPU共享解决方案
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../container/docker/">
+            
+                <a href="../container/docker/">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    Docker
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../container/docker/DockerCompose安装使用.html">
+            
+                <a href="../container/docker/DockerCompose安装使用.html">
+            
+                    
+                        <b>4.2.1.</b>
+                    
+                    DockerCompose安装使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">运维管理</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../operations/CentOS离线镜像仓库创建.html">
+            
+                <a href="../operations/CentOS离线镜像仓库创建.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    CentOS离线镜像仓库创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../operations/Ceph集群安装.html">
+            
+                <a href="../operations/Ceph集群安装.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    Ceph集群安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../operations/Fluent-bit日志插件配置说明.html">
+            
+                <a href="../operations/Fluent-bit日志插件配置说明.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Fluent-bit日志插件配置说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../operations/FTP服务器搭建.html">
+            
+                <a href="../operations/FTP服务器搭建.html">
+            
+                    
+                        <b>5.4.</b>
+                    
+                    FTP服务器搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">软件工程</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../software_engineering/设计模式简介.html">
+            
+                <a href="../software_engineering/设计模式简介.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    设计模式简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Spring-Kafka参数配置详情</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="spring-kafka&#x53C2;&#x6570;&#x914D;&#x7F6E;&#x8BE6;&#x60C5;">Spring Kafka&#x53C2;&#x6570;&#x914D;&#x7F6E;&#x8BE6;&#x60C5;</h1>
+<h3 id="&#x4E00;&#x3001;&#x5168;&#x5C40;&#x914D;&#x7F6E;">&#x4E00;&#x3001;&#x5168;&#x5C40;&#x914D;&#x7F6E;</h3>
+<pre><code class="lang-yml"><span class="hljs-comment"># &#x7528;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7684;&#x4E3B;&#x673A;:&#x7AEF;&#x53E3;&#x5BF9;&#x5217;&#x8868;&#xFF0C;&#x7528;&#x4E8E;&#x5EFA;&#x7ACB;&#x5230;Kafka&#x7FA4;&#x96C6;&#x7684;&#x521D;&#x59CB;&#x8FDE;&#x63A5;&#x3002;&#x8986;&#x76D6;&#x5168;&#x5C40;&#x8FDE;&#x63A5;&#x8BBE;&#x7F6E;&#x5C5E;&#x6027;</span>
+spring.kafka.bootstrap-servers
+<span class="hljs-comment"># &#x5728;&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#x65F6;&#x4F20;&#x9012;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x7684;ID&#x3002;&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;</span>
+spring.kafka.client-id&#xFF0C;&#x9ED8;&#x8BA4;&#x65E0;
+<span class="hljs-comment"># &#x7528;&#x4E8E;&#x914D;&#x7F6E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5176;&#x4ED6;&#x5C5E;&#x6027;&#xFF0C;&#x751F;&#x4EA7;&#x8005;&#x548C;&#x6D88;&#x8D39;&#x8005;&#x5171;&#x6709;&#x7684;&#x5C5E;&#x6027;</span>
+spring.kafka.properties.*
+<span class="hljs-comment"># &#x6D88;&#x606F;&#x53D1;&#x9001;&#x7684;&#x9ED8;&#x8BA4;&#x4E3B;&#x9898;&#xFF0C;&#x9ED8;&#x8BA4;&#x65E0;</span>
+spring.kafka.template.default-topic
+</code></pre>
+<h3 id="&#x4E8C;&#x3001;&#x751F;&#x4EA7;&#x8005;">&#x4E8C;&#x3001;&#x751F;&#x4EA7;&#x8005;</h3>
+<p>Spring Boot&#x4E2D;&#xFF0C;Kafka &#x751F;&#x4EA7;&#x8005;&#x76F8;&#x5173;&#x914D;&#x7F6E;(&#x6240;&#x6709;&#x914D;&#x7F6E;&#x524D;&#x7F00;&#x4E3A;spring.kafka.producer.)&#xFF1A;</p>
+<pre><code class="lang-yml"><span class="hljs-comment"># &#x751F;&#x4EA7;&#x8005;&#x8981;&#x6C42;Leader&#x5728;&#x8003;&#x8651;&#x8BF7;&#x6C42;&#x5B8C;&#x6210;&#x4E4B;&#x524D;&#x6536;&#x5230;&#x7684;&#x786E;&#x8BA4;&#x6570;</span>
+spring.kafka.producer.acks
+<span class="hljs-comment"># &#x9ED8;&#x8BA4;&#x6279;&#x91CF;&#x5927;&#x5C0F;&#x3002;&#x8F83;&#x5C0F;&#x7684;&#x6279;&#x5904;&#x7406;&#x5927;&#x5C0F;&#x5C06;&#x4F7F;&#x6279;&#x5904;&#x7406;&#x4E0D;&#x592A;&#x5E38;&#x89C1;&#xFF0C;&#x5E76;&#x53EF;&#x80FD;&#x964D;&#x4F4E;&#x541E;&#x5410;&#x91CF;&#xFF08;&#x6279;&#x5904;&#x7406;&#x5927;&#x5C0F;&#x4E3A;&#x96F6;&#x5C06;&#x5B8C;&#x5168;&#x7981;&#x7528;&#x6279;&#x5904;&#x7406;&#xFF09;</span>
+spring.kafka.producer.batch-size
+spring.kafka.producer.bootstrap-servers
+<span class="hljs-comment"># &#x751F;&#x4EA7;&#x8005;&#x53EF;&#x7528;&#x4E8E;&#x7F13;&#x51B2;&#x7B49;&#x5F85;&#x53D1;&#x9001;&#x5230;&#x670D;&#x52A1;&#x5668;&#x7684;&#x8BB0;&#x5F55;&#x7684;&#x603B;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x3002;</span>
+spring.kafka.producer.buffer-memory
+<span class="hljs-comment"># &#x5728;&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#x65F6;&#x4F20;&#x9012;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x7684;ID&#x3002;&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;&#x3002;</span>
+spring.kafka.producer.client-id
+<span class="hljs-comment"># &#x751F;&#x4EA7;&#x8005;&#x751F;&#x6210;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x7684;&#x538B;&#x7F29;&#x7C7B;&#x578B;</span>
+spring.kafka.producer.compression-type
+<span class="hljs-comment"># &#x952E;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x7A0B;&#x5E8F;&#x7C7B;</span>
+spring.kafka.producer.key-serializer
+spring.kafka.producer.properties.*
+<span class="hljs-comment"># &#x5927;&#x4E8E;&#x96F6;&#x65F6;&#xFF0C;&#x542F;&#x7528;&#x5931;&#x8D25;&#x53D1;&#x9001;&#x7684;&#x91CD;&#x8BD5;&#x6B21;&#x6570;</span>
+spring.kafka.producer.retries
+spring.kafka.producer.ssl.key-password
+spring.kafka.producer.ssl.key-store-location
+spring.kafka.producer.ssl.key-store-password
+spring.kafka.producer.ssl.key-store-type
+spring.kafka.producer.ssl.protocol
+spring.kafka.producer.ssl.trust-store-location
+spring.kafka.producer.ssl.trust-store-password
+spring.kafka.producer.ssl.trust-store-type
+<span class="hljs-comment"># &#x975E;&#x7A7A;&#x65F6;&#xFF0C;&#x542F;&#x7528;&#x5BF9;&#x751F;&#x4EA7;&#x8005;&#x7684;&#x4E8B;&#x52A1;&#x652F;&#x6301;</span>
+spring.kafka.producer.transaction-id-prefix
+spring.kafka.producer.value-serializer
+</code></pre>
+<h3 id="&#x4E09;&#x3001;&#x6D88;&#x8D39;&#x8005;">&#x4E09;&#x3001;&#x6D88;&#x8D39;&#x8005;</h3>
+<p>Spring Boot&#x4E2D;&#xFF0C;Kafka &#x6D88;&#x8D39;&#x8005;&#x76F8;&#x5173;&#x914D;&#x7F6E;(&#x6240;&#x6709;&#x914D;&#x7F6E;&#x524D;&#x7F00;&#x4E3A;spring.kafka.consumer.)&#xFF1A;</p>
+<pre><code class="lang-yml"><span class="hljs-comment"># &#x5982;&#x679C;&#x201C;enable.auto.commit&#x201D;&#x8BBE;&#x7F6E;&#x4E3A;true&#xFF0C;&#x8BBE;&#x7F6E;&#x6D88;&#x8D39;&#x8005;&#x504F;&#x79FB;&#x81EA;&#x52A8;&#x63D0;&#x4EA4;&#x5230;Kafka&#x7684;&#x9891;&#x7387;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x65E0;&#xFF0C;&#x5355;&#x4F4D;&#x6BEB;&#x79D2;(ms)</span>
+spring.kafka.consumer.auto-commit-interval
+<span class="hljs-comment"># &#x5F53;Kafka&#x4E2D;&#x6CA1;&#x6709;&#x521D;&#x59CB;&#x504F;&#x79FB;&#x6216;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x4E0D;&#x518D;&#x5B58;&#x5728;&#x5F53;&#x524D;&#x504F;&#x79FB;&#x65F6;&#x7B56;&#x7565;&#x8BBE;&#x7F6E;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x65E0;&#xFF0C;latest/earliest/none&#x4E09;&#x4E2A;&#x503C;&#x8BBE;&#x7F6E;</span>
+<span class="hljs-comment"># earliest &#x5F53;&#x5404;&#x5206;&#x533A;&#x4E0B;&#x6709;&#x5DF2;&#x63D0;&#x4EA4;&#x7684;offset&#x65F6;&#xFF0C;&#x4ECE;&#x63D0;&#x4EA4;&#x7684;offset&#x5F00;&#x59CB;&#x6D88;&#x8D39;&#xFF1B;&#x65E0;&#x63D0;&#x4EA4;&#x7684;offset&#x65F6;&#xFF0C;&#x4ECE;&#x5934;&#x5F00;&#x59CB;&#x6D88;&#x8D39;</span>
+<span class="hljs-comment"># latest &#x5F53;&#x5404;&#x5206;&#x533A;&#x4E0B;&#x6709;&#x5DF2;&#x63D0;&#x4EA4;&#x7684;offset&#x65F6;&#xFF0C;&#x4ECE;&#x63D0;&#x4EA4;&#x7684;offset&#x5F00;&#x59CB;&#x6D88;&#x8D39;&#xFF1B;&#x65E0;&#x63D0;&#x4EA4;&#x7684;offset&#x65F6;&#xFF0C;&#x6D88;&#x8D39;&#x65B0;&#x4EA7;&#x751F;&#x7684;&#x8BE5;&#x5206;&#x533A;&#x4E0B;&#x7684;&#x6570;&#x636E;</span>
+<span class="hljs-comment"># none topic&#x5404;&#x5206;&#x533A;&#x90FD;&#x5B58;&#x5728;&#x5DF2;&#x63D0;&#x4EA4;&#x7684;offset&#x65F6;&#xFF0C;&#x4ECE;offset&#x540E;&#x5F00;&#x59CB;&#x6D88;&#x8D39;&#xFF1B;&#x53EA;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x5206;&#x533A;&#x4E0D;&#x5B58;&#x5728;&#x5DF2;&#x63D0;&#x4EA4;&#x7684;offset&#xFF0C;&#x5219;&#x629B;&#x51FA;&#x5F02;&#x5E38;</span>
+spring.kafka.consumer.auto-offset-reset
+<span class="hljs-comment"># &#x7528;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7684;&#x4E3B;&#x673A;:&#x7AEF;&#x53E3;&#x5BF9;&#x5217;&#x8868;&#xFF0C;&#x7528;&#x4E8E;&#x5EFA;&#x7ACB;&#x5230;Kafka&#x7FA4;&#x96C6;&#x7684;&#x521D;&#x59CB;&#x8FDE;&#x63A5;&#x3002;&#x8986;&#x76D6;&#x5168;&#x5C40;&#x8FDE;&#x63A5;&#x8BBE;&#x7F6E;&#x5C5E;&#x6027;</span>
+spring.kafka.consumer.bootstrap-servers
+<span class="hljs-comment"># &#x5728;&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#x65F6;&#x4F20;&#x9012;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x7684;ID&#xFF0C;&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;</span>
+spring.kafka.consumer.client-id
+<span class="hljs-comment"># &#x6D88;&#x8D39;&#x8005;&#x7684;&#x504F;&#x79FB;&#x91CF;&#x662F;&#x5426;&#x5728;&#x540E;&#x53F0;&#x5B9A;&#x671F;&#x63D0;&#x4EA4;</span>
+spring.kafka.consumer.enable-auto-commit
+<span class="hljs-comment"># &#x5982;&#x679C;&#x6CA1;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x6570;&#x636E;&#x6765;&#x7ACB;&#x5373;&#x6EE1;&#x8DB3;&#x201C;fetch-min-size&#x201D;&#x7684;&#x8981;&#x6C42;&#xFF0C;&#x5219;&#x670D;&#x52A1;&#x5668;&#x5728;&#x53D6;&#x56DE;&#x8BF7;&#x6C42;&#x4E4B;&#x524D;&#x963B;&#x585E;&#x7684;&#x6700;&#x5927;&#x65F6;&#x95F4;&#x91CF;</span>
+spring.kafka.consumer.fetch-max-wait
+<span class="hljs-comment"># &#x670D;&#x52A1;&#x5668;&#x5E94;&#x4E3A;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x8FD4;&#x56DE;&#x7684;&#x6700;&#x5C0F;&#x6570;&#x636E;&#x91CF;&#x3002;</span>
+spring.kafka.consumer.fetch-min-size
+<span class="hljs-comment"># &#x6807;&#x8BC6;&#x6B64;&#x6D88;&#x8D39;&#x8005;&#x6240;&#x5C5E;&#x7684;&#x9ED8;&#x8BA4;&#x6D88;&#x8D39;&#x8005;&#x7EC4;&#x7684;&#x552F;&#x4E00;&#x5B57;&#x7B26;&#x4E32;</span>
+spring.kafka.consumer.group-id
+<span class="hljs-comment"># &#x6D88;&#x8D39;&#x8005;&#x534F;&#x8C03;&#x5458;&#x7684;&#x9884;&#x671F;&#x5FC3;&#x8DF3;&#x95F4;&#x9694;&#x65F6;&#x95F4;&#x3002;</span>
+spring.kafka.consumer.heartbeat-interval
+<span class="hljs-comment"># &#x7528;&#x4E8E;&#x8BFB;&#x53D6;&#x4EE5;&#x4E8B;&#x52A1;&#x65B9;&#x5F0F;&#x5199;&#x5165;&#x7684;&#x6D88;&#x606F;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#x3002;</span>
+spring.kafka.consumer.isolation-level
+<span class="hljs-comment"># &#x5BC6;&#x94A5;&#x7684;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x7A0B;&#x5E8F;&#x7C7B;</span>
+spring.kafka.consumer.key-deserializer
+<span class="hljs-comment"># &#x5728;&#x5BF9;poll()&#x7684;&#x5355;&#x4E2A;&#x8C03;&#x7528;&#x4E2D;&#x8FD4;&#x56DE;&#x7684;&#x6700;&#x5927;&#x8BB0;&#x5F55;&#x6570;&#x3002;</span>
+spring.kafka.consumer.max-poll-records
+<span class="hljs-comment"># &#x7528;&#x4E8E;&#x914D;&#x7F6E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5176;&#x4ED6;&#x7279;&#x5B9A;&#x4E8E;&#x6D88;&#x8D39;&#x8005;&#x7684;&#x5C5E;&#x6027;&#x3002;</span>
+spring.kafka.consumer.properties.*
+<span class="hljs-comment"># &#x5BC6;&#x94A5;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x4E2D;&#x79C1;&#x94A5;&#x7684;&#x5BC6;&#x7801;&#x3002;</span>
+spring.kafka.consumer.ssl.key-password
+<span class="hljs-comment"># &#x5BC6;&#x94A5;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#x3002;</span>
+spring.kafka.consumer.ssl.key-store-location
+<span class="hljs-comment"># &#x5BC6;&#x94A5;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x7684;&#x5B58;&#x50A8;&#x5BC6;&#x7801;&#x3002;</span>
+spring.kafka.consumer.ssl.key-store-password
+<span class="hljs-comment"># &#x5BC6;&#x94A5;&#x5B58;&#x50A8;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x5982;JKS</span>
+spring.kafka.consumer.ssl.key-store-type
+<span class="hljs-comment"># &#x8981;&#x4F7F;&#x7528;&#x7684;SSL&#x534F;&#x8BAE;&#xFF0C;&#x5982;TLSv1.2, TLSv1.1, TLSv1</span>
+spring.kafka.consumer.ssl.protocol
+<span class="hljs-comment"># &#x4FE1;&#x4EFB;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#x3002;</span>
+spring.kafka.consumer.ssl.trust-store-location
+<span class="hljs-comment"># &#x4FE1;&#x4EFB;&#x5B58;&#x50A8;&#x6587;&#x4EF6;&#x7684;&#x5B58;&#x50A8;&#x5BC6;&#x7801;&#x3002;</span>
+spring.kafka.consumer.ssl.trust-store-password
+<span class="hljs-comment"># &#x4FE1;&#x4EFB;&#x5B58;&#x50A8;&#x533A;&#x7684;&#x7C7B;&#x578B;&#x3002;</span>
+spring.kafka.consumer.ssl.trust-store-type
+<span class="hljs-comment"># &#x503C;&#x7684;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x7A0B;&#x5E8F;&#x7C7B;&#x3002;</span>
+spring.kafka.consumer.value-deserializer
+</code></pre>
+<h3 id="&#x56DB;&#x3001;&#x76D1;&#x542C;&#x5668;">&#x56DB;&#x3001;&#x76D1;&#x542C;&#x5668;</h3>
+<p>Spring Boot&#x4E2D;&#xFF0C;Kafka Listener&#x76F8;&#x5173;&#x914D;&#x7F6E;(&#x6240;&#x6709;&#x914D;&#x7F6E;&#x524D;&#x7F00;&#x4E3A;spring.kafka.listener.)&#xFF1A;</p>
+<pre><code class="lang-yml"><span class="hljs-comment"># ackMode&#x4E3A;&#x201C;COUNT&#x201D;&#x6216;&#x201C;COUNT_TIME&#x201D;&#x65F6;&#x504F;&#x79FB;&#x63D0;&#x4EA4;&#x4E4B;&#x95F4;&#x7684;&#x8BB0;&#x5F55;&#x6570;</span>
+spring.kafka.listener.ack-count=
+spring.kafka.listener.ack-mode
+spring.kafka.listener.ack-time
+spring.kafka.listener.client-id
+spring.kafka.listener.concurrency
+spring.kafka.listener.idle-event-interval
+spring.kafka.listener.log-container-config
+<span class="hljs-comment"># &#x5982;&#x679C;Broker&#x4E0A;&#x4E0D;&#x5B58;&#x5728;&#x81F3;&#x5C11;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x7684;&#x4E3B;&#x9898;&#xFF08;topic&#xFF09;&#xFF0C;&#x5219;&#x5BB9;&#x5668;&#x662F;&#x5426;&#x65E0;&#x6CD5;&#x542F;&#x52A8;&#xFF0C;</span>
+<span class="hljs-comment"># &#x8BE5;&#x8BBE;&#x7F6E;&#x9879;&#x7ED3;&#x5408;Broker&#x8BBE;&#x7F6E;&#x9879;allow.auto.create.topics=true&#xFF0C;&#x5982;&#x679C;&#x4E3A;false&#xFF0C;&#x5219;&#x4F1A;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x4E0D;&#x5B58;&#x5728;&#x7684;topic</span>
+spring.kafka.listener.missing-topics-fatal=<span class="hljs-literal">true</span>
+<span class="hljs-comment"># &#x975E;&#x54CD;&#x5E94;&#x6D88;&#x8D39;&#x8005;&#x7684;&#x68C0;&#x67E5;&#x95F4;&#x9694;&#x65F6;&#x95F4;&#x3002;&#x5982;&#x679C;&#x672A;&#x6307;&#x5B9A;&#x6301;&#x7EED;&#x65F6;&#x95F4;&#x540E;&#x7F00;&#xFF0C;&#x5219;&#x5C06;&#x4F7F;&#x7528;&#x79D2;&#x4F5C;&#x4E3A;&#x5355;&#x4F4D;</span>
+spring.kafka.listener.monitor-interval
+spring.kafka.listener.<span class="hljs-literal">no</span>-poll-threshold
+spring.kafka.listener.poll-timeout
+spring.kafka.listener.type
+</code></pre>
+<h3 id="&#x4E94;&#x3001;&#x7BA1;&#x7406;">&#x4E94;&#x3001;&#x7BA1;&#x7406;</h3>
+<pre><code class="lang-yml">spring.kafka.admin.client-id
+<span class="hljs-comment"># &#x5982;&#x679C;&#x542F;&#x52A8;&#x65F6;&#x4EE3;&#x7406;&#x4E0D;&#x53EF;&#x7528;&#xFF0C;&#x662F;&#x5426;&#x5FEB;&#x901F;&#x5931;&#x8D25;</span>
+spring.kafka.admin.fail-fast=<span class="hljs-literal">false</span>
+spring.kafka.admin.properties.*
+spring.kafka.admin.ssl.key-password
+spring.kafka.admin.ssl.key-store-location
+spring.kafka.admin.ssl.key-store-password
+spring.kafka.admin.ssl.key-store-type
+spring.kafka.admin.ssl.protocol
+spring.kafka.admin.ssl.trust-store-location
+spring.kafka.admin.ssl.trust-store-password
+spring.kafka.admin.ssl.trust-store-type
+</code></pre>
+<h3 id="&#x516D;&#x3001;&#x6388;&#x6743;&#x670D;&#x52A1;jaas">&#x516D;&#x3001;&#x6388;&#x6743;&#x670D;&#x52A1;(JAAS)</h3>
+<pre><code class="lang-yml">spring.kafka.jaas.control-flag=required
+spring.kafka.jaas.enabled=<span class="hljs-literal">false</span>
+spring.kafka.jaas.login-module=com.sun.security.auth.module.Krb5LoginModule
+spring.kafka.jaas.options.*
+</code></pre>
+<h3 id="&#x4E03;&#x3001;ssl&#x8BA4;&#x8BC1;">&#x4E03;&#x3001;SSL&#x8BA4;&#x8BC1;</h3>
+<pre><code class="lang-yml">spring.kafka.ssl.key-password
+spring.kafka.ssl.key-store-location
+spring.kafka.ssl.key-store-password
+spring.kafka.ssl.key-store-type
+spring.kafka.ssl.protocol
+spring.kafka.ssl.trust-store-location
+spring.kafka.ssl.trust-store-password
+spring.kafka.ssl.trust-store-type
+</code></pre>
+<h3 id="&#x516B;&#x3001;stream&#x6D41;&#x5904;&#x7406;">&#x516B;&#x3001;Stream&#x6D41;&#x5904;&#x7406;</h3>
+<pre><code class="lang-yml">spring.kafka.streams.application-id
+spring.kafka.streams.auto-startup
+spring.kafka.streams.bootstrap-servers
+spring.kafka.streams.cache-max-size-buffering
+spring.kafka.streams.client-id
+spring.kafka.streams.properties.*
+spring.kafka.streams.replication-factor
+spring.kafka.streams.ssl.key-password
+spring.kafka.streams.ssl.key-store-location
+spring.kafka.streams.ssl.key-store-password
+spring.kafka.streams.ssl.key-store-type
+spring.kafka.streams.ssl.protocol
+spring.kafka.streams.ssl.trust-store-location
+spring.kafka.streams.ssl.trust-store-password
+spring.kafka.streams.ssl.trust-store-type
+spring.kafka.streams.state-dir
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Java容器学习笔记.html" class="navigation navigation-prev " aria-label="Previous page: Java容器学习笔记">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../container/kubernetes/" class="navigation navigation-next " aria-label="Next page: Kubernetes">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Spring-Kafka参数配置详情","date":"2020-06-04T14:13:50.000Z","categories":"大数据","tags":["运维","Kafka"],"level":"3.2","depth":1,"next":{"title":"Kubernetes","level":"4.1","depth":1,"path":"container/kubernetes/README.md","ref":"container/kubernetes/README.md","articles":[{"title":"Kubernetes集群安装","level":"4.1.1","depth":2,"path":"container/kubernetes/Kubernetes集群安装.md","ref":"container/kubernetes/Kubernetes集群安装.md","articles":[]},{"title":"Kubernetes集群安装Cert-Manager","level":"4.1.2","depth":2,"path":"container/kubernetes/Kubernetes集群安装Cert-Manager.md","ref":"container/kubernetes/Kubernetes集群安装Cert-Manager.md","articles":[]},{"title":"Kubernetes集群安装Traefik-Ingress","level":"4.1.3","depth":2,"path":"container/kubernetes/Kubernetes集群安装Traefik-Ingress.md","ref":"container/kubernetes/Kubernetes集群安装Traefik-Ingress.md","articles":[]},{"title":"Kubernetes集群创建用户","level":"4.1.4","depth":2,"path":"container/kubernetes/Kubernetes集群创建用户.md","ref":"container/kubernetes/Kubernetes集群创建用户.md","articles":[]},{"title":"Kubernetes集群创建Image-Pull-Secret","level":"4.1.5","depth":2,"path":"container/kubernetes/Kubernetes集群创建Image-Pull-Secret.md","ref":"container/kubernetes/Kubernetes集群创建Image-Pull-Secret.md","articles":[]},{"title":"Kubernetes集群跨namespace服务访问","level":"4.1.6","depth":2,"path":"container/kubernetes/Kubernetes集群跨namespace服务访问.md","ref":"container/kubernetes/Kubernetes集群跨namespace服务访问.md","articles":[]},{"title":"kubernetes集群运行问题记录","level":"4.1.7","depth":2,"path":"container/kubernetes/kubernetes集群运行问题记录.md","ref":"container/kubernetes/kubernetes集群运行问题记录.md","articles":[]},{"title":"Kubernetes集群GPU共享解决方案","level":"4.1.8","depth":2,"path":"container/kubernetes/Kubernetes集群GPU共享解决方案.md","ref":"container/kubernetes/Kubernetes集群GPU共享解决方案.md","articles":[]}]},"previous":{"title":"Java容器学习笔记","level":"3.1","depth":1,"path":"java/Java容器学习笔记.md","ref":"java/Java容器学习笔记.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","back-to-top-button","expandable-chapters-small"],"styles":{"website":"styles/customize.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-pro":{},"back-to-top-button":{},"expandable-chapters-small":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"HNBCAO <hnbcao@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"学习笔记","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Rick's Blog":"http://hnbcao.vip"}},"gitbook":"*","description":"This is a sample book created by gitbook"},"file":{"path":"java/Spring-Kafka参数配置详情.md","mtime":"2021-03-01T07:34:24.884Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-01T07:35:08.792Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

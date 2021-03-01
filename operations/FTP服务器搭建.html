@@ -1,0 +1,765 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>FTP服务器搭建 · 学习笔记</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="HNBCAO <hnbcao@gmail.com>">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/customize.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../software_engineering/设计模式简介.html" />
+    
+    
+    <link rel="prev" href="Fluent-bit日志插件配置说明.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="http://hnbcao.vip" target="_blank" class="custom-link">Rick's Blog</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Go 语言学习笔记</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../golang/basic/">
+            
+                <a href="../golang/basic/">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    基础知识
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../golang/runtime/">
+            
+                <a href="../golang/runtime/">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../golang/runtime/select.html">
+            
+                <a href="../golang/runtime/select.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    Select 关键字
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../golang/runtime/context.html">
+            
+                <a href="../golang/runtime/context.html">
+            
+                    
+                        <b>2.2.2.</b>
+                    
+                    上下文 Context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../golang/runtime/mutex.html">
+            
+                <a href="../golang/runtime/mutex.html">
+            
+                    
+                        <b>2.2.3.</b>
+                    
+                    同步原语与锁
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../golang/advanced/">
+            
+                <a href="../golang/advanced/">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    进阶内容
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Java 语言学习笔记</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../java/Java容器学习笔记.html">
+            
+                <a href="../java/Java容器学习笔记.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Java容器学习笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../java/Spring-Kafka参数配置详情.html">
+            
+                <a href="../java/Spring-Kafka参数配置详情.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Spring-Kafka参数配置详情
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">容器化</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../container/kubernetes/">
+            
+                <a href="../container/kubernetes/">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    Kubernetes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../container/kubernetes/Kubernetes集群安装.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装.html">
+            
+                    
+                        <b>4.1.1.</b>
+                    
+                    Kubernetes集群安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../container/kubernetes/Kubernetes集群安装Cert-Manager.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装Cert-Manager.html">
+            
+                    
+                        <b>4.1.2.</b>
+                    
+                    Kubernetes集群安装Cert-Manager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../container/kubernetes/Kubernetes集群安装Traefik-Ingress.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群安装Traefik-Ingress.html">
+            
+                    
+                        <b>4.1.3.</b>
+                    
+                    Kubernetes集群安装Traefik-Ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="../container/kubernetes/Kubernetes集群创建用户.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群创建用户.html">
+            
+                    
+                        <b>4.1.4.</b>
+                    
+                    Kubernetes集群创建用户
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../container/kubernetes/Kubernetes集群创建Image-Pull-Secret.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群创建Image-Pull-Secret.html">
+            
+                    
+                        <b>4.1.5.</b>
+                    
+                    Kubernetes集群创建Image-Pull-Secret
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.6" data-path="../container/kubernetes/Kubernetes集群跨namespace服务访问.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群跨namespace服务访问.html">
+            
+                    
+                        <b>4.1.6.</b>
+                    
+                    Kubernetes集群跨namespace服务访问
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.7" data-path="../container/kubernetes/kubernetes集群运行问题记录.html">
+            
+                <a href="../container/kubernetes/kubernetes集群运行问题记录.html">
+            
+                    
+                        <b>4.1.7.</b>
+                    
+                    kubernetes集群运行问题记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.8" data-path="../container/kubernetes/Kubernetes集群GPU共享解决方案.html">
+            
+                <a href="../container/kubernetes/Kubernetes集群GPU共享解决方案.html">
+            
+                    
+                        <b>4.1.8.</b>
+                    
+                    Kubernetes集群GPU共享解决方案
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../container/docker/">
+            
+                <a href="../container/docker/">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    Docker
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../container/docker/DockerCompose安装使用.html">
+            
+                <a href="../container/docker/DockerCompose安装使用.html">
+            
+                    
+                        <b>4.2.1.</b>
+                    
+                    DockerCompose安装使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">运维管理</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="CentOS离线镜像仓库创建.html">
+            
+                <a href="CentOS离线镜像仓库创建.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    CentOS离线镜像仓库创建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="Ceph集群安装.html">
+            
+                <a href="Ceph集群安装.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    Ceph集群安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="Fluent-bit日志插件配置说明.html">
+            
+                <a href="Fluent-bit日志插件配置说明.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Fluent-bit日志插件配置说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.4" data-path="FTP服务器搭建.html">
+            
+                <a href="FTP服务器搭建.html">
+            
+                    
+                        <b>5.4.</b>
+                    
+                    FTP服务器搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">软件工程</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../software_engineering/设计模式简介.html">
+            
+                <a href="../software_engineering/设计模式简介.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    设计模式简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >FTP服务器搭建</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="ftp&#x670D;&#x52A1;&#x642D;&#x5EFA;">FTP&#x670D;&#x52A1;&#x642D;&#x5EFA;</h1>
+<ul>
+<li>&#x7CFB;&#x7EDF;&#xFF1A; centos 7.4</li>
+</ul>
+<h3 id="&#x4E00;&#x3001;&#x5B89;&#x88C5;vsftpd">&#x4E00;&#x3001;&#x5B89;&#x88C5;vsftpd</h3>
+<pre><code class="lang-sh">yum -y install vsftpd
+</code></pre>
+<h3 id="&#x4E8C;&#x3001;&#x914D;&#x7F6E;&#x670D;&#x52A1;">&#x4E8C;&#x3001;&#x914D;&#x7F6E;&#x670D;&#x52A1;</h3>
+<pre><code class="lang-sh">[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat /etc/vsftpd/vsftpd.conf</span>
+anonymous_<span class="hljs-built_in">enable</span>=NO
+<span class="hljs-built_in">local</span>_<span class="hljs-built_in">enable</span>=YES
+write_<span class="hljs-built_in">enable</span>=YES
+<span class="hljs-built_in">local</span>_<span class="hljs-built_in">umask</span>=022
+dirmessage_<span class="hljs-built_in">enable</span>=YES
+xferlog_<span class="hljs-built_in">enable</span>=YES
+xferlog_std_format=YES
+ascii_upload_<span class="hljs-built_in">enable</span>=YES
+ascii_download_<span class="hljs-built_in">enable</span>=YES
+chroot_<span class="hljs-built_in">local</span>_user=YES
+listen=NO
+listen_ipv6=YES
+
+connect_from_port_20=NO
+
+<span class="hljs-comment">#&#x8BBE;&#x7F6E;&#x4F7F;&#x7528;&#x4E3B;&#x52A8;&#x6A21;&#x5F0F;</span>
+pasv_<span class="hljs-built_in">enable</span>=YES
+pasv_min_port=1024
+pasv_max_port=65536
+
+pam_service_name=vsftpd
+guest_<span class="hljs-built_in">enable</span>=YES
+<span class="hljs-comment">#&#x8BBE;&#x7F6E;&#x4F7F;&#x7528;&#x865A;&#x62DF;&#x7528;&#x6237;&#x7684;&#x771F;&#x5B9E;&#x8BBF;&#x95EE;&#x7528;&#x6237;</span>
+guest_username=ftpuser
+user_config_dir=/etc/vsftpd/vsftpd_user_conf
+allow_writeable_chroot=YES
+<span class="hljs-comment">#&#x8BBE;&#x7F6E;&#x4F7F;&#x7528;&#x865A;&#x62DF;&#x7528;&#x6237;</span>
+virtual_use_<span class="hljs-built_in">local</span>_privs=YES
+userlist_<span class="hljs-built_in">enable</span>=YES
+userlist_deny=NO
+tcp_wrappers=YES
+</code></pre>
+<h3 id="&#x4E09;&#x3001;&#x521B;&#x5EFA;ftpuser&#x8D26;&#x6237;">&#x4E09;&#x3001;&#x521B;&#x5EFA;ftpuser&#x8D26;&#x6237;</h3>
+<pre><code class="lang-sh">useradd <span class="hljs-_">-d</span> /home/ftpuser <span class="hljs-_">-s</span> /sbin/nologin ftpuser
+</code></pre>
+<h3 id="&#x4E09;&#x3001;&#x865A;&#x62DF;&#x7528;&#x6237;">&#x4E09;&#x3001;&#x865A;&#x62DF;&#x7528;&#x6237;</h3>
+<ul>
+<li>&#x8BBE;&#x7F6E;pam&#x7B56;&#x7565;</li>
+</ul>
+<pre><code class="lang-sh">[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat /etc/pam.d/vsftpd</span>
+<span class="hljs-comment">#%PAM-1.0</span>
+<span class="hljs-comment">#session    optional     pam_keyinit.so    force revoke</span>
+<span class="hljs-comment">#auth       required    pam_listfile.so item=user sense=deny file=/etc/vsftpd/ftpusers onerr=succeed</span>
+<span class="hljs-comment">#auth       required    pam_shells.so</span>
+<span class="hljs-comment">#auth       include    password-auth</span>
+<span class="hljs-comment">#account    include    password-auth</span>
+<span class="hljs-comment">#session    required     pam_loginuid.so</span>
+<span class="hljs-comment">#session    include    password-auth</span>
+auth       required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login
+account    required    pam_userdb.so   db=/etc/vsftpd/vsftpd_login
+</code></pre>
+<ul>
+<li>&#x914D;&#x7F6E;&#x865A;&#x62DF;&#x8D26;&#x6237;</li>
+</ul>
+<pre><code class="lang-sh">[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat ftp_virtual_user </span>
+User001
+PasswordForUser001
+User002
+PasswordForUser002
+User003
+PasswordForUser003
+</code></pre>
+<ul>
+<li>&#x751F;&#x6210;&#x865A;&#x62DF;&#x8D26;&#x53F7;&#x6570;&#x636E;&#x5E93;</li>
+</ul>
+<pre><code class="lang-sh">[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># db_load -T -t hash -f /etc/vsftpd/ftp_virtual_user /etc/vsftpd/vsftpd_login.db</span>
+</code></pre>
+<ul>
+<li>&#x914D;&#x7F6E;&#x865A;&#x62DF;&#x8D26;&#x6237;&#x8BBF;&#x95EE;&#x76EE;&#x5F55;</li>
+</ul>
+<pre><code class="lang-sh">
+[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># mkdir -p /etc/vsftpd/vsftpd_user_conf</span>
+
+[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat User001</span>
+<span class="hljs-built_in">local</span>_root=/home/ftpuser/User001
+write_<span class="hljs-built_in">enable</span>=YES
+anon_world_readable_only=YES
+anon_upload_<span class="hljs-built_in">enable</span>=YES
+anon_mkdir_write_<span class="hljs-built_in">enable</span>=YES
+anon_other_write_<span class="hljs-built_in">enable</span>=YES
+
+[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat User002</span>
+<span class="hljs-built_in">local</span>_root=/home/ftpuser/User002
+write_<span class="hljs-built_in">enable</span>=YES
+anon_world_readable_only=YES
+anon_upload_<span class="hljs-built_in">enable</span>=YES
+anon_mkdir_write_<span class="hljs-built_in">enable</span>=YES
+anon_other_write_<span class="hljs-built_in">enable</span>=YES
+
+[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># cat User003</span>
+<span class="hljs-built_in">local</span>_root=/home/ftpuser/User003
+write_<span class="hljs-built_in">enable</span>=YES
+anon_world_readable_only=YES
+anon_upload_<span class="hljs-built_in">enable</span>=YES
+anon_mkdir_write_<span class="hljs-built_in">enable</span>=YES
+anon_other_write_<span class="hljs-built_in">enable</span>=YES
+</code></pre>
+<ul>
+<li>&#x542F;&#x52A8;vsftpd</li>
+</ul>
+<pre><code class="lang-sh">[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># systemctl enable vsftpd</span>
+[root@ecs-7fd0 vsftpd]<span class="hljs-comment"># systemctl start vsftpd</span>
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Fluent-bit日志插件配置说明.html" class="navigation navigation-prev " aria-label="Previous page: Fluent-bit日志插件配置说明">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../software_engineering/设计模式简介.html" class="navigation navigation-next " aria-label="Next page: 设计模式简介">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"FTP服务器搭建","date":"2020-02-19T08:48:00.000Z","top":false,"cover":true,"toc":true,"categories":"运维","tags":["FTP","运维","共享存储"],"level":"5.4","depth":1,"next":{"title":"设计模式简介","level":"6.1","depth":1,"path":"software_engineering/设计模式简介.md","ref":"software_engineering/设计模式简介.md","articles":[]},"previous":{"title":"Fluent-bit日志插件配置说明","level":"5.3","depth":1,"path":"operations/Fluent-bit日志插件配置说明.md","ref":"operations/Fluent-bit日志插件配置说明.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","back-to-top-button","expandable-chapters-small"],"styles":{"website":"styles/customize.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"search-pro":{},"back-to-top-button":{},"expandable-chapters-small":{},"highlight":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"HNBCAO <hnbcao@gmail.com>","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"学习笔记","links":{"sharing":{"all":null,"facebook":null,"google":null,"twitter":null,"weibo":null},"sidebar":{"Rick's Blog":"http://hnbcao.vip"}},"gitbook":"*","description":"This is a sample book created by gitbook"},"file":{"path":"operations/FTP服务器搭建.md","mtime":"2021-03-01T07:34:24.884Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-01T07:35:08.792Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-expandable-chapters-small/expandable-chapters-small.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
