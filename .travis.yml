@@ -1,19 +1,35 @@
-sudo: false
 language: node_js
 node_js:
-  - 10 # use nodejs v10 LTS
+  - "10"
 cache: npm
 branches:
   only:
-    - source # build master branch only
+    - gitbook # build master branch only
+    
+notifications:
+  email:
+    recipients:
+      - hnbcao@gmail.com # 设置通知邮件
+    on_success: change
+    on_failure: always
+
+install:
+  - npm install -g gitbook-cli
+  - gitbook install
+
 script:
-  - hexo generate # generate static files
+  - gitbook build
+
 deploy:
   provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
   target_branch: master
   on:
     branch: source
-  local-dir: public
+  local-dir: _book
+
+branches:
+  only:
+    - gitbook

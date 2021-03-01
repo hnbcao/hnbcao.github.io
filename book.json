@@ -1,0 +1,33 @@
+{
+    "title": "学习笔记",
+    "author": "HNBCAO <hnbcao@gmail.com>",
+    "description": "This is a sample book created by gitbook",
+    "links": {
+        "sharing": {
+            "all": null,
+            "facebook": null,
+            "google": null,
+            "twitter": null,
+            "weibo": null
+        },
+        "sidebar": {
+            "Rick's Blog": "http://hnbcao.vip"
+        }
+    },
+    "generator": "site",
+    "plugins": [
+        "-lunr",
+        "-search",
+        "search-pro",
+        "back-to-top-button",
+        "expandable-chapters-small"
+    ],
+    "pluginsConfig": {
+        "theme-default": {
+            "showLevel": true
+        }
+    },
+    "styles": {
+        "website": "styles/customize.css"
+    }
+}

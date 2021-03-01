@@ -1,6 +1,2 @@
-
-.DS_Store
+_book
 node_modules
-db.json
-public
-.deploy_git/
