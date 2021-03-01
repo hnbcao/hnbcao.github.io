@@ -2,9 +2,9 @@
 
 ## Go 语言学习笔记
 
-* 基础知识
+* [基础知识](golang/basic/README.md)
 
-* [运行时](golang_runtime.md)
+* [运行时](golang/runtime/README.md)
 
   * [Select 关键字](golang/runtime/select.md)
   
@@ -12,7 +12,5 @@
 
   * [同步原语与锁](golang/runtime/mutex.md)
 
-### 第三部分 进阶内容
-
-* [Introduction](README.md)
+* [进阶内容](golang/advanced/README.md)
 
