@@ -4,11 +4,11 @@
 
 ## Go 语言学习笔记
 
-* [基础知识](golang/basic/README.md)
+* [基础知识](golang/foundation/README.md)
 
-  * [常用关键字 for 和 range](golang/basic/常用关键字-for和range.md)
+  * [常用关键字 for 和 range](golang/foundation/常用关键字-for和range.md)
 
-  * [常用关键字 select](golang/basic/常用关键字-select.md)
+  * [常用关键字 select](golang/foundation/常用关键字-select.md)
 
 * [运行时](golang/runtime/README.md)
 
