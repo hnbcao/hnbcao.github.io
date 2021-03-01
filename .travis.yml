@@ -1,19 +1,19 @@
-sudo: false
-language: node_js
-node_js:
-  - 10 # use nodejs v10 LTS
-cache: npm
-branches:
-  only:
-    - source # build master branch only
-script:
-  - hexo generate # generate static files
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  keep_history: true
-  target_branch: master
-  on:
-    branch: source
-  local-dir: public
+# sudo: false
+# language: node_js
+# node_js:
+#   - 10 # use nodejs v10 LTS
+# cache: npm
+# branches:
+#   only:
+#     - source # build master branch only
+# script:
+#   - hexo generate # generate static files
+# deploy:
+#   provider: pages
+#   skip_cleanup: true
+#   github_token: $GITHUB_TOKEN
+#   keep_history: true
+#   target_branch: master
+#   on:
+#     branch: source
+#   local-dir: public
