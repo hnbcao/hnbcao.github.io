@@ -21,6 +21,22 @@ tags:
 
     当我们运行下面的代码时就不会阻塞当前的 Goroutine，它会直接执行 default 中的代码并返回。
 
+    ```go
+    func main() {
+      ch := make(chan int)
+      select {
+      case i := <-ch:
+        println(i)
+
+      default:
+        println("default")
+      }
+    }
+
+    $ go run main.go
+    default
+    ```
+
 #### 1.2 上下文 Context
 
 - **方法实现** context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
