@@ -4,22 +4,21 @@ node_js:
 cache: npm
 branches:
   only:
-    - gitbook # build master branch only
-    
+    - gitbook
 notifications:
   email:
     recipients:
       - hnbcao@gmail.com # 设置通知邮件
     on_success: change
     on_failure: always
-
+    
 install:
   - npm install -g gitbook-cli
   - gitbook install
-
+  
 script:
   - gitbook build
-
+  
 deploy:
   provider: pages
   skip_cleanup: true
@@ -29,7 +28,3 @@ deploy:
   on:
     branch: source
   local-dir: _book
-
-branches:
-  only:
-    - gitbook
