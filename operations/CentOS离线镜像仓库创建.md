@@ -3,7 +3,7 @@ title: CentOS离线镜像仓库创建
 date: 2021-02-24 10:08:41
 categories: 运维
 tags:
-  - 运维
+- 运维
 ---
 
 # CentOS离线镜像仓库创建-以base仓库为例
@@ -23,6 +23,8 @@ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```
 
 2. 下载新的 CentOS-Base.repo 到 /etc/yum.repos.d/
+
+- Aliyun源地址为：https://developer.aliyun.com/mirror/
 
 CentOS 7
 
@@ -68,3 +70,22 @@ baseurl=file:///mnt/yum.repo/base/
 gpgcheck=0
 ```
 4. 运行 yum makecache 生成缓存
+
+### 五、定时同步脚本
+
+- 该脚本同步kubernetes相关yum rpm源，定时同步使用crontab 加入该脚本即可，手动同步直接运行该脚本。脚本需要放置在本地保存yum源所在的目录。
+
+```shell
+#!/bin/bash
+BASE_DIR=$(pwd)
+echo "base dir is ${BASE_DIR}"
+repolist=("base" "docker-ce-stable" "extras" "kubernetes" "updates")
+for repo in ${repolist[@]}; do
+  echo "sync repo $repo begin"
+  reposync -r ${repo} -p ${BASE_DIR}
+  echo "sync repo $repo end"
+  echo "rebuild repo $repo begin"
+  createrepo --update ${BASE_DIR}/${repo}
+  echo "rebuild repo $repo end"
+done
+```
