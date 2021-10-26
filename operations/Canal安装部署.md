@@ -266,10 +266,10 @@ tar zxvf canal.deployer-1.1.5.tar.gz  -C /opt/canal
 解压完成后，进入 /tmp/canal 目录，可以看到如下结构
 
 ```shell
-drwxr-xr-x 2 jianghang jianghang  136 2013-02-05 21:51 bin
-drwxr-xr-x 4 jianghang jianghang  160 2013-02-05 21:51 conf
-drwxr-xr-x 2 jianghang jianghang 1.3K 2013-02-05 21:51 lib
-drwxr-xr-x 2 jianghang jianghang   48 2013-02-05 21:29 logs
+drwxr-xr-x 2 hnbcao hnbcao  136 2013-02-05 21:51 bin
+drwxr-xr-x 4 hnbcao hnbcao  160 2013-02-05 21:51 conf
+drwxr-xr-x 2 hnbcao hnbcao 1.3K 2013-02-05 21:51 lib
+drwxr-xr-x 2 hnbcao hnbcao   48 2013-02-05 21:29 logs
 ```
 
 - 将canal_local.properties文件内容覆盖到canal.properties，并编辑canal.properties。
