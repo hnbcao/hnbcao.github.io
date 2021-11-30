@@ -50,6 +50,8 @@
 
 ## 运维管理
 
+* [Canal安装部署](operations/Canal安装部署.md)
+
 * [CentOS离线镜像仓库创建](operations/CentOS离线镜像仓库创建.md)
 
 * [Ceph集群安装](operations/Ceph集群安装.md)
