@@ -76,7 +76,7 @@ tags:
   EOF
   ```
   
-  执行以下命令重新生成etcd证书：
+  执行以下命令重新生成etcd证书(重新生成证书之前需要将/etc/kubernetes/pki/etcd目录清空)：
   
   ```shell
   kubeadm init phase certs etcd-ca --config etcd-cert-conf.yaml
