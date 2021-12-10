@@ -19,7 +19,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -659,16 +659,12 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一概述">一、概述</a></li>
-        <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
-        <li><a href="#三mysql配置">三、MySQL配置</a></li>
-        <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
-        <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
-        <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
-      </ul>
-    </li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
+    <li><a href="#三mysql配置">三、MySQL配置</a></li>
+    <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
+    <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
+    <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
   </ul>
 </nav>
 
@@ -685,19 +681,19 @@ https://github.com/alex-shpak/hugo-book
   canal安装部署
   <a class="anchor" href="#canal%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2">#</a>
 </h1>
-<h3 id="一概述">
+<h2 id="一概述">
   一、概述
   <a class="anchor" href="#%e4%b8%80%e6%a6%82%e8%bf%b0">#</a>
-</h3>
+</h2>
 <p>canal版本：1.1.5</p>
-<h3 id="二安装zookeeper">
+<h2 id="二安装zookeeper">
   二、安装Zookeeper
   <a class="anchor" href="#%e4%ba%8c%e5%ae%89%e8%a3%85zookeeper">#</a>
-</h3>
-<h3 id="三mysql配置">
+</h2>
+<h2 id="三mysql配置">
   三、MySQL配置
   <a class="anchor" href="#%e4%b8%89mysql%e9%85%8d%e7%bd%ae">#</a>
-</h3>
+</h2>
 <ul>
 <li>对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下</li>
 </ul>
@@ -712,10 +708,10 @@ server_id=1 # 配置 MySQL replaction 需要定义，不要和 canal 的 slaveId
 GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 -- GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' ;
 FLUSH PRIVILEGES;
-</code></pre><h3 id="四部署canal-admin">
+</code></pre><h2 id="四部署canal-admin">
   四、部署canal-admin
   <a class="anchor" href="#%e5%9b%9b%e9%83%a8%e7%bd%b2canal-admin">#</a>
-</h3>
+</h2>
 <ul>
 <li>
 <p>canal-admin设计上是为canal提供整体配置管理、节点运维等面向运维的功能，提供相对友好的WebUI操作界面，方便更多用户快速和安全的操作</p>
@@ -916,10 +912,10 @@ USE <span style="color:#f92672">`</span>canal_manager<span style="color:#f92672"
 <p>1.打开canal-admin(http://127.0.0.1:8089)，点击新建集群，填写集群名和zk地址(部署canal-deployer时间使用的zk)</p>
 <p>2.新建完成之后点击集群操作按钮下拉选择主配置，然后在新页面点击载入模板并保存</p>
 </blockquote>
-<h3 id="五启动canal-deployer">
+<h2 id="五启动canal-deployer">
   五、启动canal-deployer
   <a class="anchor" href="#%e4%ba%94%e5%90%af%e5%8a%a8canal-deployer">#</a>
-</h3>
+</h2>
 <ul>
 <li>下载 canal, 访问 release 页面 , 选择需要的包下载, 选择 1.1.5 版本</li>
 </ul>
@@ -960,10 +956,10 @@ canal.admin.register.name = node5 # 服务名
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sh bin/startup.sh
 </code></pre></div><p>启动成功后，会在admin ui上看到新增的节点。</p>
-<h3 id="六创建实例instance">
+<h2 id="六创建实例instance">
   六、创建实例（Instance）
   <a class="anchor" href="#%e5%85%ad%e5%88%9b%e5%bb%ba%e5%ae%9e%e4%be%8binstance">#</a>
-</h3>
+</h2>
 <ul>
 <li>canal admin web页面上选择Instance管理，新建实例，选择集群，设置instance名称，点击载入模版。模版中需要修改以下几项。</li>
 </ul>
@@ -1013,16 +1009,12 @@ canal.instance.dbPassword=123@DataBench
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一概述">一、概述</a></li>
-        <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
-        <li><a href="#三mysql配置">三、MySQL配置</a></li>
-        <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
-        <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
-        <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
-      </ul>
-    </li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
+    <li><a href="#三mysql配置">三、MySQL配置</a></li>
+    <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
+    <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
+    <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
   </ul>
 </nav>
 

@@ -17,7 +17,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -657,12 +657,8 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
-        <li><a href="#部署traefik">部署Traefik</a></li>
-      </ul>
-    </li>
+    <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
+    <li><a href="#部署traefik">部署Traefik</a></li>
   </ul>
 </nav>
 
@@ -679,10 +675,10 @@ https://github.com/alex-shpak/hugo-book
   部署TraefikIngress
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2traefikingress">#</a>
 </h1>
-<h3 id="使用openssl创建tls证书已有证书则跳过该选项">
+<h2 id="使用openssl创建tls证书已有证书则跳过该选项">
   使用OpenSSL创建TLS证书（已有证书则跳过该选项）
   <a class="anchor" href="#%e4%bd%bf%e7%94%a8openssl%e5%88%9b%e5%bb%batls%e8%af%81%e4%b9%a6%e5%b7%b2%e6%9c%89%e8%af%81%e4%b9%a6%e5%88%99%e8%b7%b3%e8%bf%87%e8%af%a5%e9%80%89%e9%a1%b9">#</a>
-</h3>
+</h2>
 <ul>
 <li>设置证书信息</li>
 </ul>
@@ -719,10 +715,10 @@ echo <span style="color:#e6db74">&#34;&#34;&#34;
 <li>生成证书</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">openssl req -newkey rsa:4096 -nodes -config ~/tls/openssl.cnf -days <span style="color:#ae81ff">3650</span> -x509 -out ~/tls/tls.crt -keyout ~/tls/tls.key
-</code></pre></div><h3 id="部署traefik">
+</code></pre></div><h2 id="部署traefik">
   部署Traefik
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2traefik">#</a>
-</h3>
+</h2>
 <ul>
 <li>添加证书至集群</li>
 </ul>
@@ -772,12 +768,8 @@ echo <span style="color:#e6db74">&#34;&#34;&#34;
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
-        <li><a href="#部署traefik">部署Traefik</a></li>
-      </ul>
-    </li>
+    <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
+    <li><a href="#部署traefik">部署Traefik</a></li>
   </ul>
 </nav>
 

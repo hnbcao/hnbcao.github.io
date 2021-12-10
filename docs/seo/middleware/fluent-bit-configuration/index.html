@@ -19,7 +19,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -659,20 +659,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一概述">一、概述</a></li>
-        <li><a href="#二配置文件">二、配置文件</a></li>
-        <li><a href="#三service">三、Service</a></li>
-        <li><a href="#四input">四、Input</a></li>
-        <li><a href="#五parser">五、Parser</a></li>
-        <li><a href="#六filter">六、Filter</a></li>
-        <li><a href="#七buffer">七、Buffer</a></li>
-        <li><a href="#八routing">八、Routing</a></li>
-        <li><a href="#九output">九、Output</a></li>
-        <li><a href="#附录-fluent-bit官方文档">附录 Fluent-bit官方文档</a></li>
-      </ul>
-    </li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二配置文件">二、配置文件</a></li>
+    <li><a href="#三service">三、Service</a></li>
+    <li><a href="#四input">四、Input</a></li>
+    <li><a href="#五parser">五、Parser</a></li>
+    <li><a href="#六filter">六、Filter</a></li>
+    <li><a href="#七buffer">七、Buffer</a></li>
+    <li><a href="#八routing">八、Routing</a></li>
+    <li><a href="#九output">九、Output</a></li>
+    <li><a href="#附录-fluent-bit官方文档">附录 Fluent-bit官方文档</a></li>
   </ul>
 </nav>
 
@@ -689,10 +685,10 @@ https://github.com/alex-shpak/hugo-book
   Fluent-bit日志插件配置说明
   <a class="anchor" href="#fluent-bit%e6%97%a5%e5%bf%97%e6%8f%92%e4%bb%b6%e9%85%8d%e7%bd%ae%e8%af%b4%e6%98%8e">#</a>
 </h1>
-<h3 id="一概述">
+<h2 id="一概述">
   一、概述
   <a class="anchor" href="#%e4%b8%80%e6%a6%82%e8%bf%b0">#</a>
-</h3>
+</h2>
 <p>fluent-bit配置文件中，主要由输入（Input）、解析器（Parser）、过滤器（Filter）、缓存（Buffer）、路由（Routing）、输出（Output）六大模块组成，各个模块的详细说明如下：</p>
 <p><img src="/medias/logging_pipeline.png" alt="fluent-bit数据流图" /></p>
 <table>
@@ -736,10 +732,10 @@ https://github.com/alex-shpak/hugo-book
 </tr>
 </tbody>
 </table>
-<h3 id="二配置文件">
+<h2 id="二配置文件">
   二、配置文件
   <a class="anchor" href="#%e4%ba%8c%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
-</h3>
+</h2>
 <p>一个fluent-bit配置文件除了包括输入（Input）、解析器（Parser）、过滤器（Filter）、缓存（Buffer）、路由（Routing）、输出（Output）六个模块外，还需要配置Service，该模块主要负责fluent-bit的配置，如Parser配置文件路径、fluent-bit自身日志打印等。如下是fluent-bit.conf配置：</p>
 <pre tabindex="0"><code>[SERVICE]
     Flush        1
@@ -775,10 +771,10 @@ https://github.com/alex-shpak/hugo-book
     Time_Key_Format  yyyy-MM-dd HH:mm:ss.SSS
     Replace_Dots     On
     Logstash_Prefix  segma_application_file
-</code></pre><h3 id="三service">
+</code></pre><h2 id="三service">
   三、Service
   <a class="anchor" href="#%e4%b8%89service">#</a>
-</h3>
+</h2>
 <p>Service各个配置项如下：</p>
 <table>
 <thead>
@@ -841,10 +837,10 @@ https://github.com/alex-shpak/hugo-book
 </tbody>
 </table>
 <p>在Kubernetes中进行日志收集时，一般需要配置的项有：Flush、Daemon、Log_Level、Parsers_File。在调试插件时，关闭Daemon以及设置Log_Level为debug甚至更高可方便查看插件运行错误。Parsers_File对应解析器的配置，可参考官方提供的<a href="https://raw.githubusercontent.com/fluent/fluent-bit/master/conf/parsers.conf">parsers.conf</a></p>
-<h3 id="四input">
+<h2 id="四input">
   四、Input
   <a class="anchor" href="#%e5%9b%9binput">#</a>
-</h3>
+</h2>
 <p>INPUT模块指点了日志输入源，每个输入插件都可以添加自己的配置键。以下为目前官方支持的输入源插件,<a href="https://fluentbit.io/documentation/0.13/input/">官方Input Plugins</a>。运行在kubernetes集群内的应用日志收集时，我们使用的是tail插件常用参数如下：</p>
 <table>
 <thead>
@@ -937,25 +933,25 @@ https://github.com/alex-shpak/hugo-book
 </tbody>
 </table>
 <p>常用的参数有Path、Parser、Tag、Refresh_Interval、Mem_Buf_Limit、Skip_Long_Lines。Path指定日志所在目录；Tag为Routing参数，会在Routing章节介绍；Refresh_Interval指定日志刷新时间间隔，会直接影响日志收集的实时性，一般设置为5秒；Mem_Buf_Limit指定插件内存大小，一般设置5Mb;Skip_Long_Lines一般使用默认值Off；其中比较重要的是Parser参数的配置，主要匹配Parser解析器，其值为解析器的name值，下一章介绍Parser解析器。</p>
-<h3 id="五parser">
+<h2 id="五parser">
   五、Parser
   <a class="anchor" href="#%e4%ba%94parser">#</a>
-</h3>
+</h2>
 <p>Parser解析器的配置是单独的一个配置文件，配置的加载是由Service模块的Parsers_File参数指定。可参考官方提供的<a href="https://raw.githubusercontent.com/fluent/fluent-bit/master/conf/parsers.conf">parsers.conf</a></p>
-<h3 id="六filter">
+<h2 id="六filter">
   六、Filter
   <a class="anchor" href="#%e5%85%adfilter">#</a>
-</h3>
+</h2>
 <p>Filter插件允许改变输入数据的结构，例如在Kubernetes集群中，我们需要日志记录应用的名字以及所在节点，而默认日志未打印该值，我们便可以使用Filter附加该值。详情见<a href="https://fluentbit.io/documentation/0.13/filter/">官方插件</a>信息</p>
-<h3 id="七buffer">
+<h2 id="七buffer">
   七、Buffer
   <a class="anchor" href="#%e4%b8%83buffer">#</a>
-</h3>
+</h2>
 <p>当准备好将数据或日志路由到某个目标位置时，默认情况下会将它们缓冲在内存中。</p>
-<h3 id="八routing">
+<h2 id="八routing">
   八、Routing
   <a class="anchor" href="#%e5%85%abrouting">#</a>
-</h3>
+</h2>
 <p>路由是一项核心功能，可让您通过过滤器将数据路由到一个或多个目的地。路由主要由两个参数控制。</p>
 <ul>
 <li>Tag：当数据由输入插件生成时，它附带一个标签（大多数情况下是手动配置该标签），该标签是人类可读的指示器，有助于识别数据源。</li>
@@ -978,17 +974,17 @@ https://github.com/alex-shpak/hugo-book
     Name   stdout
     Match  my_mem
 </code></pre><p>在上面的配置中，es输出通过Match值my_cpu匹配到输入插件cpu的Tag值，而stdout输出则通过Match值my_mem匹配到输入插件mem的Tag值，所以es输出只接收cpu输出，stdout输出只接收mem输出。</p>
-<h3 id="九output">
+<h2 id="九output">
   九、Output
   <a class="anchor" href="#%e4%b9%9doutput">#</a>
-</h3>
+</h2>
 <p>输出接口允许定义数据的目的地。通用目标是远程服务，本地文件系统或其他标准接口。输出实现为插件，并且有很多可用的插件。
 有关更多详细信息，请参阅“<a href="https://fluentbit.io/documentation/0.13/output/">输出插件</a>”部分。</p>
 <p>Filter</p>
-<h3 id="附录-fluent-bit官方文档">
+<h2 id="附录-fluent-bit官方文档">
   附录 Fluent-bit官方文档
   <a class="anchor" href="#%e9%99%84%e5%bd%95-fluent-bit%e5%ae%98%e6%96%b9%e6%96%87%e6%a1%a3">#</a>
-</h3>
+</h2>
 <p><a href="https://fluentbit.io/documentation/0.13/configuration/file.html">https://fluentbit.io/documentation</a></p>
 </article>
  
@@ -1031,20 +1027,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一概述">一、概述</a></li>
-        <li><a href="#二配置文件">二、配置文件</a></li>
-        <li><a href="#三service">三、Service</a></li>
-        <li><a href="#四input">四、Input</a></li>
-        <li><a href="#五parser">五、Parser</a></li>
-        <li><a href="#六filter">六、Filter</a></li>
-        <li><a href="#七buffer">七、Buffer</a></li>
-        <li><a href="#八routing">八、Routing</a></li>
-        <li><a href="#九output">九、Output</a></li>
-        <li><a href="#附录-fluent-bit官方文档">附录 Fluent-bit官方文档</a></li>
-      </ul>
-    </li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二配置文件">二、配置文件</a></li>
+    <li><a href="#三service">三、Service</a></li>
+    <li><a href="#四input">四、Input</a></li>
+    <li><a href="#五parser">五、Parser</a></li>
+    <li><a href="#六filter">六、Filter</a></li>
+    <li><a href="#七buffer">七、Buffer</a></li>
+    <li><a href="#八routing">八、Routing</a></li>
+    <li><a href="#九output">九、Output</a></li>
+    <li><a href="#附录-fluent-bit官方文档">附录 Fluent-bit官方文档</a></li>
   </ul>
 </nav>
 

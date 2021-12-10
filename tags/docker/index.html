@@ -15,7 +15,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://hnbcao.vip/tags/docker/index.xml" title="HNBCAO" />
 <!--
 Made with Book Theme
@@ -757,9 +757,10 @@ https://github.com/alex-shpak/hugo-book
     <p>Docker Compose安装使用 #  概述 #  Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
 使用Compose基本上是一个三步过程：
  打包应用镜像 使用docker-compose.yml文件定义应用服务 运行docker-compose up 启动服务  如下是一个redis服务的docker-compose.yml文件：
-version: &#39;2.0&#39; services: web: build: . ports: - &#34;5000:5000&#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 #  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
+version: &#39;2.0&#39; services: web: build: . ports: - &#34;5000:5000&#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
 一、安装Docker Compose #  系统环境
    Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose
+# 下载docker-compose-1.25.4并保存至/usr/local/bin/目录下 sudo curl -L &#34;https://github.
         <a href="/docs/container/docker/docker-compose-installation/">...</a>
       
     </p>

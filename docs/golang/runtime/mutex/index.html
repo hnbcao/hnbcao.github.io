@@ -29,7 +29,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -672,7 +672,10 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#概述">概述</a></li>
     <li><a href="#互斥锁mutex">互斥锁（Mutex）</a>
       <ul>
-        <li></li>
+        <li><a href="#正常模式和饥饿模式">正常模式和饥饿模式</a></li>
+        <li><a href="#加锁和解锁">加锁和解锁</a></li>
+        <li><a href="#自旋的条件">自旋的条件</a></li>
+        <li><a href="#小结">小结</a></li>
       </ul>
     </li>
     <li><a href="#读写锁rwmutex">读写锁（RWMutex）</a></li>
@@ -701,17 +704,17 @@ https://github.com/alex-shpak/hugo-book
   互斥锁（Mutex）
   <a class="anchor" href="#%e4%ba%92%e6%96%a5%e9%94%81mutex">#</a>
 </h2>
-<h4 id="正常模式和饥饿模式">
+<h3 id="正常模式和饥饿模式">
   正常模式和饥饿模式
   <a class="anchor" href="#%e6%ad%a3%e5%b8%b8%e6%a8%a1%e5%bc%8f%e5%92%8c%e9%a5%a5%e9%a5%bf%e6%a8%a1%e5%bc%8f">#</a>
-</h4>
+</h3>
 <p><a href="https://draveness.me/golang/tree/sync.Mutex"><code>sync.Mutex</code></a> 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。</p>
 <p>在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。</p>
 <p>在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。</p>
-<h4 id="加锁和解锁">
+<h3 id="加锁和解锁">
   加锁和解锁
   <a class="anchor" href="#%e5%8a%a0%e9%94%81%e5%92%8c%e8%a7%a3%e9%94%81">#</a>
-</h4>
+</h3>
 <p>如果互斥锁的状态不是 0 时就会调用 <a href="https://draveness.me/golang/tree/sync.Mutex.lockSlow"><code>sync.Mutex.lockSlow</code></a> 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：</p>
 <ol>
 <li>判断当前 Goroutine 能否进入自旋；</li>
@@ -719,10 +722,10 @@ https://github.com/alex-shpak/hugo-book
 <li>计算互斥锁的最新状态；</li>
 <li>更新互斥锁的状态并获取锁；</li>
 </ol>
-<h4 id="自旋的条件">
+<h3 id="自旋的条件">
   自旋的条件
   <a class="anchor" href="#%e8%87%aa%e6%97%8b%e7%9a%84%e6%9d%a1%e4%bb%b6">#</a>
-</h4>
+</h3>
 <p>Goroutine 进入自旋的条件非常苛刻：</p>
 <ol>
 <li>互斥锁只有在普通模式才能进入自旋；</li>
@@ -735,10 +738,10 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ol>
 <p>一旦当前 Goroutine 能够进入自旋就会调用<code>runtime.sync_runtime_doSpin</code>和 <code>runtime.procyield</code>并执行 30 次的 <code>PAUSE</code> 指令，该指令只会占用 CPU 并消耗 CPU 时间：</p>
-<h4 id="小结">
+<h3 id="小结">
   小结
   <a class="anchor" href="#%e5%b0%8f%e7%bb%93">#</a>
-</h4>
+</h3>
 <p>我们已经从多个方面分析了互斥锁 <code>sync.Mutex</code> 的实现原理，这里我们从加锁和解锁两个方面总结注意事项。</p>
 <p>互斥锁的加锁过程比较复杂，它涉及自旋、信号量以及调度等概念：</p>
 <ul>
@@ -802,7 +805,10 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#概述">概述</a></li>
     <li><a href="#互斥锁mutex">互斥锁（Mutex）</a>
       <ul>
-        <li></li>
+        <li><a href="#正常模式和饥饿模式">正常模式和饥饿模式</a></li>
+        <li><a href="#加锁和解锁">加锁和解锁</a></li>
+        <li><a href="#自旋的条件">自旋的条件</a></li>
+        <li><a href="#小结">小结</a></li>
       </ul>
     </li>
     <li><a href="#读写锁rwmutex">读写锁（RWMutex）</a></li>

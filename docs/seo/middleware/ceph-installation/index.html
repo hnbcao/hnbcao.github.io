@@ -17,7 +17,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -657,15 +657,11 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一集群规划">一、集群规划</a></li>
-        <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
-        <li><a href="#三节点准备">三、节点准备</a></li>
-        <li><a href="#四集群安装">四、集群安装</a></li>
-        <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
-      </ul>
-    </li>
+    <li><a href="#一集群规划">一、集群规划</a></li>
+    <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
+    <li><a href="#三节点准备">三、节点准备</a></li>
+    <li><a href="#四集群安装">四、集群安装</a></li>
+    <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
   </ul>
 </nav>
 
@@ -682,10 +678,10 @@ https://github.com/alex-shpak/hugo-book
   CephFS集群安装
   <a class="anchor" href="#cephfs%e9%9b%86%e7%be%a4%e5%ae%89%e8%a3%85">#</a>
 </h1>
-<h3 id="一集群规划">
+<h2 id="一集群规划">
   一、集群规划
   <a class="anchor" href="#%e4%b8%80%e9%9b%86%e7%be%a4%e8%a7%84%e5%88%92">#</a>
-</h3>
+</h2>
 <table>
 <thead>
 <tr>
@@ -716,10 +712,10 @@ https://github.com/alex-shpak/hugo-book
 </tr>
 </tbody>
 </table>
-<h3 id="二安装ceph-deploy">
+<h2 id="二安装ceph-deploy">
   二、安装ceph-deploy
   <a class="anchor" href="#%e4%ba%8c%e5%ae%89%e8%a3%85ceph-deploy">#</a>
-</h3>
+</h2>
 <ol>
 <li>Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:</li>
 </ol>
@@ -756,10 +752,10 @@ https://github.com/alex-shpak/hugo-book
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo yum install python-setuptools
 sudo yum install ceph-deploy
-</code></pre></div><h3 id="三节点准备">
+</code></pre></div><h2 id="三节点准备">
   三、节点准备
   <a class="anchor" href="#%e4%b8%89%e8%8a%82%e7%82%b9%e5%87%86%e5%a4%87">#</a>
-</h3>
+</h2>
 <p>以下操作需在所有节点进行。</p>
 <ol>
 <li>免密登录</li>
@@ -787,10 +783,10 @@ sed -i <span style="color:#e6db74">&#34;s/SELINUX=enforcing/SELINUX=disabled/g&#
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">swapoff -a
 yes | cp /etc/fstab /etc/fstab_bak
 cat /etc/fstab_bak |grep -v swap &gt; /etc/fstab
-</code></pre></div><h3 id="四集群安装">
+</code></pre></div><h2 id="四集群安装">
   四、集群安装
   <a class="anchor" href="#%e5%9b%9b%e9%9b%86%e7%be%a4%e5%ae%89%e8%a3%85">#</a>
-</h3>
+</h2>
 <p>以下操作在ceph-deploy节点。</p>
 <ol>
 <li>创建集群</li>
@@ -874,10 +870,10 @@ ceph.bootstrap-rbd-mirror.keyring
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy osd create --data /dev/vdb master1
 ceph-deploy osd create --data /dev/vdb master2
 ceph-deploy osd create --data /dev/vdb master3
-</code></pre></div><h3 id="五创建cephfs文件系统">
+</code></pre></div><h2 id="五创建cephfs文件系统">
   五、创建CephFS文件系统
   <a class="anchor" href="#%e4%ba%94%e5%88%9b%e5%bb%bacephfs%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">#</a>
-</h3>
+</h2>
 <ol>
 <li>部署metadata服务</li>
 </ol>
@@ -929,15 +925,11 @@ ceph fs new mycephfs cephfs_meta cephfs_data
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#一集群规划">一、集群规划</a></li>
-        <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
-        <li><a href="#三节点准备">三、节点准备</a></li>
-        <li><a href="#四集群安装">四、集群安装</a></li>
-        <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
-      </ul>
-    </li>
+    <li><a href="#一集群规划">一、集群规划</a></li>
+    <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
+    <li><a href="#三节点准备">三、节点准备</a></li>
+    <li><a href="#四集群安装">四、集群安装</a></li>
+    <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
   </ul>
 </nav>
 
