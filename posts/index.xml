@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on HNBCAO</title>
+    <link>https://hnbcao.vip/posts/</link>
+    <description>Recent content in Blog on HNBCAO</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-ch</language>
+    <lastBuildDate>Sun, 28 Sep 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About This Blog</title>
+      <link>https://hnbcao.vip/posts/me/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/posts/me/</guid>
+      <description>Introduction 记录工作记录以及学习笔记。</description>
+    </item>
+    
+  </channel>
+</rss>

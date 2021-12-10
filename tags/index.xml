@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on HNBCAO</title>
+    <link>https://hnbcao.vip/tags/</link>
+    <description>Recent content in Tags on HNBCAO</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-ch</language>
+    <lastBuildDate>Tue, 16 Jun 2020 14:16:38 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes</title>
+      <link>https://hnbcao.vip/tags/kubernetes/</link>
+      <pubDate>Tue, 16 Jun 2020 14:16:38 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>容器化</title>
+      <link>https://hnbcao.vip/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/</link>
+      <pubDate>Tue, 16 Jun 2020 14:16:38 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>运维</title>
+      <link>https://hnbcao.vip/tags/%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Tue, 16 Jun 2020 14:16:38 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/%E8%BF%90%E7%BB%B4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://hnbcao.vip/tags/docker/</link>
+      <pubDate>Tue, 17 Mar 2020 15:42:28 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker-compose</title>
+      <link>https://hnbcao.vip/tags/docker-compose/</link>
+      <pubDate>Tue, 17 Mar 2020 15:42:28 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/docker-compose/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bugs</title>
+      <link>https://hnbcao.vip/tags/bugs/</link>
+      <pubDate>Thu, 02 Jan 2020 09:17:08 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/bugs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes优化</title>
+      <link>https://hnbcao.vip/tags/kubernetes%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Tue, 31 Dec 2019 17:31:17 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/tags/kubernetes%E4%BC%98%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

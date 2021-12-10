@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>进阶知识 on HNBCAO</title>
+    <link>https://hnbcao.vip/docs/golang/advanced/</link>
+    <description>Recent content in 进阶知识 on HNBCAO</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-ch</language><atom:link href="https://hnbcao.vip/docs/golang/advanced/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>逃逸分析</title>
+      <link>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</guid>
+      <description>逃逸分析 什么是逃逸分析？ 逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+在函数中申请一个新的对象：
+ 如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
+逃逸场景 指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+  指针逃逸： Go可以返回局部变量指针，示例代码如下：
+package main type User struct { Name string } func main() { user := structFunc() user.Name = &amp;#34;2&amp;#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;amp;User{ Name: &amp;#34;123&amp;#34;, } user.Name = &amp;#34;234&amp;#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
+  动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
+如下代码所示：
+package main import &amp;#34;fmt&amp;#34; func main() { s := &amp;#34;Escape&amp;#34; fmt.</description>
+    </item>
+    
+  </channel>
+</rss>
