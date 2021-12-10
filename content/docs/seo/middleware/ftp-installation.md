@@ -8,13 +8,13 @@ weight: 33
 
 - 系统： centos 7.4
 
-### 一、安装vsftpd
+## 一、安装vsftpd
 
 ```sh
 yum -y install vsftpd
 ```
 
-### 二、配置服务
+## 二、配置服务
 
 ```sh
 [root@ecs-7fd0 vsftpd]# cat /etc/vsftpd/vsftpd.conf
@@ -52,13 +52,13 @@ tcp_wrappers=YES
 
 ```
 
-### 三、创建ftpuser账户
+## 三、创建ftpuser账户
 
 ```sh
 useradd -d /home/ftpuser -s /sbin/nologin ftpuser
 ```
 
-### 三、虚拟用户
+## 三、虚拟用户
 
 - 设置pam策略
 

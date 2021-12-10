@@ -5,13 +5,13 @@ weight: 31
 
 # canal安装部署
 
-### 一、概述
+## 一、概述
 
 canal版本：1.1.5
 
-### 二、安装Zookeeper
+## 二、安装Zookeeper
 
-### 三、MySQL配置
+## 三、MySQL配置
 
 - 对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下
 
@@ -31,7 +31,7 @@ GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 FLUSH PRIVILEGES;
 ```
 
-### 四、部署canal-admin
+## 四、部署canal-admin
 
 - canal-admin设计上是为canal提供整体配置管理、节点运维等面向运维的功能，提供相对友好的WebUI操作界面，方便更多用户快速和安全的操作
 
@@ -258,7 +258,7 @@ vi logs/admin.log
 >
 > 2.新建完成之后点击集群操作按钮下拉选择主配置，然后在新页面点击载入模板并保存
 
-### 五、启动canal-deployer
+## 五、启动canal-deployer
 
 - 下载 canal, 访问 release 页面 , 选择需要的包下载, 选择 1.1.5 版本
 
@@ -315,7 +315,7 @@ sh bin/startup.sh
 
 启动成功后，会在admin ui上看到新增的节点。
 
-### 六、创建实例（Instance）
+## 六、创建实例（Instance）
 
 * canal admin web页面上选择Instance管理，新建实例，选择集群，设置instance名称，点击载入模版。模版中需要修改以下几项。
 

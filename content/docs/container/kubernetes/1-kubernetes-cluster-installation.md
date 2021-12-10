@@ -32,7 +32,7 @@ tags:
 - metrics插件：metrics-server
 - 界面：kubernetes-dashboard
 
-### 一、环境概述
+## 一、环境概述
 
 | Host Name | Role | IP |
 | ------ | ------ | ------ |
@@ -43,7 +43,7 @@ tags:
 | node2 | node2 | 192.168.56.107 |
 | node3 | node3 | 192.168.56.108 |
 
-### 二、离线仓库制作（可选）
+## 二、离线仓库制作（可选）
 
 具体制作方式见：[CentOS离线镜像仓库创建](https://hnbcao.vip/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/)
 
@@ -139,7 +139,7 @@ EOF
 
 
 
-### 三、软件安装
+## 三、软件安装
 
 ```sh
 
@@ -173,7 +173,7 @@ yum install wget
 
 ```
 
-### 四、节点系统配置
+## 四、节点系统配置
 
 * 关闭SELinux、防火墙
 
@@ -308,7 +308,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx
 
 **、 Kubernetes要求集群中所有机器具有不同的Mac地址、产品uuid、Hostname。
 
-### 五、keepalived+haproxy配置
+## 五、keepalived+haproxy配置
 
 ```sh
 cd ~/
@@ -429,7 +429,7 @@ systemctl enable haproxy
 systemctl start haproxy
 ```
 
-### 六、部署HA Master
+## 六、部署HA Master
 
 HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;
 
@@ -510,7 +510,7 @@ ssh ${ip} "${JOIN_CMD} --control-plane"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh)"
 ```
 
-### 七、加入节点
+## 七、加入节点
 
 * 节点加入命令获取
 
@@ -518,7 +518,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master
 #master节点执行该命令，再在节点执行获取到的命令
 kubeadm token create --print-join-command
 ```
-### 八、结束安装
+## 八、结束安装
 
 此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问[calico官网](https://www.projectcalico.org/)，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。
 

@@ -3,7 +3,7 @@ title: Spring Kafka参数配置详情
 ---
 # Spring Kafka参数配置详情
 
-### 一、全局配置
+## 一、全局配置
 
 ```
 # 用逗号分隔的主机:端口对列表，用于建立到Kafka群集的初始连接。覆盖全局连接设置属性
@@ -15,7 +15,7 @@ spring.kafka.properties.*
 # 消息发送的默认主题，默认无
 spring.kafka.template.default-topic
 ```
-### 二、生产者
+## 二、生产者
 
 
 Spring Boot中，Kafka 生产者相关配置(所有配置前缀为spring.kafka.producer.)：
@@ -50,7 +50,7 @@ spring.kafka.producer.transaction-id-prefix
 spring.kafka.producer.value-serializer
 ```
 
-### 三、消费者
+## 三、消费者
 
 Spring Boot中，Kafka 消费者相关配置(所有配置前缀为spring.kafka.consumer.)：
 
@@ -104,7 +104,7 @@ spring.kafka.consumer.ssl.trust-store-type
 spring.kafka.consumer.value-deserializer
 ```
 
-### 四、监听器
+## 四、监听器
 
 Spring Boot中，Kafka Listener相关配置(所有配置前缀为spring.kafka.listener.)：
 
@@ -127,7 +127,7 @@ spring.kafka.listener.poll-timeout
 spring.kafka.listener.type
 ```
 
-### 五、管理
+## 五、管理
 
 ```yml
 spring.kafka.admin.client-id
@@ -144,7 +144,7 @@ spring.kafka.admin.ssl.trust-store-password
 spring.kafka.admin.ssl.trust-store-type
 ```
 
-### 六、授权服务(JAAS)
+## 六、授权服务(JAAS)
 
 ```yml
 spring.kafka.jaas.control-flag=required
@@ -153,7 +153,7 @@ spring.kafka.jaas.login-module=com.sun.security.auth.module.Krb5LoginModule
 spring.kafka.jaas.options.*
 ```
 
-### 七、SSL认证
+## 七、SSL认证
 
 ```yml
 spring.kafka.ssl.key-password
@@ -166,7 +166,7 @@ spring.kafka.ssl.trust-store-password
 spring.kafka.ssl.trust-store-type
 ```
 
-### 八、Stream流处理
+## 八、Stream流处理
 
 ```yml
 spring.kafka.streams.application-id

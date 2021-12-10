@@ -4,7 +4,7 @@ weight: 32
 ---
 # CephFS集群安装
 
-### 一、集群规划
+## 一、集群规划
 
 | 节点 | ip | os | 节点说明 | 
 | - | - | - | - | 
@@ -12,7 +12,7 @@ weight: 32
 | master2 | 10.73.13.60 | centos7.4 | mon+rgw+manger节点 | 
 | master3 | 10.73.13.59 | centos7.4 | mon+rgw+manger节点 | 
 
-### 二、安装ceph-deploy
+## 二、安装ceph-deploy
 
 1. Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:
 
@@ -55,7 +55,7 @@ sudo yum install python-setuptools
 sudo yum install ceph-deploy
 ```
 
-### 三、节点准备
+## 三、节点准备
 
 以下操作需在所有节点进行。
 
@@ -93,7 +93,7 @@ yes | cp /etc/fstab /etc/fstab_bak
 cat /etc/fstab_bak |grep -v swap > /etc/fstab
 ```
 
-### 四、集群安装
+## 四、集群安装
 
 以下操作在ceph-deploy节点。
 
@@ -196,7 +196,7 @@ ceph-deploy osd create --data /dev/vdb master2
 ceph-deploy osd create --data /dev/vdb master3
 ```
 
-### 五、创建CephFS文件系统
+## 五、创建CephFS文件系统
 
 1. 部署metadata服务
 

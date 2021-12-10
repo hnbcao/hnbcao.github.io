@@ -5,7 +5,7 @@ weight: 21
 
 # 设计模式简介
 
-#### 设计模式原则
+### 设计模式原则
 
 - **开闭原则**：开闭原则（Open Closed Principle，OCP）由勃兰特·梅耶（Bertrand Meyer）提出，他在 1988 年的著作《面向对象软件构造》（Object Oriented Software Construction）中提出：**软件实体应当对扩展开放，对修改关闭（Software entities should be open for extension，but closed for modification）**，这就是开闭原则的经典定义。
 
@@ -21,7 +21,7 @@ weight: 21
 
 - **合成复用原则**：合成复用原则（Composite Reuse Principle，CRP）又叫组合/聚合复用原则（Composition/Aggregate Reuse Principle，CARP）。它要求在软件复用时，要**尽量先使用组合或者聚合等关联关系来实现，其次才考虑使用继承关系来实现**。
 
-#### 设计模式分类
+### 设计模式分类
 
 1. 根据目的来分
 
@@ -85,7 +85,7 @@ weight: 21
     - 备忘录（Memento）模式：在不破坏封装性的前提下，获取并保存一个对象的内部状态，以便以后恢复它。
 - 解释器（Interpreter）模式：提供如何定义语言的文法，以及对语言句子的解释方法，即解释器。
 
-#### 设计模式使用频次总结
+### 设计模式使用频次总结
 
 - 创建型模式(Creational)
 
@@ -105,7 +105,7 @@ weight: 21
 
   低频： 备忘录模式(Memento ) 、 观察者模式(Observer) s 迭代器模式(Iterator) s 中介者模式(Mediator)、命令模式(Command ) 、解释器模式( Interpreter) 、访问者模式(Visitor)
 
-#### 模式对比
+### 模式对比
 
 **创建型模式**：
 

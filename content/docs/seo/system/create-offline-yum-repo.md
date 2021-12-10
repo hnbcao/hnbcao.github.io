@@ -5,13 +5,13 @@ weight: 31
 
 # CentOS离线镜像仓库创建-以base仓库为例
 
-### 一、安装相关软件
+## 一、安装相关软件
 
 ```sh
 yum install createrepo  reposync  yum-utils -y
 ```
 
-### 二、替换镜像源
+## 二、替换镜像源
 
 1. 备份
 
@@ -35,7 +35,7 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos
 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
-### 三、同步镜像&创建本地仓库
+## 三、同步镜像&创建本地仓库
 
 ```sh
 # 新建文件夹，存储同步的仓库数据
@@ -46,7 +46,7 @@ reposync -r base -p ./
 cd base && createrepo ./
 ```
 
-### 四、离线服务器使用
+## 四、离线服务器使用
 
 1. 将同步的镜像仓库打包到离线服务器上，并解压至/mnt/yum.repo/base/下
 
@@ -68,7 +68,7 @@ gpgcheck=0
 ```
 4. 运行 yum makecache 生成缓存
 
-### 五、定时同步脚本
+## 五、定时同步脚本
 
 - 该脚本同步kubernetes相关yum rpm源，定时同步使用crontab 加入该脚本即可，手动同步直接运行该脚本。脚本需要放置在本地保存yum源所在的目录。
 
