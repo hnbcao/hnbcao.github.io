@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="canal安装部署 #  一、概述 #  canal版本：1.1.5
+二、安装Zookeeper #  三、MySQL配置 #   对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下  [mysqld] log-bin=mysql-bin # 开启 binlog binlog-format=ROW # 选择 ROW 模式 server_id=1 # 配置 MySQL replaction 需要定义，不要和 canal 的 slaveId 重复  授权 canal 链接 MySQL 账号具有作为 MySQL slave 的权限, 如果已有账户可直接 grant  CREATE USER canal IDENTIFIED BY &#39;canal&#39;; GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Canal安装部署" />
+<meta property="og:description" content="canal安装部署 #  一、概述 #  canal版本：1.1.5
+二、安装Zookeeper #  三、MySQL配置 #   对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下  [mysqld] log-bin=mysql-bin # 开启 binlog binlog-format=ROW # 选择 ROW 模式 server_id=1 # 配置 MySQL replaction 需要定义，不要和 canal 的 slaveId 重复  授权 canal 链接 MySQL 账号具有作为 MySQL slave 的权限, 如果已有账户可直接 grant  CREATE USER canal IDENTIFIED BY &#39;canal&#39;; GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/seo/middleware/canal-installation/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Canal安装部署 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle" checked />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class=" active">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Canal安装部署</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一概述">一、概述</a></li>
+        <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
+        <li><a href="#三mysql配置">三、MySQL配置</a></li>
+        <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
+        <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
+        <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="canal安装部署">
+  canal安装部署
+  <a class="anchor" href="#canal%e5%ae%89%e8%a3%85%e9%83%a8%e7%bd%b2">#</a>
+</h1>
+<h3 id="一概述">
+  一、概述
+  <a class="anchor" href="#%e4%b8%80%e6%a6%82%e8%bf%b0">#</a>
+</h3>
+<p>canal版本：1.1.5</p>
+<h3 id="二安装zookeeper">
+  二、安装Zookeeper
+  <a class="anchor" href="#%e4%ba%8c%e5%ae%89%e8%a3%85zookeeper">#</a>
+</h3>
+<h3 id="三mysql配置">
+  三、MySQL配置
+  <a class="anchor" href="#%e4%b8%89mysql%e9%85%8d%e7%bd%ae">#</a>
+</h3>
+<ul>
+<li>对于自建 MySQL , 需要先开启 Binlog 写入功能，配置 binlog-format 为 ROW 模式，my.cnf 中配置如下</li>
+</ul>
+<pre tabindex="0"><code>[mysqld]
+log-bin=mysql-bin # 开启 binlog
+binlog-format=ROW # 选择 ROW 模式
+server_id=1 # 配置 MySQL replaction 需要定义，不要和 canal 的 slaveId 重复
+</code></pre><ul>
+<li>授权 canal 链接 MySQL 账号具有作为 MySQL slave 的权限, 如果已有账户可直接 grant</li>
+</ul>
+<pre tabindex="0"><code>CREATE USER canal IDENTIFIED BY 'canal';  
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
+-- GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' ;
+FLUSH PRIVILEGES;
+</code></pre><h3 id="四部署canal-admin">
+  四、部署canal-admin
+  <a class="anchor" href="#%e5%9b%9b%e9%83%a8%e7%bd%b2canal-admin">#</a>
+</h3>
+<ul>
+<li>
+<p>canal-admin设计上是为canal提供整体配置管理、节点运维等面向运维的功能，提供相对友好的WebUI操作界面，方便更多用户快速和安全的操作</p>
+<p>依赖：MySQL，用于存储配置和节点等相关数据</p>
+</li>
+<li>
+<p>部署</p>
+</li>
+</ul>
+<ol>
+<li>下载 canal-admin, 访问 release 页面 , 选择需要的包下载, 如以 1.1.5 版本为例</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://github.com/alibaba/canal/releases/download/canal-1.1.5/canal.admin-1.1.5.tar.gz
+</code></pre></div><ol start="2">
+<li>解压缩</li>
+</ol>
+<pre tabindex="0"><code>export CANAL_DIR=/data/xxxx
+mkdir ${CANAL_DIR}/canal-admin
+tar zxvf canal.admin-$version.tar.gz  -C ${CANAL_DIR}/canal-admin
+</code></pre><p>解压完成后，进入 ${CANAL_DIR}/canal 目录，可以看到如下结构</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">drwxr-xr-x   <span style="color:#ae81ff">6</span> agapple  staff   204B  <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">31</span> 15:37 bin
+drwxr-xr-x   <span style="color:#ae81ff">8</span> agapple  staff   272B  <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">31</span> 15:37 conf
+drwxr-xr-x  <span style="color:#ae81ff">90</span> agapple  staff   3.0K  <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">31</span> 15:37 lib
+drwxr-xr-x   <span style="color:#ae81ff">2</span> agapple  staff    68B  <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">31</span> 15:26 logs
+</code></pre></div><ol start="3">
+<li>配置修改</li>
+</ol>
+<p>cannal服务本身需要使用mysql存储数据，与cannal监控的mysql可以不是同一个。</p>
+<p>需要修改的部分为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">spring.datasource</span>:
+  <span style="color:#f92672">address</span>: <span style="color:#ae81ff">127.0.0.1</span>:<span style="color:#ae81ff">3307</span>
+  <span style="color:#f92672">database</span>: <span style="color:#ae81ff">canal_manager</span>
+  <span style="color:#f92672">username</span>: <span style="color:#ae81ff">root</span>
+  <span style="color:#f92672">password</span>: <span style="color:#ae81ff">123</span>@<span style="color:#ae81ff">DataBench</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># vi conf/application.yml</span>
+<span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8089</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">jackson</span>:
+    <span style="color:#f92672">date-format</span>: <span style="color:#ae81ff">yyyy-MM-dd HH:mm:ss</span>
+    <span style="color:#f92672">time-zone</span>: <span style="color:#ae81ff">GMT+8</span>
+
+<span style="color:#f92672">spring.datasource</span>:
+  <span style="color:#f92672">address</span>: <span style="color:#ae81ff">127.0.0.1</span>:<span style="color:#ae81ff">3307</span>
+  <span style="color:#f92672">database</span>: <span style="color:#ae81ff">canal_manager</span>
+  <span style="color:#f92672">username</span>: <span style="color:#ae81ff">root</span>
+  <span style="color:#f92672">password</span>: <span style="color:#ae81ff">123</span>@<span style="color:#ae81ff">DataBench</span>
+  <span style="color:#f92672">driver-class-name</span>: <span style="color:#ae81ff">com.mysql.jdbc.Driver</span>
+  <span style="color:#f92672">url</span>: <span style="color:#ae81ff">jdbc:mysql://${spring.datasource.address}/${spring.datasource.database}?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false</span>
+  <span style="color:#f92672">hikari</span>:
+    <span style="color:#f92672">maximum-pool-size</span>: <span style="color:#ae81ff">30</span>
+    <span style="color:#f92672">minimum-idle</span>: <span style="color:#ae81ff">1</span>
+
+<span style="color:#f92672">canal</span>:
+  <span style="color:#f92672">adminUser</span>: <span style="color:#ae81ff">admin</span>
+  <span style="color:#f92672">adminPasswd</span>: <span style="color:#ae81ff">123</span>@<span style="color:#ae81ff">DataBench </span> <span style="color:#75715e"># 使用mysql调用password函数，查看adminPasswd加密后的结果并记录，后续deployer会用到。</span>
+</code></pre></div><p>** 记住这里的</p>
+<ol start="4">
+<li>初始化元数据库</li>
+</ol>
+<pre tabindex="0"><code>mysql -h127.0.0.1 -uroot -p
+# 导入初始化SQL
+&gt; source conf/canal_manager.sql
+
+</code></pre><p>a. 初始化SQL脚本里会默认创建canal_manager的数据库，建议使用root等有超级权限的账号进行初始化</p>
+<p>b. canal_manager.sql默认会在conf目录下，其内容为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> <span style="color:#75715e">/*!32312 IF NOT EXISTS*/</span> <span style="color:#f92672">`</span>canal_manager<span style="color:#f92672">`</span> <span style="color:#75715e">/*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */</span>;
+
+USE <span style="color:#f92672">`</span>canal_manager<span style="color:#f92672">`</span>;
+
+<span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">NAMES</span> utf8;
+<span style="color:#66d9ef">SET</span> FOREIGN_KEY_CHECKS <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_adapter_config
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_adapter_config<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_adapter_config<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>category<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>status<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>content<span style="color:#f92672">`</span> text <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>modified_time<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_cluster
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_cluster<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_cluster<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">63</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>zk_hosts<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>modified_time<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_config
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_config<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_config<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>cluster_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>server_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>status<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>content<span style="color:#f92672">`</span> text <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>content_md5<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">128</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>modified_time<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>),
+  <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">KEY</span> <span style="color:#f92672">`</span>sid_UNIQUE<span style="color:#f92672">`</span> (<span style="color:#f92672">`</span>server_id<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_instance_config
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_instance_config<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_instance_config<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>cluster_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>server_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>status<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>content<span style="color:#f92672">`</span> text <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>content_md5<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">128</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>modified_time<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>),
+  <span style="color:#66d9ef">UNIQUE</span> <span style="color:#66d9ef">KEY</span> <span style="color:#f92672">`</span>name_UNIQUE<span style="color:#f92672">`</span> (<span style="color:#f92672">`</span>name<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_node_server
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_node_server<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_node_server<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>cluster_id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">63</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>ip<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">63</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>admin_port<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>tcp_port<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>metric_port<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>status<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">45</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>modified_time<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for canal_user
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>canal_user<span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>canal_user<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>id<span style="color:#f92672">`</span> bigint(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>username<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">31</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>password<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">128</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">31</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>roles<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">31</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>introduction<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>avatar<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>creation_date<span style="color:#f92672">`</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span> <span style="color:#66d9ef">ON</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>id<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>utf8;
+
+<span style="color:#66d9ef">SET</span> FOREIGN_KEY_CHECKS <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Records of canal_user
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">BEGIN</span>;
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">`</span>canal_user<span style="color:#f92672">`</span> <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">&#39;6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9&#39;</span>, <span style="color:#e6db74">&#39;Canal Manager&#39;</span>, <span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#66d9ef">NULL</span>, <span style="color:#66d9ef">NULL</span>, <span style="color:#e6db74">&#39;2019-07-14 00:05:28&#39;</span>);
+<span style="color:#66d9ef">COMMIT</span>;
+
+<span style="color:#66d9ef">SET</span> FOREIGN_KEY_CHECKS <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</code></pre></div><ol start="5">
+<li>启动</li>
+</ol>
+<pre tabindex="0"><code>sh bin/startup.sh
+
+</code></pre><p>查看 admin 日志</p>
+<pre tabindex="0"><code>vi logs/admin.log
+
+2019-08-31 15:43:38.162 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8089 (http)
+2019-08-31 15:43:38.180 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler [&quot;http-nio-8089&quot;]
+2019-08-31 15:43:38.191 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2019-08-31 15:43:38.194 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.29
+....
+2019-08-31 15:43:39.789 [main] INFO  o.s.w.s.m.m.annotation.ExceptionHandlerExceptionResolver - Detected @ExceptionHandler methods in customExceptionHandler
+2019-08-31 15:43:39.825 [main] INFO  o.s.b.a.web.servlet.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+
+</code></pre><p>此时代表canal-admin已经启动成功，可以通过 http://127.0.0.1:8089/ 访问，默认密码：admin/123456</p>
+<ol start="6">
+<li>配置Canal</li>
+</ol>
+<blockquote>
+<p>1.打开canal-admin(http://127.0.0.1:8089)，点击新建集群，填写集群名和zk地址(部署canal-deployer时间使用的zk)</p>
+<p>2.新建完成之后点击集群操作按钮下拉选择主配置，然后在新页面点击载入模板并保存</p>
+</blockquote>
+<h3 id="五启动canal-deployer">
+  五、启动canal-deployer
+  <a class="anchor" href="#%e4%ba%94%e5%90%af%e5%8a%a8canal-deployer">#</a>
+</h3>
+<ul>
+<li>下载 canal, 访问 release 页面 , 选择需要的包下载, 选择 1.1.5 版本</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://github.com/alibaba/canal/releases/download/canal-1.1.5/canal.deployer-1.1.5.tar.gz
+</code></pre></div><ul>
+<li>解压缩</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export CANAL_DIR<span style="color:#f92672">=</span>/data/xxx <span style="color:#75715e"># 自定义</span>
+mkdir <span style="color:#e6db74">${</span>CANAL_DIR<span style="color:#e6db74">}</span>/canal-deployer
+tar zxvf canal.deployer-1.1.5.tar.gz  -C <span style="color:#e6db74">${</span>CANAL_DIR<span style="color:#e6db74">}</span>/canal-deployer
+</code></pre></div><p>解压完成后，进入 ${CANAL_DIR}/canal-deployer 目录，可以看到如下结构</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">drwxr-xr-x <span style="color:#ae81ff">2</span> hnbcao hnbcao  <span style="color:#ae81ff">136</span> 2013-02-05 21:51 bin
+drwxr-xr-x <span style="color:#ae81ff">4</span> hnbcao hnbcao  <span style="color:#ae81ff">160</span> 2013-02-05 21:51 conf
+drwxr-xr-x <span style="color:#ae81ff">2</span> hnbcao hnbcao 1.3K 2013-02-05 21:51 lib
+drwxr-xr-x <span style="color:#ae81ff">2</span> hnbcao hnbcao   <span style="color:#ae81ff">48</span> 2013-02-05 21:29 logs
+</code></pre></div><ul>
+<li>将canal_local.properties文件内容覆盖到canal.properties并编辑canal.properties。</li>
+</ul>
+<p><strong><em>需要修改部分</em></strong>：</p>
+<p><em><strong>canal.admin.passwd使用前面admin中application.yml配置的canal.adminPasswd的值使用mysql调用password函数加密后的结果，sql语句为<code>select password('canal.adminPasswd的值');</code></strong></em></p>
+<pre tabindex="0"><code class="language-properties" data-lang="properties"># register ip to zookeeper
+canal.register.ip = 10.75.8.151 # deployer节点所在服务器IP
+canal.port = 11111
+canal.metrics.pull.port = 11112
+canal.zkServers = 10.75.8.152:2181 # 所在集群的zk地址
+
+# canal admin config
+canal.admin.manager = 10.75.8.152:8089 # admin地址
+canal.admin.port = 11110
+canal.admin.user = admin # admin用户名
+canal.admin.passwd = 436ADFAD4F71E49B2E38A8F3A09525B9CD850989 # admin密码，application.yml中配置的密码加密值
+# admin auto register
+canal.admin.register.auto = true
+canal.admin.register.cluster = databench-pro # 集群名，admin部署步骤的最后一步配置中新增的集群名
+canal.admin.register.name = node5 # 服务名
+</code></pre><ul>
+<li>启动canal-deployer</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sh bin/startup.sh
+</code></pre></div><p>启动成功后，会在admin ui上看到新增的节点。</p>
+<h3 id="六创建实例instance">
+  六、创建实例（Instance）
+  <a class="anchor" href="#%e5%85%ad%e5%88%9b%e5%bb%ba%e5%ae%9e%e4%be%8binstance">#</a>
+</h3>
+<ul>
+<li>canal admin web页面上选择Instance管理，新建实例，选择集群，设置instance名称，点击载入模版。模版中需要修改以下几项。</li>
+</ul>
+<p><em><strong>instance名称很重要，连接canal的时候会需要，也就是连接配置destination的值</strong></em></p>
+<pre tabindex="0"><code>canal.instance.master.address=10.73.13.59:31308
+canal.instance.dbUsername=canal_pro
+canal.instance.dbPassword=123@DataBench
+</code></pre><p>他们是需要监控的数据库的连接地址和用户名密码</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一概述">一、概述</a></li>
+        <li><a href="#二安装zookeeper">二、安装Zookeeper</a></li>
+        <li><a href="#三mysql配置">三、MySQL配置</a></li>
+        <li><a href="#四部署canal-admin">四、部署canal-admin</a></li>
+        <li><a href="#五启动canal-deployer">五、启动canal-deployer</a></li>
+        <li><a href="#六创建实例instance">六、创建实例（Instance）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

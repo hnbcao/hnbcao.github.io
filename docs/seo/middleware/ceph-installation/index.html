@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CephFS集群安装 #  一、集群规划 #     节点 ip os 节点说明     master1 10.73.13.61 centos7.4 mon&#43;rgw&#43;manger节点、ceph-deploy   master2 10.73.13.60 centos7.4 mon&#43;rgw&#43;manger节点   master3 10.73.13.59 centos7.4 mon&#43;rgw&#43;manger节点    二、安装ceph-deploy #   Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:  sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 添加ceph仓库（阿里源，同时在所有节点进行如下操作）  cat &lt;&lt; EOM &gt; /etc/yum.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Ceph集群安装" />
+<meta property="og:description" content="CephFS集群安装 #  一、集群规划 #     节点 ip os 节点说明     master1 10.73.13.61 centos7.4 mon&#43;rgw&#43;manger节点、ceph-deploy   master2 10.73.13.60 centos7.4 mon&#43;rgw&#43;manger节点   master3 10.73.13.59 centos7.4 mon&#43;rgw&#43;manger节点    二、安装ceph-deploy #   Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:  sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 添加ceph仓库（阿里源，同时在所有节点进行如下操作）  cat &lt;&lt; EOM &gt; /etc/yum." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Ceph集群安装 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle" checked />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class=" active">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Ceph集群安装</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一集群规划">一、集群规划</a></li>
+        <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
+        <li><a href="#三节点准备">三、节点准备</a></li>
+        <li><a href="#四集群安装">四、集群安装</a></li>
+        <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="cephfs集群安装">
+  CephFS集群安装
+  <a class="anchor" href="#cephfs%e9%9b%86%e7%be%a4%e5%ae%89%e8%a3%85">#</a>
+</h1>
+<h3 id="一集群规划">
+  一、集群规划
+  <a class="anchor" href="#%e4%b8%80%e9%9b%86%e7%be%a4%e8%a7%84%e5%88%92">#</a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>ip</th>
+<th>os</th>
+<th>节点说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master1</td>
+<td>10.73.13.61</td>
+<td>centos7.4</td>
+<td>mon+rgw+manger节点、ceph-deploy</td>
+</tr>
+<tr>
+<td>master2</td>
+<td>10.73.13.60</td>
+<td>centos7.4</td>
+<td>mon+rgw+manger节点</td>
+</tr>
+<tr>
+<td>master3</td>
+<td>10.73.13.59</td>
+<td>centos7.4</td>
+<td>mon+rgw+manger节点</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二安装ceph-deploy">
+  二、安装ceph-deploy
+  <a class="anchor" href="#%e4%ba%8c%e5%ae%89%e8%a3%85ceph-deploy">#</a>
+</h3>
+<ol>
+<li>Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+</code></pre></div><ol start="2">
+<li>添加ceph仓库（阿里源，同时在所有节点进行如下操作）</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat <span style="color:#e6db74">&lt;&lt; EOM &gt; /etc/yum.repos.d/ceph.repo
+</span><span style="color:#e6db74">[Ceph]
+</span><span style="color:#e6db74">name=Ceph packages for $basearch
+</span><span style="color:#e6db74">baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/$basearch
+</span><span style="color:#e6db74">enabled=1
+</span><span style="color:#e6db74">gpgcheck=1
+</span><span style="color:#e6db74">type=rpm-md
+</span><span style="color:#e6db74">gpgkey=https://download.ceph.com/keys/release.asc
+</span><span style="color:#e6db74">priority=1
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Ceph-noarch]
+</span><span style="color:#e6db74">name=Ceph noarch packages
+</span><span style="color:#e6db74">baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/noarch
+</span><span style="color:#e6db74">enabled=1
+</span><span style="color:#e6db74">gpgcheck=1
+</span><span style="color:#e6db74">type=rpm-md
+</span><span style="color:#e6db74">gpgkey=https://download.ceph.com/keys/release.asc
+</span><span style="color:#e6db74">priority=1
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[ceph-source]
+</span><span style="color:#e6db74">name=Ceph source packages
+</span><span style="color:#e6db74">baseurl=https://mirrors.aliyun.com/ceph/rpm-mimic/el7/SRPMS
+</span><span style="color:#e6db74">enabled=1
+</span><span style="color:#e6db74">EOM</span>
+</code></pre></div><ol start="3">
+<li>安装python-setuptools、ceph-deploy</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo yum install python-setuptools
+sudo yum install ceph-deploy
+</code></pre></div><h3 id="三节点准备">
+  三、节点准备
+  <a class="anchor" href="#%e4%b8%89%e8%8a%82%e7%82%b9%e5%87%86%e5%a4%87">#</a>
+</h3>
+<p>以下操作需在所有节点进行。</p>
+<ol>
+<li>免密登录</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 1、三次回车后，密钥生成完成</span>
+ssh-keygen
+<span style="color:#75715e"># 2、拷贝密钥到其他节点</span>
+ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx
+</code></pre></div><ol start="2">
+<li>时间同步</li>
+</ol>
+<p>网上教程很多，具体可参考网上文档。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo yum install ntpdate
+ntpdate -u ntp.api.bz
+</code></pre></div><ol start="3">
+<li>关闭SELinux、防火墙</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl stop firewalld
+systemctl disable firewalld
+setenforce <span style="color:#ae81ff">0</span>
+sed -i <span style="color:#e6db74">&#34;s/SELINUX=enforcing/SELINUX=disabled/g&#34;</span> /etc/selinux/config
+</code></pre></div><ol start="4">
+<li>关闭系统的Swap（Kubernetes 1.8开始要求）</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">swapoff -a
+yes | cp /etc/fstab /etc/fstab_bak
+cat /etc/fstab_bak |grep -v swap &gt; /etc/fstab
+</code></pre></div><h3 id="四集群安装">
+  四、集群安装
+  <a class="anchor" href="#%e5%9b%9b%e9%9b%86%e7%be%a4%e5%ae%89%e8%a3%85">#</a>
+</h3>
+<p>以下操作在ceph-deploy节点。</p>
+<ol>
+<li>创建集群</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir /etc/ceph <span style="color:#f92672">&amp;&amp;</span> cd /etc/ceph
+<span style="color:#75715e"># ceph-deploy new {initial-monitor-node(s)}</span>
+ceph-deploy new master1 master2 master3 
+</code></pre></div><ol start="2">
+<li>设置集群配置</li>
+</ol>
+<ul>
+<li>具体集群配置说明，待后续更新</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat /etc/ceph/ceph.conf
+<span style="color:#f92672">[</span>global<span style="color:#f92672">]</span>
+public_network <span style="color:#f92672">=</span> 10.73.13.0/16
+cluster_network <span style="color:#f92672">=</span> 10.73.13.0/16
+
+fsid <span style="color:#f92672">=</span> 464c2aa2-7426-4d6b-a0ae-961d1589ee53
+mon_initial_members <span style="color:#f92672">=</span> master1, master2, master3
+mon_host <span style="color:#f92672">=</span> 10.73.13.61,10.73.13.60,10.73.13.59
+auth_cluster_required <span style="color:#f92672">=</span> cephx
+auth_service_required <span style="color:#f92672">=</span> cephx
+auth_client_required <span style="color:#f92672">=</span> cephx
+
+osd_pool_default_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+osd_pool_default_min_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+osd_pool_default_pg_num <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+osd_pool_default_pgp_num <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+osd_crush_chooseleaf_type <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#f92672">[</span>mon<span style="color:#f92672">]</span>
+mon_clock_drift_allowed <span style="color:#f92672">=</span> 0.5
+mon allow pool delete <span style="color:#f92672">=</span> true
+
+<span style="color:#f92672">[</span>osd<span style="color:#f92672">]</span>
+osd_mkfs_type <span style="color:#f92672">=</span> xfs
+osd_mkfs_options_xfs <span style="color:#f92672">=</span> -f
+filestore_max_sync_interval <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+filestore_min_sync_interval <span style="color:#f92672">=</span> 0.1
+filestore_fd_cache_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">655350</span>
+filestore_omap_header_cache_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">655350</span>
+filestore_fd_cache_random <span style="color:#f92672">=</span> true
+osd op threads <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+osd disk threads <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+filestore op threads <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+max_open_files <span style="color:#f92672">=</span> <span style="color:#ae81ff">655350</span>
+
+<span style="color:#f92672">[</span>mgr<span style="color:#f92672">]</span>
+mgr modules <span style="color:#f92672">=</span> dashboard
+
+</code></pre></div><ol start="3">
+<li>为所有节点安装ceph</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># ceph-deploy install {initial-monitor-node(s)} --no-adjust-repos</span>
+<span style="color:#75715e"># --no-adjust-repos参数的意思是不更新节点配置的ceph源，因为在安装ceph-deploy的步骤下已经为节点配置了阿里云的ceph源</span>
+ceph-deploy new master1 master2 master3 --no-adjust-repos
+</code></pre></div><ol start="4">
+<li>初始化节点配置,生产相应的keys</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy mon create-initial
+</code></pre></div><p>完成之后会在/etc/ceph目录下生成以下几个文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph.client.admin.keyring
+ceph.bootstrap-mgr.keyring
+ceph.bootstrap-osd.keyring
+ceph.bootstrap-mds.keyring
+ceph.bootstrap-rgw.keyring
+ceph.bootstrap-rbd.keyring
+ceph.bootstrap-rbd-mirror.keyring
+</code></pre></div><ol start="5">
+<li>拷贝文件至部署节点</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy admin master1 master2 master3
+</code></pre></div><ol start="6">
+<li>部署mgr</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy mgr create master1 master2 master3
+</code></pre></div><ol start="7">
+<li>添加OSD</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy osd create --data /dev/vdb master1
+ceph-deploy osd create --data /dev/vdb master2
+ceph-deploy osd create --data /dev/vdb master3
+</code></pre></div><h3 id="五创建cephfs文件系统">
+  五、创建CephFS文件系统
+  <a class="anchor" href="#%e4%ba%94%e5%88%9b%e5%bb%bacephfs%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">#</a>
+</h3>
+<ol>
+<li>部署metadata服务</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy mds create master1 master2 master3
+</code></pre></div><ol start="2">
+<li>生成CephFS</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph osd pool create cephfs_data <span style="color:#ae81ff">128</span>
+ceph osd pool create cephfs_meta <span style="color:#ae81ff">128</span>
+ceph fs new mycephfs cephfs_meta cephfs_data
+</code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一集群规划">一、集群规划</a></li>
+        <li><a href="#二安装ceph-deploy">二、安装ceph-deploy</a></li>
+        <li><a href="#三节点准备">三、节点准备</a></li>
+        <li><a href="#四集群安装">四、集群安装</a></li>
+        <li><a href="#五创建cephfs文件系统">五、创建CephFS文件系统</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

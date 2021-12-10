@@ -13,13 +13,12 @@
       <pubDate>Tue, 17 Mar 2020 15:42:28 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/docker/docker-compose-installation/</guid>
-      <description>Docker Compose安装使用 概述 Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
+      <description>Docker Compose安装使用 #  概述 #  Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
 使用Compose基本上是一个三步过程：
  打包应用镜像 使用docker-compose.yml文件定义应用服务 运行docker-compose up 启动服务  如下是一个redis服务的docker-compose.yml文件：
-version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:5000&amp;#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
-一、安装Docker Compose 系统环境
-   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose
-# 下载docker-compose-1.25.4并保存至/usr/local/bin/目录下 sudo curl -L &amp;#34;https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)&amp;#34; -o /usr/local/bin/docker-compose # 修改docker-compose权限为可运行 sudo chmod +x /usr/local/bin/docker-compose 二、Compose常用命令简介 本文只介绍在生产环境中经常会用到的几个命令，关于其他命令，可通过“docker-compose help”命令查询，或者查询Docker官方网站</description>
+version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:5000&amp;#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 #  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
+一、安装Docker Compose #  系统环境
+   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose</description>
     </item>
     
     <item>
@@ -28,8 +27,8 @@ version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:50
       <pubDate>Tue, 31 Dec 2019 16:16:02 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/</guid>
-      <description>Kubernetes集群搭建  1、本文基于kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。 2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 3、关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡） 4、关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 5、关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
- 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  一、环境概述    Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.168.56.106   node2 node2 192.</description>
+      <description>Kubernetes集群搭建 #   1、本文基于kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。 2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 3、关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡） 4、关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 5、关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  一、环境概述 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.</description>
     </item>
     
     <item>
@@ -38,8 +37,8 @@ version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:50
       <pubDate>Tue, 31 Dec 2019 17:31:17 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/</guid>
-      <description>安装Cert Manager 一、Installing the Chart https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer(集群内所有命名空间公用方案) apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、创建Issuer(集群内单个命名空间独享方案) apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 四、Ingress应用ClusterIssuer kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.</description>
+      <description>安装Cert Manager #  一、Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
+二、创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 四、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.</description>
     </item>
     
     <item>
@@ -48,7 +47,7 @@ version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:50
       <pubDate>Tue, 31 Dec 2019 17:21:39 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/</guid>
-      <description>部署TraefikIngress 使用OpenSSL创建TLS证书（已有证书则跳过该选项）  设置证书信息  cd ~ &amp;amp;&amp;amp; mkdir tls echo &amp;#34;&amp;#34;&amp;#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp;amp; D Department commonName = Common Name (eg, your name or your server\&amp;#39;s hostname) commonName_value = *.</description>
+      <description>部署TraefikIngress #  使用OpenSSL创建TLS证书（已有证书则跳过该选项） #   设置证书信息  cd ~ &amp;amp;&amp;amp; mkdir tls echo &amp;#34;&amp;#34;&amp;#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp;amp; D Department commonName = Common Name (eg, your name or your server\&amp;#39;s hostname) commonName_value = *.</description>
     </item>
     
     <item>
@@ -57,7 +56,7 @@ version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:50
       <pubDate>Tue, 31 Dec 2019 17:27:30 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/</guid>
-      <description>创建集群用户 1、创建用户
+      <description>创建集群用户 #  1、创建用户
 apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &amp;#34;true&amp;#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 2、获取管理员用户的Token，通过执行如下命令获取系统Token信息
 kubectl describe secret admin-user --namespace=kube-system 3、导入kubeconfig文件
 DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.conf kubectl config set-credentials admin-user --token=$DASH_TOCKEN --kubeconfig=/root/kube-admin.conf kubectl config set-context admin-user@kubernetes --cluster=kubernetes --user=admin-user --kubeconfig=/root/kube-admin.</description>
@@ -69,9 +68,9 @@ DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpa
       <pubDate>Tue, 31 Dec 2019 17:23:44 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/</guid>
-      <description>创建ImagePullSecret 一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件 { &amp;#34;auths&amp;#34;: { &amp;#34;harbor.hnbcao.tech&amp;#34;: { &amp;#34;auth&amp;#34;: &amp;#34;YWRtaW4******lRlY2g=&amp;#34; } }, &amp;#34;HttpHeaders&amp;#34;: { &amp;#34;User-Agent&amp;#34;: &amp;#34;Docker-Client/***&amp;#34; } } 二、执行如下命令创建ImagePullSecret kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
- harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  四、为项目添加ImagePullSecret  Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
-kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao spec: containers: - name: hnbcao image: nginx imagePullSecrets: - name: harbor-admin-secret 结束 附上官网教程：https://kubernetes.</description>
+      <description>创建ImagePullSecret #  一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件 #  { &amp;#34;auths&amp;#34;: { &amp;#34;harbor.hnbcao.tech&amp;#34;: { &amp;#34;auth&amp;#34;: &amp;#34;YWRtaW4******lRlY2g=&amp;#34; } }, &amp;#34;HttpHeaders&amp;#34;: { &amp;#34;User-Agent&amp;#34;: &amp;#34;Docker-Client/***&amp;#34; } } 二、执行如下命令创建ImagePullSecret #  kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
+ harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  四、为项目添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
+kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao spec: containers: - name: hnbcao image: nginx imagePullSecrets: - name: harbor-admin-secret 结束 #  附上官网教程：https://kubernetes.</description>
     </item>
     
     <item>
@@ -80,7 +79,7 @@ kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 
       <pubDate>Thu, 02 Jan 2020 09:17:08 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/</guid>
-      <description>kubernetes集群运行问题记录   集群内部容器无法解析外部DNS
+      <description>kubernetes集群运行问题记录 #    集群内部容器无法解析外部DNS
 原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
 解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
   gitlab迁移之后系统异常
@@ -91,7 +90,7 @@ kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 
 解决办法：
  查看etcd日志，发现有出现关于证书的错误信息。master节点上执行openssl x509 -text -in /etc/kubernetes/pki/etcd/server.crt -noout查看证书的sans。输出证书信息为：  Certificate: ... X509v3 extensions: ... X509v3 Subject Alternative Name: DNS:master1.segma.local, DNS:localhost, IP Address:192.168.1.202, IP Address:127.0.0.1, IP Address:0:0:0:0:0:0:0:1 ... 其中X509v3 Subject Alternative Name项中，DNS和IP地址不包括其他主节点地址，所以证书不完整，需要重新生成证书。
 以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：
-cat &amp;gt; etcd-cert-conf.yaml &amp;lt;&amp;lt;-EOF apiVersion: &amp;#34;kubeadm.k8s.io/v1beta2&amp;#34; kind: ClusterConfiguration kubernetesVersion: ${kubernetesVersion} etcd: local: serverCertSANs: - &amp;#34;master1.segma.local&amp;#34; - &amp;#34;master2.</description>
+cat &amp;gt; etcd-cert-conf.yaml &amp;lt;&amp;lt;-EOF apiVersion: &amp;#34;kubeadm.k8s.io/v1beta2&amp;#34; kind: ClusterConfiguration kubernetesVersion: ${kubernetesVersion} etcd: local: serverCertSANs: - &amp;#34;master1.</description>
     </item>
     
     <item>
@@ -100,7 +99,7 @@ cat &amp;gt; etcd-cert-conf.yaml &amp;lt;&amp;lt;-EOF apiVersion: &amp;#34;kubea
       <pubDate>Tue, 16 Jun 2020 14:16:38 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/</guid>
-      <description>Kubernetes集群GPU共享解决方案 基于阿里云的GPU共享方案 https://github.com/AliyunContainerService/gpushare-scheduler-extender/blob/master/docs/install.md</description>
+      <description>Kubernetes集群GPU共享解决方案 #  基于阿里云的GPU共享方案 #  https://github.com/AliyunContainerService/gpushare-scheduler-extender/blob/master/docs/install.md</description>
     </item>
     
   </channel>

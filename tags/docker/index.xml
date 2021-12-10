@@ -13,13 +13,12 @@
       <pubDate>Tue, 17 Mar 2020 15:42:28 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/container/docker/docker-compose-installation/</guid>
-      <description>Docker Compose安装使用 概述 Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
+      <description>Docker Compose安装使用 #  概述 #  Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
 使用Compose基本上是一个三步过程：
  打包应用镜像 使用docker-compose.yml文件定义应用服务 运行docker-compose up 启动服务  如下是一个redis服务的docker-compose.yml文件：
-version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:5000&amp;#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
-一、安装Docker Compose 系统环境
-   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose
-# 下载docker-compose-1.25.4并保存至/usr/local/bin/目录下 sudo curl -L &amp;#34;https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)&amp;#34; -o /usr/local/bin/docker-compose # 修改docker-compose权限为可运行 sudo chmod +x /usr/local/bin/docker-compose 二、Compose常用命令简介 本文只介绍在生产环境中经常会用到的几个命令，关于其他命令，可通过“docker-compose help”命令查询，或者查询Docker官方网站</description>
+version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:5000&amp;#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 #  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
+一、安装Docker Compose #  系统环境
+   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose</description>
     </item>
     
   </channel>

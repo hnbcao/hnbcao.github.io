@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="逃逸分析 #  什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+在函数中申请一个新的对象：
+ 如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
+逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+  指针逃逸： Go可以返回局部变量指针，示例代码如下：
+package main type User struct { Name string } func main() { user := structFunc() user.Name = &#34;2&#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;User{ Name: &#34;123&#34;, } user.Name = &#34;234&#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
+  动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
+如下代码所示：
+package main import &#34;fmt&#34; func main() { s := &#34;Escape&#34; fmt.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="逃逸分析" />
+<meta property="og:description" content="逃逸分析 #  什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+在函数中申请一个新的对象：
+ 如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
+逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+  指针逃逸： Go可以返回局部变量指针，示例代码如下：
+package main type User struct { Name string } func main() { user := structFunc() user.Name = &#34;2&#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;User{ Name: &#34;123&#34;, } user.Name = &#34;234&#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
+  动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
+如下代码所示：
+package main import &#34;fmt&#34; func main() { s := &#34;Escape&#34; fmt." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" /><meta property="article:section" content="docs" />
+
+
+
+<title>逃逸分析 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle" checked />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class=" active">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle"  />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>逃逸分析</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="逃逸分析">
+  逃逸分析
+  <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90">#</a>
+</h1>
+<h4 id="什么是逃逸分析">
+  什么是逃逸分析？
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90">#</a>
+</h4>
+<p>逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。</p>
+<p>在函数中申请一个新的对象：</p>
+<ul>
+<li>如果分配在栈中，则函数执行结束可自动将内存回收；</li>
+<li>如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;</li>
+</ul>
+<p><strong>逃逸分析针对指针和大对象</strong>：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。</p>
+<h4 id="逃逸场景">
+  逃逸场景
+  <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af">#</a>
+</h4>
+<p>指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。</p>
+<ul>
+<li>
+<p><strong>指针逃逸</strong>： Go可以返回局部变量指针，示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">user</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">structFunc</span>()
+	<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span> = <span style="color:#e6db74">&#34;2&#34;</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">structFunc</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">User</span> {
+	<span style="color:#75715e">// 局部变量user逃逸到堆
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">user</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+		<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;123&#34;</span>,
+	}
+	<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span> = <span style="color:#e6db74">&#34;234&#34;</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">user</span>
+}
+</code></pre></div><p>user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。</p>
+</li>
+<li>
+<p><strong>动态类型逃逸（不确定长度大小）</strong>:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。</p>
+<p>如下代码所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Escape&#34;</span>
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+}
+</code></pre></div></li>
+<li>
+<p><strong>闭包引用对象逃逸</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Fibonacci</span>() <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span> {
+    <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span> {
+        <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> = <span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">a</span><span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
+    }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Fibonacci</span>()
+
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Fibonacci: %d\n&#34;</span>, <span style="color:#a6e22e">f</span>())
+    }
+}
+</code></pre></div><p>Fibonacci()函数中原本属于局部变量的a和b由于闭包的引用，不得不将二者放到堆上，以致产生逃逸。</p>
+</li>
+<li>
+<p><strong>栈空间不足逃逸（空间开辟过大）</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Slice</span>() {
+    <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">10000</span>)
+
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+        <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">index</span>] = <span style="color:#a6e22e">index</span>
+    }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">Slice</span>()
+}
+</code></pre></div><p>当切片长度扩大到10000时就会逃逸。</p>
+<p>实际上当栈空间不足以存放当前对象时或无法判断当前切片长度时会将对象分配到堆中。</p>
+</li>
+</ul>
+<h4 id="逃逸分析的作用">
+  逃逸分析的作用
+  <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90%e7%9a%84%e4%bd%9c%e7%94%a8">#</a>
+</h4>
+<ol>
+<li>逃逸分析的好处是为了减少gc的压力，不逃逸的对象分配在栈上，当函数返回时就回收了资源，不需要gc标记清除。</li>
+<li>逃逸分析完后可以确定哪些变量可以分配在栈上，栈的分配比堆快，性能好(逃逸的局部变量会在堆上分配 ,而没有发生逃逸的则有编译器在栈上分配)。</li>
+<li>同步消除，如果你定义的对象的方法上有同步锁，但在运行时，却只有一个线程在访问，此时逃逸分析后的机器码，会去掉同步锁运行。</li>
+</ol>
+<h4 id="逃逸总结">
+  逃逸总结
+  <a class="anchor" href="#%e9%80%83%e9%80%b8%e6%80%bb%e7%bb%93">#</a>
+</h4>
+<ul>
+<li>栈上分配内存比在堆中分配内存有更高的效率</li>
+<li>栈上分配的内存不需要GC处理</li>
+<li>堆上分配的内存使用完毕会交给GC处理</li>
+<li>逃逸分析目的是决定内分配地址是栈还是堆</li>
+<li>逃逸分析在编译阶段完成</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

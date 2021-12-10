@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="同步原语与锁 #  概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
+互斥锁（Mutex） #  正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
+在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
+在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
+加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
+ 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：
+ 互斥锁只有在普通模式才能进入自旋； runtime.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="同步原语与锁" />
+<meta property="og:description" content="同步原语与锁 #  概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
+互斥锁（Mutex） #  正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
+在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
+在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
+加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
+ 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：
+ 互斥锁只有在普通模式才能进入自旋； runtime." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/golang/runtime/mutex/" /><meta property="article:section" content="docs" />
+
+
+
+<title>同步原语与锁 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle" checked />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class=" active">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle"  />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>同步原语与锁</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#互斥锁mutex">互斥锁（Mutex）</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#读写锁rwmutex">读写锁（RWMutex）</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="同步原语与锁">
+  同步原语与锁
+  <a class="anchor" href="#%e5%90%8c%e6%ad%a5%e5%8e%9f%e8%af%ad%e4%b8%8e%e9%94%81">#</a>
+</h1>
+<h2 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h2>
+<p>​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。</p>
+<h2 id="互斥锁mutex">
+  互斥锁（Mutex）
+  <a class="anchor" href="#%e4%ba%92%e6%96%a5%e9%94%81mutex">#</a>
+</h2>
+<h4 id="正常模式和饥饿模式">
+  正常模式和饥饿模式
+  <a class="anchor" href="#%e6%ad%a3%e5%b8%b8%e6%a8%a1%e5%bc%8f%e5%92%8c%e9%a5%a5%e9%a5%bf%e6%a8%a1%e5%bc%8f">#</a>
+</h4>
+<p><a href="https://draveness.me/golang/tree/sync.Mutex"><code>sync.Mutex</code></a> 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。</p>
+<p>在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。</p>
+<p>在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。</p>
+<h4 id="加锁和解锁">
+  加锁和解锁
+  <a class="anchor" href="#%e5%8a%a0%e9%94%81%e5%92%8c%e8%a7%a3%e9%94%81">#</a>
+</h4>
+<p>如果互斥锁的状态不是 0 时就会调用 <a href="https://draveness.me/golang/tree/sync.Mutex.lockSlow"><code>sync.Mutex.lockSlow</code></a> 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：</p>
+<ol>
+<li>判断当前 Goroutine 能否进入自旋；</li>
+<li>通过自旋等待互斥锁的释放；</li>
+<li>计算互斥锁的最新状态；</li>
+<li>更新互斥锁的状态并获取锁；</li>
+</ol>
+<h4 id="自旋的条件">
+  自旋的条件
+  <a class="anchor" href="#%e8%87%aa%e6%97%8b%e7%9a%84%e6%9d%a1%e4%bb%b6">#</a>
+</h4>
+<p>Goroutine 进入自旋的条件非常苛刻：</p>
+<ol>
+<li>互斥锁只有在普通模式才能进入自旋；</li>
+<li><code>runtime.sync_runtime_canSpin</code>需要返回true：
+<ol>
+<li>运行在多 CPU 的机器上；</li>
+<li>当前 Goroutine 为了获取该锁进入自旋的次数小于四次；</li>
+<li>当前机器上至少存在一个正在运行的处理器 P 并且处理的运行队列为空；</li>
+</ol>
+</li>
+</ol>
+<p>一旦当前 Goroutine 能够进入自旋就会调用<code>runtime.sync_runtime_doSpin</code>和 <code>runtime.procyield</code>并执行 30 次的 <code>PAUSE</code> 指令，该指令只会占用 CPU 并消耗 CPU 时间：</p>
+<h4 id="小结">
+  小结
+  <a class="anchor" href="#%e5%b0%8f%e7%bb%93">#</a>
+</h4>
+<p>我们已经从多个方面分析了互斥锁 <code>sync.Mutex</code> 的实现原理，这里我们从加锁和解锁两个方面总结注意事项。</p>
+<p>互斥锁的加锁过程比较复杂，它涉及自旋、信号量以及调度等概念：</p>
+<ul>
+<li>如果互斥锁处于初始化状态，会通过置位 <code>mutexLocked</code> 加锁；</li>
+<li>如果互斥锁处于 <code>mutexLocked</code> 状态并且在普通模式下工作，会进入自旋，执行 30 次 <code>PAUSE</code> 指令消耗 CPU 时间等待锁的释放；</li>
+<li>如果当前 Goroutine 等待锁的时间超过了 1ms，互斥锁就会切换到饥饿模式；</li>
+<li>互斥锁在正常情况下会通过 <code>runtime.sync_runtime_SemacquireMutex</code>将尝试获取锁的 Goroutine 切换至休眠状态，等待锁的持有者唤醒；</li>
+<li>如果当前 Goroutine 是互斥锁上的最后一个等待的协程或者等待的时间小于 1ms，那么它会将互斥锁切换回正常模式；</li>
+</ul>
+<p>互斥锁的解锁过程与之相比就比较简单，其代码行数不多、逻辑清晰，也比较容易理解：</p>
+<ul>
+<li>当互斥锁已经被解锁时，调用 <code>sync.Mutex.Unlock</code>会直接抛出异常；</li>
+<li>当互斥锁处于饥饿模式时，将锁的所有权交给队列中的下一个等待者，等待者会负责设置 <code>mutexLocked</code> 标志位；</li>
+<li>当互斥锁处于普通模式时，如果没有 Goroutine 等待锁的释放或者已经有被唤醒的 Goroutine 获得了锁，会直接返回；在其他情况下会通过 <code>sync.runtime_Semrelease</code>唤醒对应的 Goroutine；</li>
+</ul>
+<h2 id="读写锁rwmutex">
+  读写锁（RWMutex）
+  <a class="anchor" href="#%e8%af%bb%e5%86%99%e9%94%81rwmutex">#</a>
+</h2>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#互斥锁mutex">互斥锁（Mutex）</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#读写锁rwmutex">读写锁（RWMutex）</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

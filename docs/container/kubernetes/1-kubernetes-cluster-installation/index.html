@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kubernetes集群搭建 #   1、本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 3、关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 4、关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 5、关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  一、环境概述 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Kubernetes集群安装" />
+<meta property="og:description" content="Kubernetes集群搭建 #   1、本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 3、关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 4、关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 5、关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  一、环境概述 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2019-12-31T16:16:02+00:00" />
+<meta property="article:modified_time" content="2019-12-31T16:16:02+00:00" />
+
+<title>Kubernetes集群安装 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle" checked />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class=" active">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle"  />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Kubernetes集群安装</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一环境概述">一、环境概述</a></li>
+        <li><a href="#二离线仓库制作可选">二、离线仓库制作（可选）</a></li>
+        <li><a href="#三软件安装">三、软件安装</a></li>
+        <li><a href="#四节点系统配置">四、节点系统配置</a></li>
+        <li><a href="#五keepalivedhaproxy配置">五、keepalived+haproxy配置</a></li>
+        <li><a href="#六部署ha-master">六、部署HA Master</a></li>
+        <li><a href="#七加入节点">七、加入节点</a></li>
+        <li><a href="#八结束安装">八、结束安装</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="kubernetes集群搭建">
+  Kubernetes集群搭建
+  <a class="anchor" href="#kubernetes%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba">#</a>
+</h1>
+<ul>
+<li>1、本文基于<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。</li>
+<li>2、此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。</li>
+<li>3、关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡）</li>
+<li>4、关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。</li>
+<li>5、关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。</li>
+</ul>
+<p>集群方案：</p>
+<ul>
+<li>发行版：CentOS 7</li>
+<li>容器运行时</li>
+<li>内核： 4.18.12-1.el7.elrepo.x86_64</li>
+<li>版本：Kubernetes: 1.14.0</li>
+<li>网络方案: Calico</li>
+<li>kube-proxy mode: IPVS</li>
+<li>master高可用方案：HAProxy keepalived LVS</li>
+<li>DNS插件: CoreDNS</li>
+<li>metrics插件：metrics-server</li>
+<li>界面：kubernetes-dashboard</li>
+</ul>
+<h3 id="一环境概述">
+  一、环境概述
+  <a class="anchor" href="#%e4%b8%80%e7%8e%af%e5%a2%83%e6%a6%82%e8%bf%b0">#</a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>Host Name</th>
+<th>Role</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master1</td>
+<td>master1</td>
+<td>192.168.56.103</td>
+</tr>
+<tr>
+<td>master2</td>
+<td>master2</td>
+<td>192.168.56.104</td>
+</tr>
+<tr>
+<td>master3</td>
+<td>master3</td>
+<td>192.168.56.105</td>
+</tr>
+<tr>
+<td>node1</td>
+<td>node1</td>
+<td>192.168.56.106</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>node2</td>
+<td>192.168.56.107</td>
+</tr>
+<tr>
+<td>node3</td>
+<td>node3</td>
+<td>192.168.56.108</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二离线仓库制作可选">
+  二、离线仓库制作（可选）
+  <a class="anchor" href="#%e4%ba%8c%e7%a6%bb%e7%ba%bf%e4%bb%93%e5%ba%93%e5%88%b6%e4%bd%9c%e5%8f%af%e9%80%89">#</a>
+</h3>
+<p>具体制作方式见：<a href="https://hnbcao.vip/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/">CentOS离线镜像仓库创建</a></p>
+<p>需要制作的离线仓库有：</p>
+<ol>
+<li>base repo</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
+</code></pre></div><ol>
+<li>docker repo</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>docker-ce-stable<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Stable - $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/$basearch/stable
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-stable-debuginfo<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Stable - Debuginfo $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/debug-$basearch/stable
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-stable-source<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Stable - Sources
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/source/stable
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-test<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Test - $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/$basearch/test
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-test-debuginfo<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Test - Debuginfo $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/debug-$basearch/test
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-test-source<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Test - Sources
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/source/test
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-nightly<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Nightly - $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/$basearch/nightly
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-nightly-debuginfo<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Nightly - Debuginfo $basearch
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/debug-$basearch/nightly
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+
+<span style="color:#f92672">[</span>docker-ce-nightly-source<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Docker CE Nightly - Sources
+baseurl<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/$releasever/source/nightly
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/centos/gpg
+</code></pre></div><ol start="2">
+<li>kubernetes repo</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat <span style="color:#e6db74">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+</span><span style="color:#e6db74">[kubernetes]
+</span><span style="color:#e6db74">name=Kubernetes
+</span><span style="color:#e6db74">baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+</span><span style="color:#e6db74">enabled=1
+</span><span style="color:#e6db74">gpgcheck=0
+</span><span style="color:#e6db74">repo_gpgcheck=0
+</span><span style="color:#e6db74">gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+</span><span style="color:#e6db74">        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><h3 id="三软件安装">
+  三、软件安装
+  <a class="anchor" href="#%e4%b8%89%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">
+<span style="color:#75715e"># 安装ifconfig</span>
+yum install net-tools -y
+
+<span style="color:#75715e"># 时间同步</span>
+yum install -y ntpdate
+
+<span style="color:#75715e"># 安装docker（建议18.06.3.ce）</span>
+
+<span style="color:#75715e">## 列出Docker版本</span>
+yum list docker-ce --showduplicates | sort -r
+<span style="color:#75715e">## 安装指定版本</span>
+sudo yum install docker-ce-&lt;VERSION_STRING&gt;
+eg:sudo yum install docker-ce-18.06.3.ce
+
+<span style="color:#75715e"># 安装文件管理器，XShell可通过rz sz命令上传或者下载服务器文件</span>
+yum install lrzsz -y
+
+<span style="color:#75715e"># 安装keepalived、haproxy</span>
+yum install -y socat keepalived ipvsadm haproxy
+
+<span style="color:#75715e"># 安装kubernetes相关组件</span>
+
+<span style="color:#75715e"># 建议指定各个软件的版本号，使用yum list 软件名（如kubelet） --showduplicates | sort -r列出版本号。</span>
+yum install -y kubelet kubeadm kubectl ebtables
+
+<span style="color:#75715e"># 其他软件安装</span>
+yum install wget
+
+</code></pre></div><h3 id="四节点系统配置">
+  四、节点系统配置
+  <a class="anchor" href="#%e5%9b%9b%e8%8a%82%e7%82%b9%e7%b3%bb%e7%bb%9f%e9%85%8d%e7%bd%ae">#</a>
+</h3>
+<ul>
+<li>关闭SELinux、防火墙</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl stop firewalld
+systemctl disable firewalld
+setenforce <span style="color:#ae81ff">0</span>
+sed -i <span style="color:#e6db74">&#34;s/SELINUX=enforcing/SELINUX=disabled/g&#34;</span> /etc/selinux/config
+</code></pre></div><ul>
+<li>关闭系统的Swap（Kubernetes 1.8开始要求）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">swapoff -a
+yes | cp /etc/fstab /etc/fstab_bak
+cat /etc/fstab_bak |grep -v swap &gt; /etc/fstab
+</code></pre></div><ul>
+<li>配置L2网桥在转发包时会被iptables的FORWARD规则所过滤，该配置被CNI插件需要，更多信息请参考<a href="https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/#network-plugin-requirements">Network Plugin Requirements</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">vm.swappiness = 0
+</span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span> &gt; /etc/sysctl.conf
+sysctl -p
+</code></pre></div><p><a href="https://www.cnblogs.com/zejin2008/p/7102485.html">centos7添加bridge-nf-call-ip6tables出现No such file or directory</a>,简单来说就是执行一下 modprobe br_netfilter</p>
+<ul>
+<li>同步时间</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ntpdate -u ntp.api.bz
+</code></pre></div><ul>
+<li>升级内核到最新（已准备内核离线安装包，可选）</li>
+</ul>
+<p><a href="https://www.aliyun.com/jiaocheng/130885.html">centos7 升级内核</a></p>
+<p><a href="https://www.kubernetes.org.cn/5163.html">参考文章</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">grub2-set-default <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> grub2-mkconfig -o /etc/grub2.cfg
+grubby --default-kernel
+grubby --args<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user_namespace.enable=1&#34;</span> --update-kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>grubby --default-kernel<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><ul>
+<li>重启系统，确认内核版本后，开启IPVS（如果未升级内核，去掉ip_vs_fo）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">uname -a
+cat &gt; /etc/sysconfig/modules/ipvs.modules <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">#!/bin/bash
+</span><span style="color:#e6db74">ipvs_modules=&#34;ip_vs ip_vs_lc ip_vs_wlc ip_vs_rr ip_vs_wrr ip_vs_lblc ip_vs_lblcr ip_vs_dh ip_vs_sh ip_vs_fo ip_vs_nq ip_vs_sed ip_vs_ftp nf_conntrack&#34;
+</span><span style="color:#e6db74">for kernel_module in \${ipvs_modules}; do
+</span><span style="color:#e6db74"> /sbin/modinfo -F filename \${kernel_module} &gt; /dev/null 2&gt;&amp;1
+</span><span style="color:#e6db74"> if [ $? -eq 0 ]; then
+</span><span style="color:#e6db74"> /sbin/modprobe \${kernel_module}
+</span><span style="color:#e6db74"> fi
+</span><span style="color:#e6db74">done
+</span><span style="color:#e6db74">EOF</span>
+chmod <span style="color:#ae81ff">755</span> /etc/sysconfig/modules/ipvs.modules <span style="color:#f92672">&amp;&amp;</span> bash /etc/sysconfig/modules/ipvs.modules <span style="color:#f92672">&amp;&amp;</span> lsmod | grep ip_vs
+</code></pre></div><p>执行sysctl -p报错可执行modprobe br_netfilter，请参考<a href="https://www.cnblogs.com/zejin2008/p/7102485.html">centos7添加bridge-nf-call-ip6tables出现No such file or directory
+</a></p>
+<ul>
+<li>所有机器需要设定/etc/sysctl.d/k8s.conf的系统参数(可选)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># https://github.com/moby/moby/issues/31208 </span>
+<span style="color:#75715e"># ipvsadm -l --timout</span>
+<span style="color:#75715e"># 修复ipvs模式下长连接timeout问题 小于900即可</span>
+cat <span style="color:#e6db74">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
+</span><span style="color:#e6db74">net.ipv4.tcp_keepalive_time = 600
+</span><span style="color:#e6db74">net.ipv4.tcp_keepalive_intvl = 30
+</span><span style="color:#e6db74">net.ipv4.tcp_keepalive_probes = 10
+</span><span style="color:#e6db74">net.ipv6.conf.all.disable_ipv6 = 1
+</span><span style="color:#e6db74">net.ipv6.conf.default.disable_ipv6 = 1
+</span><span style="color:#e6db74">net.ipv6.conf.lo.disable_ipv6 = 1
+</span><span style="color:#e6db74">net.ipv4.neigh.default.gc_stale_time = 120
+</span><span style="color:#e6db74">net.ipv4.conf.all.rp_filter = 0
+</span><span style="color:#e6db74">net.ipv4.conf.default.rp_filter = 0
+</span><span style="color:#e6db74">net.ipv4.conf.default.arp_announce = 2
+</span><span style="color:#e6db74">net.ipv4.conf.lo.arp_announce = 2
+</span><span style="color:#e6db74">net.ipv4.conf.all.arp_announce = 2
+</span><span style="color:#e6db74">net.ipv4.ip_forward = 1
+</span><span style="color:#e6db74">net.ipv4.tcp_max_tw_buckets = 5000
+</span><span style="color:#e6db74">net.ipv4.tcp_syncookies = 1
+</span><span style="color:#e6db74">net.ipv4.tcp_max_syn_backlog = 1024
+</span><span style="color:#e6db74">net.ipv4.tcp_synack_retries = 2
+</span><span style="color:#e6db74">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span style="color:#e6db74">net.bridge.bridge-nf-call-iptables = 1
+</span><span style="color:#e6db74">net.netfilter.nf_conntrack_max = 2310720
+</span><span style="color:#e6db74">fs.inotify.max_user_watches=89100
+</span><span style="color:#e6db74">fs.may_detach_mounts = 1
+</span><span style="color:#e6db74">fs.file-max = 52706963
+</span><span style="color:#e6db74">fs.nr_open = 52706963
+</span><span style="color:#e6db74">net.bridge.bridge-nf-call-arptables = 1
+</span><span style="color:#e6db74">vm.swappiness = 0
+</span><span style="color:#e6db74">vm.overcommit_memory=1
+</span><span style="color:#e6db74">vm.panic_on_oom=0
+</span><span style="color:#e6db74">EOF</span>
+sysctl --system
+</code></pre></div><ul>
+<li>设置开机启动</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 启动docker</span>
+sed -i <span style="color:#e6db74">&#34;13i ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT&#34;</span> /usr/lib/systemd/system/docker.service
+systemctl daemon-reload
+systemctl enable docker
+systemctl start docker
+<span style="color:#75715e"># 设置kubelet开机启动</span>
+systemctl enable kubelet
+
+systemctl enable keepalived
+systemctl enable haproxy
+</code></pre></div><ul>
+<li>设置免密登录</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 1、三次回车后，密钥生成完成</span>
+ssh-keygen
+<span style="color:#75715e"># 2、拷贝密钥到其他节点</span>
+ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx
+</code></pre></div><p>**、 Kubernetes要求集群中所有机器具有不同的Mac地址、产品uuid、Hostname。</p>
+<h3 id="五keepalivedhaproxy配置">
+  五、keepalived+haproxy配置
+  <a class="anchor" href="#%e4%ba%94keepalivedhaproxy%e9%85%8d%e7%bd%ae">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd ~/
+<span style="color:#75715e"># 创建集群信息文件</span>
+echo <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">CP0_IP=192.168.56.103
+</span><span style="color:#e6db74">CP1_IP=192.168.56.103
+</span><span style="color:#e6db74">CP2_IP=192.168.56.104
+</span><span style="color:#e6db74">VIP=192.168.56.102
+</span><span style="color:#e6db74">NET_IF=eth0
+</span><span style="color:#e6db74">CIDR=10.244.0.0/16
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span> &gt; ./cluster-info
+bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/keepalived-haproxy.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>安装Keepalived、Haproxy</p>
+<ul>
+<li>
+<p>这是个错误的操作，并不需要在node部署keepalived+haproxy，如果node节点无法ping通虚拟IP（VIP），其原因是当前环境无法实现vip，具体原因由于能力有限，只能麻烦自己找找咯，方便分享的话不胜感激。</p>
+</li>
+<li>
+<p>各个节点需要配置keepalived 和 haproxy</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#/etc/haproxy/haproxy.cfg</span>
+global
+    log         127.0.0.1 local2
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     <span style="color:#ae81ff">4000</span>
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    tcp
+    log                     global
+    option                  tcplog
+    option                  dontlognull
+    option                  redispatch
+    retries                 <span style="color:#ae81ff">3</span>
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout check           10s
+    maxconn                 <span style="color:#ae81ff">3000</span>
+
+listen stats
+    mode   http
+    bind :10086
+    stats   enable
+    stats   uri     /admin?stats
+    stats   auth    admin:admin
+    stats   admin   <span style="color:#66d9ef">if</span> TRUE
+    
+frontend  k8s_https *:8443
+    mode      tcp
+    maxconn      <span style="color:#ae81ff">2000</span>
+    default_backend     https_sri
+    
+backend https_sri
+    balance      roundrobin
+    server master1-api <span style="color:#e6db74">${</span>MASTER1_IP<span style="color:#e6db74">}</span>:6443  check inter <span style="color:#ae81ff">10000</span> fall <span style="color:#ae81ff">2</span> rise <span style="color:#ae81ff">2</span> weight <span style="color:#ae81ff">1</span>
+    server master2-api <span style="color:#e6db74">${</span>MASTER2_IP<span style="color:#e6db74">}</span>:6443  check inter <span style="color:#ae81ff">10000</span> fall <span style="color:#ae81ff">2</span> rise <span style="color:#ae81ff">2</span> weight <span style="color:#ae81ff">1</span>
+    server master3-api <span style="color:#e6db74">${</span>MASTER3_IP<span style="color:#e6db74">}</span>:6443  check inter <span style="color:#ae81ff">10000</span> fall <span style="color:#ae81ff">2</span> rise <span style="color:#ae81ff">2</span> weight <span style="color:#ae81ff">1</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#/etc/keepalived/keepalived.conf </span>
+global_defs <span style="color:#f92672">{</span>
+    router_id LVS_DEVEL
+<span style="color:#f92672">}</span>
+
+vrrp_script check_haproxy <span style="color:#f92672">{</span>
+    script /etc/keepalived/check_haproxy.sh
+    interval <span style="color:#ae81ff">3</span>
+<span style="color:#f92672">}</span>
+
+vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    state MASTER
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">80</span>
+    priority <span style="color:#ae81ff">100</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass just0kk
+    <span style="color:#f92672">}</span>
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">${</span>VIP<span style="color:#e6db74">}</span>/24
+    <span style="color:#f92672">}</span>
+    track_script <span style="color:#f92672">{</span>   
+        check_haproxy
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/etc/keepalived/check_haproxy.sh
+
+<span style="color:#75715e">#!/bin/bash</span>
+A<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>ps -C haproxy --no-header |wc -l<span style="color:#e6db74">`</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $A -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+/etc/init.d/keepalived stop
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>注意两个配置中的${MASTER1 _ IP}, ${MASTER2 _ IP}, ${MASTER3 _ IP}、${VIP}需要替换为自己集群相应的IP地址</p>
+<ul>
+<li>重启keepalived和haproxy</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl stop keepalived
+systemctl enable keepalived
+systemctl start keepalived
+systemctl stop haproxy
+systemctl enable haproxy
+systemctl start haproxy
+</code></pre></div><h3 id="六部署ha-master">
+  六、部署HA Master
+  <a class="anchor" href="#%e5%85%ad%e9%83%a8%e7%bd%b2ha-master">#</a>
+</h3>
+<p>HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;</p>
+<p>脚本主要执行三步：</p>
+<p>1)、重置kubelet设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubeadm reset -f
+rm -rf /etc/kubernetes/pki/
+</code></pre></div><p>2)、编写节点配置文件并初始化master1的kubelet</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">apiVersion: kubeadm.k8s.io/v1beta1
+</span><span style="color:#e6db74">kind: ClusterConfiguration
+</span><span style="color:#e6db74">kubernetesVersion: v1.14.0
+</span><span style="color:#e6db74">controlPlaneEndpoint: &#34;</span><span style="color:#e6db74">${</span>VIP<span style="color:#e6db74">}</span>:8443<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">maxPods: 100
+</span><span style="color:#e6db74">networkPlugin: cni
+</span><span style="color:#e6db74">imageRepository: registry.aliyuncs.com/google_containers
+</span><span style="color:#e6db74">apiServer:
+</span><span style="color:#e6db74">  certSANs:
+</span><span style="color:#e6db74">  - </span><span style="color:#e6db74">${</span>CP0_IP<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  - </span><span style="color:#e6db74">${</span>CP1_IP<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  - </span><span style="color:#e6db74">${</span>CP2_IP<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">  - </span><span style="color:#e6db74">${</span>VIP<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">networking:
+</span><span style="color:#e6db74">  # This CIDR is a Calico default. Substitute or remove for your CNI provider.
+</span><span style="color:#e6db74">  podSubnet: </span><span style="color:#e6db74">${</span>CIDR<span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">---
+</span><span style="color:#e6db74">apiVersion: kubeproxy.config.k8s.io/v1alpha1
+</span><span style="color:#e6db74">kind: KubeProxyConfiguration
+</span><span style="color:#e6db74">mode: ipvs
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span> &gt; /etc/kubernetes/kubeadm-config.yaml
+kubeadm init --config /etc/kubernetes/kubeadm-config.yaml
+mkdir -p $HOME/.kube
+cp -f /etc/kubernetes/admin.conf <span style="color:#e6db74">${</span>HOME<span style="color:#e6db74">}</span>/.kube/config
+</code></pre></div><ul>
+<li>关于默认网关问题，如果有多张网卡，需要先将默认网关切换到集群使用的那张网卡上，否则可能会出现etcd无法连接等问题。（应用我用的虚拟机，有一张网卡无法做到各个节点胡同；route查看当前网关信息，route del default删除默认网关，route add default enth0设置默认网关enth0为网卡名）</li>
+</ul>
+<p>3)、拷贝相关证书到master2、master3</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#66d9ef">for</span> index in <span style="color:#ae81ff">1</span> 2; <span style="color:#66d9ef">do</span>
+  ip<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IPS[<span style="color:#e6db74">${</span>index<span style="color:#e6db74">}</span>]<span style="color:#e6db74">}</span>
+  ssh $ip <span style="color:#e6db74">&#34;mkdir -p /etc/kubernetes/pki/etcd; mkdir -p ~/.kube/&#34;</span>
+  scp /etc/kubernetes/pki/ca.crt $ip:/etc/kubernetes/pki/ca.crt
+  scp /etc/kubernetes/pki/ca.key $ip:/etc/kubernetes/pki/ca.key
+  scp /etc/kubernetes/pki/sa.key $ip:/etc/kubernetes/pki/sa.key
+  scp /etc/kubernetes/pki/sa.pub $ip:/etc/kubernetes/pki/sa.pub
+  scp /etc/kubernetes/pki/front-proxy-ca.crt $ip:/etc/kubernetes/pki/front-proxy-ca.crt
+  scp /etc/kubernetes/pki/front-proxy-ca.key $ip:/etc/kubernetes/pki/front-proxy-ca.key
+  scp /etc/kubernetes/pki/etcd/ca.crt $ip:/etc/kubernetes/pki/etcd/ca.crt
+  scp /etc/kubernetes/pki/etcd/ca.key $ip:/etc/kubernetes/pki/etcd/ca.key
+  scp /etc/kubernetes/admin.conf $ip:/etc/kubernetes/admin.conf
+  scp /etc/kubernetes/admin.conf $ip:~/.kube/config
+
+  ssh <span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>JOIN_CMD<span style="color:#e6db74">}</span><span style="color:#e6db74"> --control-plane&#34;</span>
+<span style="color:#66d9ef">done</span>
+</code></pre></div><p>4)、master2、master3加入节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">JOIN_CMD<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>kubeadm token create --print-join-command<span style="color:#e6db74">`</span>
+ssh <span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>JOIN_CMD<span style="color:#e6db74">}</span><span style="color:#e6db74"> --control-plane&#34;</span>
+</code></pre></div><p>完整脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 部署HA master</span>
+ 
+bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><h3 id="七加入节点">
+  七、加入节点
+  <a class="anchor" href="#%e4%b8%83%e5%8a%a0%e5%85%a5%e8%8a%82%e7%82%b9">#</a>
+</h3>
+<ul>
+<li>节点加入命令获取</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#master节点执行该命令，再在节点执行获取到的命令</span>
+kubeadm token create --print-join-command
+</code></pre></div><h3 id="八结束安装">
+  八、结束安装
+  <a class="anchor" href="#%e5%85%ab%e7%bb%93%e6%9d%9f%e5%ae%89%e8%a3%85">#</a>
+</h3>
+<p>此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问<a href="https://www.projectcalico.org/">calico官网</a>，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。</p>
+<p>文章只是在文章<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>的基础上，修改了master的HA方案。关于集群安装的详细步骤，建议访问<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一环境概述">一、环境概述</a></li>
+        <li><a href="#二离线仓库制作可选">二、离线仓库制作（可选）</a></li>
+        <li><a href="#三软件安装">三、软件安装</a></li>
+        <li><a href="#四节点系统配置">四、节点系统配置</a></li>
+        <li><a href="#五keepalivedhaproxy配置">五、keepalived+haproxy配置</a></li>
+        <li><a href="#六部署ha-master">六、部署HA Master</a></li>
+        <li><a href="#七加入节点">七、加入节点</a></li>
+        <li><a href="#八结束安装">八、结束安装</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

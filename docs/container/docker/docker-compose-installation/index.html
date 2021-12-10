@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Docker Compose安装使用 #  概述 #  Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
+使用Compose基本上是一个三步过程：
+ 打包应用镜像 使用docker-compose.yml文件定义应用服务 运行docker-compose up 启动服务  如下是一个redis服务的docker-compose.yml文件：
+version: &#39;2.0&#39; services: web: build: . ports: - &#34;5000:5000&#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 #  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
+一、安装Docker Compose #  系统环境
+   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Docker Compose安装使用" />
+<meta property="og:description" content="Docker Compose安装使用 #  概述 #  Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。
+使用Compose基本上是一个三步过程：
+ 打包应用镜像 使用docker-compose.yml文件定义应用服务 运行docker-compose up 启动服务  如下是一个redis服务的docker-compose.yml文件：
+version: &#39;2.0&#39; services: web: build: . ports: - &#34;5000:5000&#34; volumes: - .:/code - logvolume01:/var/log links: - redis redis: image: redis volumes: logvolume01: {} 概述 #  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
+一、安装Docker Compose #  系统环境
+   Host Name OS IP     master1 CentOS 7.5 192.168.56.114    通过如下命令下载Docker Compose" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2020-03-17T15:42:28+00:00" />
+<meta property="article:modified_time" content="2020-03-17T15:42:28+00:00" />
+
+<title>Docker Compose安装使用 | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3df4223324230643eaaf98b4026288bdd70695ae792a9c24218f41cbcc27ba08.js" integrity="sha256-PfQiMyQjBkPqr5i0AmKIvdcGla55KpwkIY9By8wnugg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Java学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-78c6ac321443b1383507da57e50915e5" class="toggle"  />
+    <label for="section-78c6ac321443b1383507da57e50915e5" class="flex justify-between">
+      <a role="button" class="">笔记</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/java/note/spring-kafka-properties/" class="">Spring Kafka参数配置详情</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle" checked />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class=" active">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle"  />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Docker Compose安装使用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#概述-1">概述</a></li>
+        <li><a href="#一安装docker-compose">一、安装Docker Compose</a></li>
+        <li><a href="#二compose常用命令简介">二、Compose常用命令简介</a></li>
+        <li><a href="#三docker-composeyml介绍">三、docker-compose.yml介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="docker-compose安装使用">
+  Docker Compose安装使用
+  <a class="anchor" href="#docker-compose%e5%ae%89%e8%a3%85%e4%bd%bf%e7%94%a8">#</a>
+</h1>
+<h3 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h3>
+<p>Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。</p>
+<p>使用Compose基本上是一个三步过程：</p>
+<ul>
+<li>打包应用镜像</li>
+<li>使用docker-compose.yml文件定义应用服务</li>
+<li>运行docker-compose up 启动服务</li>
+</ul>
+<p>如下是一个redis服务的docker-compose.yml文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.0&#39;</span>
+<span style="color:#f92672">services</span>:
+ <span style="color:#f92672">web</span>:
+   <span style="color:#f92672">build</span>: <span style="color:#ae81ff">.</span>
+   <span style="color:#f92672">ports</span>:
+   - <span style="color:#e6db74">&#34;5000:5000&#34;</span>
+   <span style="color:#f92672">volumes</span>:
+   - <span style="color:#ae81ff">.:/code</span>
+   - <span style="color:#ae81ff">logvolume01:/var/log</span>
+   <span style="color:#f92672">links</span>:
+   - <span style="color:#ae81ff">redis</span>
+ <span style="color:#f92672">redis</span>:
+   <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
+<span style="color:#f92672">volumes</span>:
+ <span style="color:#f92672">logvolume01</span>: {}
+</code></pre></div><h3 id="概述-1">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0-1">#</a>
+</h3>
+<p>Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。</p>
+<h3 id="一安装docker-compose">
+  一、安装Docker Compose
+  <a class="anchor" href="#%e4%b8%80%e5%ae%89%e8%a3%85docker-compose">#</a>
+</h3>
+<p>系统环境</p>
+<table>
+<thead>
+<tr>
+<th>Host Name</th>
+<th>OS</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master1</td>
+<td>CentOS 7.5</td>
+<td>192.168.56.114</td>
+</tr>
+</tbody>
+</table>
+<p>通过如下命令下载Docker Compose</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 下载docker-compose-1.25.4并保存至/usr/local/bin/目录下</span>
+sudo curl -L <span style="color:#e6db74">&#34;https://github.com/docker/compose/releases/download/1.25.4/docker-compose-</span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> -o /usr/local/bin/docker-compose
+<span style="color:#75715e"># 修改docker-compose权限为可运行</span>
+sudo chmod +x /usr/local/bin/docker-compose
+</code></pre></div><h3 id="二compose常用命令简介">
+  二、Compose常用命令简介
+  <a class="anchor" href="#%e4%ba%8ccompose%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e7%ae%80%e4%bb%8b">#</a>
+</h3>
+<p>本文只介绍在生产环境中经常会用到的几个命令，关于其他命令，可通过“docker-compose help”命令查询，或者查询<a href="https://docs.docker.com/compose/reference/overview/">Docker官方网站</a></p>
+<ul>
+<li>docker-compose up</li>
+</ul>
+<p>应用启动/更新命令，构建、（重新）创建、启动并附加到服务的容器。“docker-compose up”命令后可跟参数，</p>
+<ol>
+<li>-d：后台运行应用，类似docker run -d；</li>
+<li>&ndash;force-recreate：强制重新生成容器；</li>
+</ol>
+<p>其他命令可查询官方文档。</p>
+<ul>
+<li>docker-compose down</li>
+</ul>
+<p>停止应用所有容器并删除compose创建的网络，存储和容器。</p>
+<h3 id="三docker-composeyml介绍">
+  三、docker-compose.yml介绍
+  <a class="anchor" href="#%e4%b8%89docker-composeyml%e4%bb%8b%e7%bb%8d">#</a>
+</h3>
+<p>下面是wordpress应用的docker-compose.yml的内容，各部分介绍将会通过该文件展开：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">app-tier</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mysql:5.7</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">db_data:/var/lib/mysql</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#ae81ff">somewordpress</span>
+      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#ae81ff">wordpress</span>
+      <span style="color:#f92672">MYSQL_USER</span>: <span style="color:#ae81ff">wordpress</span>
+      <span style="color:#f92672">MYSQL_PASSWORD</span>: <span style="color:#ae81ff">wordpress</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">app-tier</span>
+
+  <span style="color:#f92672">wordpress</span>:
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">db</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">wordpress:latest</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;8000:80&#34;</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">WORDPRESS_DB_HOST</span>: <span style="color:#ae81ff">db:3306</span>
+      <span style="color:#f92672">WORDPRESS_DB_USER</span>: <span style="color:#ae81ff">wordpress</span>
+      <span style="color:#f92672">WORDPRESS_DB_PASSWORD</span>: <span style="color:#ae81ff">wordpress</span>
+      <span style="color:#f92672">WORDPRESS_DB_NAME</span>: <span style="color:#ae81ff">wordpress</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">app-tier</span>
+<span style="color:#f92672">volumes</span>:
+    <span style="color:#f92672">db_data</span>: {}
+</code></pre></div><ul>
+<li>services</li>
+</ul>
+<p>配置应用运行的服务，wordpress应用配置了mysql数据库服务db和业务应用wordpress。服务配置说明如下：</p>
+<ol>
+<li>image：服务运行的Docker镜像；</li>
+<li>volumes：存储挂载，可挂载应用配置的volumes或者直接挂载宿主机路径,如：“- /opt/mysql/data:/var/lib/mysql”</li>
+<li>restart：服务重启策略。always：宕机自动重启；</li>
+<li>environment：环境变量配置；</li>
+<li>networks：服务网络配置；</li>
+</ol>
+<ul>
+<li>networks</li>
+</ul>
+<p>配置应用运行的网络，服务通过networks指定镜像运行使用的网络。</p>
+<ul>
+<li>volumes</li>
+</ul>
+<p>配置存储，服务可通过volumes挂载。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#概述">概述</a></li>
+        <li><a href="#概述-1">概述</a></li>
+        <li><a href="#一安装docker-compose">一、安装Docker Compose</a></li>
+        <li><a href="#二compose常用命令简介">二、Compose常用命令简介</a></li>
+        <li><a href="#三docker-composeyml介绍">三、docker-compose.yml介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
