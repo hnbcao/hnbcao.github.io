@@ -14,4 +14,4 @@ deploy:
   local-dir: ./public/
   target_branch: master
   on:
-    branch: gitbook
+    branch: hugo
