@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="逃逸分析 #  什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+<meta name="description" content="逃逸分析 #  一、什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
 在函数中申请一个新的对象：
  如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
-逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+二、逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
   指针逃逸： Go可以返回局部变量指针，示例代码如下：
 package main type User struct { Name string } func main() { user := structFunc() user.Name = &#34;2&#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;User{ Name: &#34;123&#34;, } user.Name = &#34;234&#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
   动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
@@ -14,10 +14,10 @@ package main type User struct { Name string } func main() { user := structFunc()
 package main import &#34;fmt&#34; func main() { s := &#34;Escape&#34; fmt.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="逃逸分析" />
-<meta property="og:description" content="逃逸分析 #  什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+<meta property="og:description" content="逃逸分析 #  一、什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
 在函数中申请一个新的对象：
  如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
-逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+二、逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
   指针逃逸： Go可以返回局部变量指针，示例代码如下：
 package main type User struct { Name string } func main() { user := structFunc() user.Name = &#34;2&#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;User{ Name: &#34;123&#34;, } user.Name = &#34;234&#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
   动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
@@ -31,9 +31,9 @@ package main import &#34;fmt&#34; func main() { s := &#34;Escape&#34; fmt." />
 <title>逃逸分析 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -260,7 +260,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class="">Java学习笔记</a>
   
 
         </li>
@@ -673,14 +673,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#什么是逃逸分析">什么是逃逸分析？</a></li>
-        <li><a href="#逃逸场景">逃逸场景</a></li>
-        <li><a href="#逃逸分析的作用">逃逸分析的作用</a></li>
-        <li><a href="#逃逸总结">逃逸总结</a></li>
-      </ul>
-    </li>
+    <li><a href="#一什么是逃逸分析">一、什么是逃逸分析？</a></li>
+    <li><a href="#二逃逸场景">二、逃逸场景</a></li>
+    <li><a href="#三逃逸分析的作用">三、逃逸分析的作用</a></li>
+    <li><a href="#四逃逸总结">四、逃逸总结</a></li>
   </ul>
 </nav>
 
@@ -697,10 +693,10 @@ https://github.com/alex-shpak/hugo-book
   逃逸分析
   <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90">#</a>
 </h1>
-<h3 id="什么是逃逸分析">
-  什么是逃逸分析？
-  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90">#</a>
-</h3>
+<h2 id="一什么是逃逸分析">
+  一、什么是逃逸分析？
+  <a class="anchor" href="#%e4%b8%80%e4%bb%80%e4%b9%88%e6%98%af%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90">#</a>
+</h2>
 <p>逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。</p>
 <p>在函数中申请一个新的对象：</p>
 <ul>
@@ -708,10 +704,10 @@ https://github.com/alex-shpak/hugo-book
 <li>如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;</li>
 </ul>
 <p><strong>逃逸分析针对指针和大对象</strong>：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。</p>
-<h3 id="逃逸场景">
-  逃逸场景
-  <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af">#</a>
-</h3>
+<h2 id="二逃逸场景">
+  二、逃逸场景
+  <a class="anchor" href="#%e4%ba%8c%e9%80%83%e9%80%b8%e5%9c%ba%e6%99%af">#</a>
+</h2>
 <p>指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。</p>
 <ul>
 <li>
@@ -791,19 +787,19 @@ https://github.com/alex-shpak/hugo-book
 <p>实际上当栈空间不足以存放当前对象时或无法判断当前切片长度时会将对象分配到堆中。</p>
 </li>
 </ul>
-<h3 id="逃逸分析的作用">
-  逃逸分析的作用
-  <a class="anchor" href="#%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90%e7%9a%84%e4%bd%9c%e7%94%a8">#</a>
-</h3>
+<h2 id="三逃逸分析的作用">
+  三、逃逸分析的作用
+  <a class="anchor" href="#%e4%b8%89%e9%80%83%e9%80%b8%e5%88%86%e6%9e%90%e7%9a%84%e4%bd%9c%e7%94%a8">#</a>
+</h2>
 <ol>
 <li>逃逸分析的好处是为了减少gc的压力，不逃逸的对象分配在栈上，当函数返回时就回收了资源，不需要gc标记清除。</li>
 <li>逃逸分析完后可以确定哪些变量可以分配在栈上，栈的分配比堆快，性能好(逃逸的局部变量会在堆上分配 ,而没有发生逃逸的则有编译器在栈上分配)。</li>
 <li>同步消除，如果你定义的对象的方法上有同步锁，但在运行时，却只有一个线程在访问，此时逃逸分析后的机器码，会去掉同步锁运行。</li>
 </ol>
-<h3 id="逃逸总结">
-  逃逸总结
-  <a class="anchor" href="#%e9%80%83%e9%80%b8%e6%80%bb%e7%bb%93">#</a>
-</h3>
+<h2 id="四逃逸总结">
+  四、逃逸总结
+  <a class="anchor" href="#%e5%9b%9b%e9%80%83%e9%80%b8%e6%80%bb%e7%bb%93">#</a>
+</h2>
 <ul>
 <li>栈上分配内存比在堆中分配内存有更高的效率</li>
 <li>栈上分配的内存不需要GC处理</li>
@@ -852,14 +848,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#什么是逃逸分析">什么是逃逸分析？</a></li>
-        <li><a href="#逃逸场景">逃逸场景</a></li>
-        <li><a href="#逃逸分析的作用">逃逸分析的作用</a></li>
-        <li><a href="#逃逸总结">逃逸总结</a></li>
-      </ul>
-    </li>
+    <li><a href="#一什么是逃逸分析">一、什么是逃逸分析？</a></li>
+    <li><a href="#二逃逸场景">二、逃逸场景</a></li>
+    <li><a href="#三逃逸分析的作用">三、逃逸分析的作用</a></li>
+    <li><a href="#四逃逸总结">四、逃逸总结</a></li>
   </ul>
 </nav>
 

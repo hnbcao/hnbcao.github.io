@@ -3,21 +3,29 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Java容器学习笔记 #  ArrayList与LinkList对比： #   性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。 建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。  ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。 #  Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。 #  HashSet底层数据结构是HashMap #  LinkedHashSet底层数据结构是LinkedHashMap #  ">
+<meta name="description" content="Java学习笔记 #  容器 #   ArrayList与LinkList对比：   性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。 建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。   ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。
+  Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。
+  HashSet底层数据结构是HashMap
+  LinkedHashSet底层数据结构是LinkedHashMap
+  ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Java容器学习笔记" />
-<meta property="og:description" content="Java容器学习笔记 #  ArrayList与LinkList对比： #   性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。 建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。  ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。 #  Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。 #  HashSet底层数据结构是HashMap #  LinkedHashSet底层数据结构是LinkedHashMap #  " />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Java学习笔记" />
+<meta property="og:description" content="Java学习笔记 #  容器 #   ArrayList与LinkList对比：   性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。 建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。   ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。
+  Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。
+  HashSet底层数据结构是HashMap
+  LinkedHashSet底层数据结构是LinkedHashMap
+  " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://hnbcao.vip/docs/java/note/collections/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://hnbcao.vip/docs/java/note/java/" /><meta property="article:section" content="docs" />
 
 
 
-<title>Java容器学习笔记 | HNBCAO</title>
+<title>Java学习笔记 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -244,7 +252,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class=" active">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class=" active">Java学习笔记</a>
   
 
         </li>
@@ -641,7 +649,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Java容器学习笔记</strong>
+  <strong>Java学习笔记</strong>
 
   <label for="toc-control">
     
@@ -657,11 +665,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#arraylist与linklist对比">ArrayList与LinkList对比：</a></li>
-    <li><a href="#arraylistlinklistvectorstack中只有stackvector是线程安全的类线程安全的list还有copyonwritearraylist和collectionssynchronizedlistcollectionssynchronizedlist使用装饰模式为传入的list操作加上同步锁">ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。</a></li>
-    <li><a href="#stack底层数据结构是vectorvector的所有操作都加了synchronized关键字vector的底层使用数组保存数据类似与arraylist一般多线程状态下使用list会选择vector">Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。</a></li>
-    <li><a href="#hashset底层数据结构是hashmap">HashSet底层数据结构是HashMap</a></li>
-    <li><a href="#linkedhashset底层数据结构是linkedhashmap">LinkedHashSet底层数据结构是LinkedHashMap</a></li>
+    <li><a href="#容器">容器</a></li>
   </ul>
 </nav>
 
@@ -674,34 +678,35 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="java容器学习笔记">
-  Java容器学习笔记
-  <a class="anchor" href="#java%e5%ae%b9%e5%99%a8%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0">#</a>
+  <article class="markdown"><h1 id="java学习笔记">
+  Java学习笔记
+  <a class="anchor" href="#java%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0">#</a>
 </h1>
-<h2 id="arraylist与linklist对比">
-  ArrayList与LinkList对比：
-  <a class="anchor" href="#arraylist%e4%b8%8elinklist%e5%af%b9%e6%af%94">#</a>
+<h2 id="容器">
+  容器
+  <a class="anchor" href="#%e5%ae%b9%e5%99%a8">#</a>
 </h2>
+<ol>
+<li>ArrayList与LinkList对比：</li>
+</ol>
 <ul>
 <li>性能：《Java编程思想》指出，ArrayList插入移除元素较慢，ArrayList添加元素的速度比LinkList快。。LinkList插入移除元素速度优于ArrayList，且在数据量大时，ArrayList移除元素异常缓慢（按照元素顺序插入移除，若倒序插入移除则快于LinkList），其中的原因是LinkList使用双向链表存储数据，移除时只需要修改待移除元素的前后节点的next与prev位置即可，而ArrayList则涉及到数组的拷贝，倒序的情况下，ArrayList只需要将末尾元素移除即可。</li>
 <li>建议：在涉及元素删除的List中，建议使用LinkList，其他情况可使用ArrayList。ArrayList使用在查询比较多，但是插入和删除比较少的情况，而LinkedList用在查询比较少而插入删除比较多的情况。</li>
 </ul>
-<h2 id="arraylistlinklistvectorstack中只有stackvector是线程安全的类线程安全的list还有copyonwritearraylist和collectionssynchronizedlistcollectionssynchronizedlist使用装饰模式为传入的list操作加上同步锁">
-  ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。
-  <a class="anchor" href="#arraylistlinklistvectorstack%e4%b8%ad%e5%8f%aa%e6%9c%89stackvector%e6%98%af%e7%ba%bf%e7%a8%8b%e5%ae%89%e5%85%a8%e7%9a%84%e7%b1%bb%e7%ba%bf%e7%a8%8b%e5%ae%89%e5%85%a8%e7%9a%84list%e8%bf%98%e6%9c%89copyonwritearraylist%e5%92%8ccollectionssynchronizedlistcollectionssynchronizedlist%e4%bd%bf%e7%94%a8%e8%a3%85%e9%a5%b0%e6%a8%a1%e5%bc%8f%e4%b8%ba%e4%bc%a0%e5%85%a5%e7%9a%84list%e6%93%8d%e4%bd%9c%e5%8a%a0%e4%b8%8a%e5%90%8c%e6%ad%a5%e9%94%81">#</a>
-</h2>
-<h2 id="stack底层数据结构是vectorvector的所有操作都加了synchronized关键字vector的底层使用数组保存数据类似与arraylist一般多线程状态下使用list会选择vector">
-  Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。
-  <a class="anchor" href="#stack%e5%ba%95%e5%b1%82%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e6%98%afvectorvector%e7%9a%84%e6%89%80%e6%9c%89%e6%93%8d%e4%bd%9c%e9%83%bd%e5%8a%a0%e4%ba%86synchronized%e5%85%b3%e9%94%ae%e5%ad%97vector%e7%9a%84%e5%ba%95%e5%b1%82%e4%bd%bf%e7%94%a8%e6%95%b0%e7%bb%84%e4%bf%9d%e5%ad%98%e6%95%b0%e6%8d%ae%e7%b1%bb%e4%bc%bc%e4%b8%8earraylist%e4%b8%80%e8%88%ac%e5%a4%9a%e7%ba%bf%e7%a8%8b%e7%8a%b6%e6%80%81%e4%b8%8b%e4%bd%bf%e7%94%a8list%e4%bc%9a%e9%80%89%e6%8b%a9vector">#</a>
-</h2>
-<h2 id="hashset底层数据结构是hashmap">
-  HashSet底层数据结构是HashMap
-  <a class="anchor" href="#hashset%e5%ba%95%e5%b1%82%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e6%98%afhashmap">#</a>
-</h2>
-<h2 id="linkedhashset底层数据结构是linkedhashmap">
-  LinkedHashSet底层数据结构是LinkedHashMap
-  <a class="anchor" href="#linkedhashset%e5%ba%95%e5%b1%82%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e6%98%aflinkedhashmap">#</a>
-</h2>
+<ol start="2">
+<li>
+<p>ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。</p>
+</li>
+<li>
+<p>Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。</p>
+</li>
+<li>
+<p>HashSet底层数据结构是HashMap</p>
+</li>
+<li>
+<p>LinkedHashSet底层数据结构是LinkedHashMap</p>
+</li>
+</ol>
 </article>
  
       
@@ -743,11 +748,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#arraylist与linklist对比">ArrayList与LinkList对比：</a></li>
-    <li><a href="#arraylistlinklistvectorstack中只有stackvector是线程安全的类线程安全的list还有copyonwritearraylist和collectionssynchronizedlistcollectionssynchronizedlist使用装饰模式为传入的list操作加上同步锁">ArrayList、LinkList、Vector、Stack中只有Stack、Vector是线程安全的类，线程安全的List还有CopyOnWriteArrayList和Collections.synchronizedList()。Collections.synchronizedList()使用装饰模式为传入的List操作加上同步锁。</a></li>
-    <li><a href="#stack底层数据结构是vectorvector的所有操作都加了synchronized关键字vector的底层使用数组保存数据类似与arraylist一般多线程状态下使用list会选择vector">Stack底层数据结构是Vector，Vector的所有操作都加了synchronized关键字，Vector的底层使用数组保存数据，类似与ArrayList。一般多线程状态下使用List会选择Vector。</a></li>
-    <li><a href="#hashset底层数据结构是hashmap">HashSet底层数据结构是HashMap</a></li>
-    <li><a href="#linkedhashset底层数据结构是linkedhashmap">LinkedHashSet底层数据结构是LinkedHashMap</a></li>
+    <li><a href="#容器">容器</a></li>
   </ul>
 </nav>
 

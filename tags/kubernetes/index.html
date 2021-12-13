@@ -13,9 +13,9 @@
 <title>Kubernetes | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://hnbcao.vip/tags/kubernetes/index.xml" title="HNBCAO" />
 <!--
 Made with Book Theme
@@ -243,7 +243,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class="">Java学习笔记</a>
   
 
         </li>
@@ -754,8 +754,8 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>Kubernetes集群搭建 #  概述 #   本文基于kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
- 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.
+    <p>Kubernetes集群搭建 #  一、概述 #   本文基于kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  二、安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.
         <a href="/docs/container/kubernetes/1-kubernetes-cluster-installation/">...</a>
       
     </p>
@@ -790,8 +790,9 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>安装Cert Manager #  Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
-创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.
+    <p>安装Cert Manager #  一、安装 #  https://cert-manager.io/docs/installation/kubernetes/
+二、创建ClusterIssuer #  集群内所有命名空间公用方案
+apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.domian.io http: paths: - path: / backend: serviceName: harbor-harbor-portal servicePort: 80 Ingress通过在annotations中添加cert-manager.
         <a href="/docs/container/kubernetes/2-kubernetes-cert-manager/">...</a>
       
     </p>
@@ -826,7 +827,8 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>部署TraefikIngress #  使用OpenSSL创建TLS证书（已有证书则跳过该选项） #   设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *.
+    <p>部署TraefikIngress #  一、创建证书 #  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
+ 设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *.
         <a href="/docs/container/kubernetes/3-kubernetes-traefik-ingress/">...</a>
       
     </p>
@@ -861,10 +863,8 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>创建集群用户 #  1、创建用户
-apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 2、获取管理员用户的Token，通过执行如下命令获取系统Token信息
-kubectl describe secret admin-user --namespace=kube-system 3、导入kubeconfig文件
-DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.conf kubectl config set-credentials admin-user --token=$DASH_TOCKEN --kubeconfig=/root/kube-admin.conf kubectl config set-context admin-user@kubernetes --cluster=kubernetes --user=admin-user --kubeconfig=/root/kube-admin.
+    <p>创建集群用户 #  一、创建用户 #  apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 二、获取Token #  获取管理员用户的Token，通过执行如下命令获取系统Token信息
+kubectl describe secret admin-user --namespace=kube-system 三、导出配置 #  DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.conf kubectl config set-credentials admin-user --token=$DASH_TOCKEN --kubeconfig=/root/kube-admin.
         <a href="/docs/container/kubernetes/4-create-kubernetes-user/">...</a>
       
     </p>
@@ -899,9 +899,11 @@ DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpa
 
 
 
-    <p>创建ImagePullSecret #  登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件 #  { &#34;auths&#34;: { &#34;harbor.hnbcao.tech&#34;: { &#34;auth&#34;: &#34;YWRtaW4******lRlY2g=&#34; } }, &#34;HttpHeaders&#34;: { &#34;User-Agent&#34;: &#34;Docker-Client/***&#34; } } 执行如下命令创建ImagePullSecret #  kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
- harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  为项目添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
-kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao spec: containers: - name: hnbcao image: nginx imagePullSecrets: - name: harbor-admin-secret 结束 #  附上官网教程：https://kubernetes.
+    <p>创建ImagePullSecret #  一、登录仓库 #  登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
+{ &#34;auths&#34;: { &#34;harbor.hnbcao.tech&#34;: { &#34;auth&#34;: &#34;YWRtaW4******lRlY2g=&#34; } }, &#34;HttpHeaders&#34;: { &#34;User-Agent&#34;: &#34;Docker-Client/***&#34; } } 二、创建ImagePullSecret #  执行如下命令创建ImagePullSecret
+kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
+ harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  三、添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
+kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.
         <a href="/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/">...</a>
       
     </p>
@@ -936,18 +938,14 @@ kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 
 
 
 
-    <p>kubernetes集群运行问题记录 #    集群内部容器无法解析外部DNS
-原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
-解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
-  gitlab迁移之后系统异常
-原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
-解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
-  kubernetes证书相关问题
-原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
-解决办法：
+    <p>kubernetes集群运行问题记录 #  一、集群内部容器无法解析外部DNS #    原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
+  解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
+  二、gitlab迁移之后系统异常 #    原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
+  解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
+  三、kubernetes证书相关问题 #    原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
+  解决办法：
  查看etcd日志，发现有出现关于证书的错误信息。master节点上执行openssl x509 -text -in /etc/kubernetes/pki/etcd/server.crt -noout查看证书的sans。输出证书信息为：  Certificate: ... X509v3 extensions: ... X509v3 Subject Alternative Name: DNS:master1.segma.local, DNS:localhost, IP Address:192.168.1.202, IP Address:127.0.0.1, IP Address:0:0:0:0:0:0:0:1 ... 其中X509v3 Subject Alternative Name项中，DNS和IP地址不包括其他主节点地址，所以证书不完整，需要重新生成证书。
 以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：
-cat &gt; etcd-cert-conf.yaml &lt;&lt;-EOF apiVersion: &#34;kubeadm.k8s.io/v1beta2&#34; kind: ClusterConfiguration kubernetesVersion: ${kubernetesVersion} etcd: local: serverCertSANs: - &#34;master1.
         <a href="/docs/container/kubernetes/6-kubernetes-seo/">...</a>
       
     </p>

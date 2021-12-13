@@ -3,32 +3,24 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="kubernetes集群运行问题记录 #    集群内部容器无法解析外部DNS
-原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
-解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
-  gitlab迁移之后系统异常
-原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
-解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
-  kubernetes证书相关问题
-原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
-解决办法：
+<meta name="description" content="kubernetes集群运行问题记录 #  一、集群内部容器无法解析外部DNS #    原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
+  解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
+  二、gitlab迁移之后系统异常 #    原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
+  解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
+  三、kubernetes证书相关问题 #    原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
+  解决办法：
  查看etcd日志，发现有出现关于证书的错误信息。master节点上执行openssl x509 -text -in /etc/kubernetes/pki/etcd/server.crt -noout查看证书的sans。输出证书信息为：  Certificate: ... X509v3 extensions: ... X509v3 Subject Alternative Name: DNS:master1.segma.local, DNS:localhost, IP Address:192.168.1.202, IP Address:127.0.0.1, IP Address:0:0:0:0:0:0:0:1 ... 其中X509v3 Subject Alternative Name项中，DNS和IP地址不包括其他主节点地址，所以证书不完整，需要重新生成证书。
-以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：
-cat &gt; etcd-cert-conf.yaml &lt;&lt;-EOF apiVersion: &#34;kubeadm.k8s.io/v1beta2&#34; kind: ClusterConfiguration kubernetesVersion: ${kubernetesVersion} etcd: local: serverCertSANs: - &#34;master1.">
+以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="kubernetes集群运行问题记录" />
-<meta property="og:description" content="kubernetes集群运行问题记录 #    集群内部容器无法解析外部DNS
-原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
-解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
-  gitlab迁移之后系统异常
-原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
-解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
-  kubernetes证书相关问题
-原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
-解决办法：
+<meta property="og:description" content="kubernetes集群运行问题记录 #  一、集群内部容器无法解析外部DNS #    原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。
+  解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。
+  二、gitlab迁移之后系统异常 #    原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。
+  解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。
+  三、kubernetes证书相关问题 #    原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。
+  解决办法：
  查看etcd日志，发现有出现关于证书的错误信息。master节点上执行openssl x509 -text -in /etc/kubernetes/pki/etcd/server.crt -noout查看证书的sans。输出证书信息为：  Certificate: ... X509v3 extensions: ... X509v3 Subject Alternative Name: DNS:master1.segma.local, DNS:localhost, IP Address:192.168.1.202, IP Address:127.0.0.1, IP Address:0:0:0:0:0:0:0:1 ... 其中X509v3 Subject Alternative Name项中，DNS和IP地址不包括其他主节点地址，所以证书不完整，需要重新生成证书。
-以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：
-cat &gt; etcd-cert-conf.yaml &lt;&lt;-EOF apiVersion: &#34;kubeadm.k8s.io/v1beta2&#34; kind: ClusterConfiguration kubernetesVersion: ${kubernetesVersion} etcd: local: serverCertSANs: - &#34;master1." />
+以下所有操作在所有主节点上执行。首先备份/etc/kubernetes/pki下所有文件  cp -r /etc/kubernetes/pki /etc/kubernetes/pki_backup 使用kubeadm生成证书，新建kubeadm config文件，填写其他master节点信息。内容如下：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2020-01-02T09:17:08+00:00" />
@@ -37,9 +29,9 @@ cat &gt; etcd-cert-conf.yaml &lt;&lt;-EOF apiVersion: &#34;kubeadm.k8s.io/v1beta
 <title>kubernetes集群运行问题记录 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -266,7 +258,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class="">Java学习笔记</a>
   
 
         </li>
@@ -677,7 +669,13 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一集群内部容器无法解析外部dns">一、集群内部容器无法解析外部DNS</a></li>
+    <li><a href="#二gitlab迁移之后系统异常">二、gitlab迁移之后系统异常</a></li>
+    <li><a href="#三kubernetes证书相关问题">三、kubernetes证书相关问题</a></li>
+  </ul>
+</nav>
 
 
 
@@ -692,20 +690,39 @@ https://github.com/alex-shpak/hugo-book
   kubernetes集群运行问题记录
   <a class="anchor" href="#kubernetes%e9%9b%86%e7%be%a4%e8%bf%90%e8%a1%8c%e9%97%ae%e9%a2%98%e8%ae%b0%e5%bd%95">#</a>
 </h1>
+<h2 id="一集群内部容器无法解析外部dns">
+  一、集群内部容器无法解析外部DNS
+  <a class="anchor" href="#%e4%b8%80%e9%9b%86%e7%be%a4%e5%86%85%e9%83%a8%e5%ae%b9%e5%99%a8%e6%97%a0%e6%b3%95%e8%a7%a3%e6%9e%90%e5%a4%96%e9%83%a8dns">#</a>
+</h2>
 <ul>
 <li>
-<p>集群内部容器无法解析外部DNS</p>
 <p>原因：由于节点名为nodex.domain.xx，集群内部容器的/etc/resolv.conf中search域会domain.xx域，容器在解析外网域名时默认会先在外网域名后添加.domain.xx进行域名解析，而外网存在域名domain.xx，且DNS解析域名为*.domain.xx，所以会将外网域名解析至*.domain.xx对应的IP地址，最终导致容器内部无法访问外网域名。</p>
+</li>
+<li>
 <p>解决办法：尽量避免集群内部节点名与外网域名冲突，可采用domain.local结尾等命名方式为节点命名。</p>
 </li>
+</ul>
+<h2 id="二gitlab迁移之后系统异常">
+  二、gitlab迁移之后系统异常
+  <a class="anchor" href="#%e4%ba%8cgitlab%e8%bf%81%e7%a7%bb%e4%b9%8b%e5%90%8e%e7%b3%bb%e7%bb%9f%e5%bc%82%e5%b8%b8">#</a>
+</h2>
+<ul>
 <li>
-<p>gitlab迁移之后系统异常</p>
 <p>原因：集群新建gitlab仓库各组件之间的认证文件与原有gialab不一致，导致恢复数据之后部分组件之间交互异常。</p>
-<p>解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。</p>
 </li>
 <li>
-<p>kubernetes证书相关问题</p>
+<p>解决办法：新建gitlab之前，迁移原有gitlab中所有的secret文件。</p>
+</li>
+</ul>
+<h2 id="三kubernetes证书相关问题">
+  三、kubernetes证书相关问题
+  <a class="anchor" href="#%e4%b8%89kubernetes%e8%af%81%e4%b9%a6%e7%9b%b8%e5%85%b3%e9%97%ae%e9%a2%98">#</a>
+</h2>
+<ul>
+<li>
 <p>原因：由于没有配置etcd证书的sans，导致集群master节点故障时，etcd无法启动，集群崩溃。</p>
+</li>
+<li>
 <p>解决办法：</p>
 <ol>
 <li>查看etcd日志，发现有出现关于证书的错误信息。master节点上执行<code>openssl x509 -text -in /etc/kubernetes/pki/etcd/server.crt -noout</code>查看证书的sans。输出证书信息为：</li>
@@ -794,7 +811,13 @@ kubeadm init phase certs etcd-healthcheck-client --config etcd-cert-conf.yaml
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#一集群内部容器无法解析外部dns">一、集群内部容器无法解析外部DNS</a></li>
+    <li><a href="#二gitlab迁移之后系统异常">二、gitlab迁移之后系统异常</a></li>
+    <li><a href="#三kubernetes证书相关问题">三、kubernetes证书相关问题</a></li>
+  </ul>
+</nav>
 
 
  

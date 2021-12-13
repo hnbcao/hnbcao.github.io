@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="部署TraefikIngress #  使用OpenSSL创建TLS证书（已有证书则跳过该选项） #   设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *.">
+<meta name="description" content="部署TraefikIngress #  一、创建证书 #  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
+ 设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Kubernetes集群安装Traefik Ingress" />
-<meta property="og:description" content="部署TraefikIngress #  使用OpenSSL创建TLS证书（已有证书则跳过该选项） #   设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *." />
+<meta property="og:description" content="部署TraefikIngress #  一、创建证书 #  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
+ 设置证书信息  cd ~ &amp;&amp; mkdir tls echo &#34;&#34;&#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp; D Department commonName = Common Name (eg, your name or your server\&#39;s hostname) commonName_value = *." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2019-12-31T17:21:39+00:00" />
@@ -15,9 +17,9 @@
 <title>Kubernetes集群安装Traefik Ingress | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -244,7 +246,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class="">Java学习笔记</a>
   
 
         </li>
@@ -657,8 +659,8 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
-    <li><a href="#部署traefik">部署Traefik</a></li>
+    <li><a href="#一创建证书">一、创建证书</a></li>
+    <li><a href="#二部署traefik">二、部署Traefik</a></li>
   </ul>
 </nav>
 
@@ -675,10 +677,11 @@ https://github.com/alex-shpak/hugo-book
   部署TraefikIngress
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2traefikingress">#</a>
 </h1>
-<h2 id="使用openssl创建tls证书已有证书则跳过该选项">
-  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
-  <a class="anchor" href="#%e4%bd%bf%e7%94%a8openssl%e5%88%9b%e5%bb%batls%e8%af%81%e4%b9%a6%e5%b7%b2%e6%9c%89%e8%af%81%e4%b9%a6%e5%88%99%e8%b7%b3%e8%bf%87%e8%af%a5%e9%80%89%e9%a1%b9">#</a>
+<h2 id="一创建证书">
+  一、创建证书
+  <a class="anchor" href="#%e4%b8%80%e5%88%9b%e5%bb%ba%e8%af%81%e4%b9%a6">#</a>
 </h2>
+<p>使用OpenSSL创建TLS证书（已有证书则跳过该选项）</p>
 <ul>
 <li>设置证书信息</li>
 </ul>
@@ -715,9 +718,9 @@ echo <span style="color:#e6db74">&#34;&#34;&#34;
 <li>生成证书</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">openssl req -newkey rsa:4096 -nodes -config ~/tls/openssl.cnf -days <span style="color:#ae81ff">3650</span> -x509 -out ~/tls/tls.crt -keyout ~/tls/tls.key
-</code></pre></div><h2 id="部署traefik">
-  部署Traefik
-  <a class="anchor" href="#%e9%83%a8%e7%bd%b2traefik">#</a>
+</code></pre></div><h2 id="二部署traefik">
+  二、部署Traefik
+  <a class="anchor" href="#%e4%ba%8c%e9%83%a8%e7%bd%b2traefik">#</a>
 </h2>
 <ul>
 <li>添加证书至集群</li>
@@ -768,8 +771,8 @@ echo <span style="color:#e6db74">&#34;&#34;&#34;
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#使用openssl创建tls证书已有证书则跳过该选项">使用OpenSSL创建TLS证书（已有证书则跳过该选项）</a></li>
-    <li><a href="#部署traefik">部署Traefik</a></li>
+    <li><a href="#一创建证书">一、创建证书</a></li>
+    <li><a href="#二部署traefik">二、部署Traefik</a></li>
   </ul>
 </nav>
 

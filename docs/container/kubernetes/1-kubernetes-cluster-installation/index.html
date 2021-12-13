@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kubernetes集群搭建 #  概述 #   本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
- 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.">
+<meta name="description" content="Kubernetes集群搭建 #  一、概述 #   本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  二、安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Kubernetes集群安装" />
-<meta property="og:description" content="Kubernetes集群搭建 #  概述 #   本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
- 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192." />
+<meta property="og:description" content="Kubernetes集群搭建 #  一、概述 #   本文基于kubeadm HA master(v1.13.0)离线包 &#43; 自动化脚本 &#43; 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy&#43;keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived&#43;haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived&#43;haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived&#43;haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
+ 发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  二、安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.168.56.105   node1 node1 192." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2019-12-31T16:16:02+00:00" />
@@ -17,9 +17,9 @@
 <title>Kubernetes集群安装 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -246,7 +246,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/java/note/collections/" class="">Java容器学习笔记</a>
+    <a href="https://hnbcao.vip/docs/java/note/java/" class="">Java学习笔记</a>
   
 
         </li>
@@ -659,15 +659,15 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#概述">概述</a></li>
-    <li><a href="#安装环境">安装环境</a></li>
-    <li><a href="#离线仓库制作可选">离线仓库制作（可选）</a></li>
-    <li><a href="#软件安装">软件安装</a></li>
-    <li><a href="#节点配置">节点配置</a></li>
-    <li><a href="#负载均衡">负载均衡</a></li>
-    <li><a href="#部署master-ha">部署Master HA</a></li>
-    <li><a href="#加入节点">加入节点</a></li>
-    <li><a href="#结束安装">结束安装</a></li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二安装环境">二、安装环境</a></li>
+    <li><a href="#三离线仓库制作可选">三、离线仓库制作（可选）</a></li>
+    <li><a href="#四软件安装">四、软件安装</a></li>
+    <li><a href="#五节点配置">五、节点配置</a></li>
+    <li><a href="#六负载均衡">六、负载均衡</a></li>
+    <li><a href="#七部署master-ha">七、部署Master HA</a></li>
+    <li><a href="#八加入节点">八、加入节点</a></li>
+    <li><a href="#九结束安装">九、结束安装</a></li>
   </ul>
 </nav>
 
@@ -684,9 +684,9 @@ https://github.com/alex-shpak/hugo-book
   Kubernetes集群搭建
   <a class="anchor" href="#kubernetes%e9%9b%86%e7%be%a4%e6%90%ad%e5%bb%ba">#</a>
 </h1>
-<h2 id="概述">
-  概述
-  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+<h2 id="一概述">
+  一、概述
+  <a class="anchor" href="#%e4%b8%80%e6%a6%82%e8%bf%b0">#</a>
 </h2>
 <ol>
 <li>本文基于<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。</li>
@@ -708,9 +708,9 @@ https://github.com/alex-shpak/hugo-book
 <li>metrics插件：metrics-server</li>
 <li>界面：kubernetes-dashboard</li>
 </ul>
-<h2 id="安装环境">
-  安装环境
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e7%8e%af%e5%a2%83">#</a>
+<h2 id="二安装环境">
+  二、安装环境
+  <a class="anchor" href="#%e4%ba%8c%e5%ae%89%e8%a3%85%e7%8e%af%e5%a2%83">#</a>
 </h2>
 <table>
 <thead>
@@ -753,9 +753,9 @@ https://github.com/alex-shpak/hugo-book
 </tr>
 </tbody>
 </table>
-<h2 id="离线仓库制作可选">
-  离线仓库制作（可选）
-  <a class="anchor" href="#%e7%a6%bb%e7%ba%bf%e4%bb%93%e5%ba%93%e5%88%b6%e4%bd%9c%e5%8f%af%e9%80%89">#</a>
+<h2 id="三离线仓库制作可选">
+  三、离线仓库制作（可选）
+  <a class="anchor" href="#%e4%b8%89%e7%a6%bb%e7%ba%bf%e4%bb%93%e5%ba%93%e5%88%b6%e4%bd%9c%e5%8f%af%e9%80%89">#</a>
 </h2>
 <p>具体制作方式见：<a href="https://hnbcao.vip/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/">CentOS离线镜像仓库创建</a></p>
 <p>需要制作的离线仓库有：</p>
@@ -841,9 +841,9 @@ gpgkey<span style="color:#f92672">=</span>https://download.docker.com/linux/cent
 </span><span style="color:#e6db74">gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
 </span><span style="color:#e6db74">        http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 </span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h2 id="软件安装">
-  软件安装
-  <a class="anchor" href="#%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85">#</a>
+</code></pre></div><h2 id="四软件安装">
+  四、软件安装
+  <a class="anchor" href="#%e5%9b%9b%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">
 <span style="color:#75715e"># 安装ifconfig</span>
@@ -874,9 +874,9 @@ yum install -y kubelet kubeadm kubectl ebtables
 <span style="color:#75715e"># 其他软件安装</span>
 yum install wget
 
-</code></pre></div><h2 id="节点配置">
-  节点配置
-  <a class="anchor" href="#%e8%8a%82%e7%82%b9%e9%85%8d%e7%bd%ae">#</a>
+</code></pre></div><h2 id="五节点配置">
+  五、节点配置
+  <a class="anchor" href="#%e4%ba%94%e8%8a%82%e7%82%b9%e9%85%8d%e7%bd%ae">#</a>
 </h2>
 <ul>
 <li>关闭SELinux、防火墙</li>
@@ -988,9 +988,9 @@ ssh-keygen
 <span style="color:#75715e"># 2、拷贝密钥到其他节点</span>
 ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx
 </code></pre></div><p>**、 Kubernetes要求集群中所有机器具有不同的Mac地址、产品uuid、Hostname。</p>
-<h2 id="负载均衡">
-  负载均衡
-  <a class="anchor" href="#%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1">#</a>
+<h2 id="六负载均衡">
+  六、负载均衡
+  <a class="anchor" href="#%e5%85%ad%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd ~/
 <span style="color:#75715e"># 创建集群信息文件</span>
@@ -1099,9 +1099,9 @@ systemctl start keepalived
 systemctl stop haproxy
 systemctl enable haproxy
 systemctl start haproxy
-</code></pre></div><h2 id="部署master-ha">
-  部署Master HA
-  <a class="anchor" href="#%e9%83%a8%e7%bd%b2master-ha">#</a>
+</code></pre></div><h2 id="七部署master-ha">
+  七、部署Master HA
+  <a class="anchor" href="#%e4%b8%83%e9%83%a8%e7%bd%b2master-ha">#</a>
 </h2>
 <p>HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;</p>
 <p>脚本主要执行三步：</p>
@@ -1161,18 +1161,18 @@ ssh <span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span> 
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 部署HA master</span>
  
 bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-</code></pre></div><h2 id="加入节点">
-  加入节点
-  <a class="anchor" href="#%e5%8a%a0%e5%85%a5%e8%8a%82%e7%82%b9">#</a>
+</code></pre></div><h2 id="八加入节点">
+  八、加入节点
+  <a class="anchor" href="#%e5%85%ab%e5%8a%a0%e5%85%a5%e8%8a%82%e7%82%b9">#</a>
 </h2>
 <ul>
 <li>节点加入命令获取</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#master节点执行该命令，再在节点执行获取到的命令</span>
 kubeadm token create --print-join-command
-</code></pre></div><h2 id="结束安装">
-  结束安装
-  <a class="anchor" href="#%e7%bb%93%e6%9d%9f%e5%ae%89%e8%a3%85">#</a>
+</code></pre></div><h2 id="九结束安装">
+  九、结束安装
+  <a class="anchor" href="#%e4%b9%9d%e7%bb%93%e6%9d%9f%e5%ae%89%e8%a3%85">#</a>
 </h2>
 <p>此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问<a href="https://www.projectcalico.org/">calico官网</a>，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。</p>
 <p>文章只是在文章<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>的基础上，修改了master的HA方案。关于集群安装的详细步骤，建议访问<a href="https://www.kubernetes.org.cn/4948.html">kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora</a>。</p>
@@ -1217,15 +1217,15 @@ kubeadm token create --print-join-command
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#概述">概述</a></li>
-    <li><a href="#安装环境">安装环境</a></li>
-    <li><a href="#离线仓库制作可选">离线仓库制作（可选）</a></li>
-    <li><a href="#软件安装">软件安装</a></li>
-    <li><a href="#节点配置">节点配置</a></li>
-    <li><a href="#负载均衡">负载均衡</a></li>
-    <li><a href="#部署master-ha">部署Master HA</a></li>
-    <li><a href="#加入节点">加入节点</a></li>
-    <li><a href="#结束安装">结束安装</a></li>
+    <li><a href="#一概述">一、概述</a></li>
+    <li><a href="#二安装环境">二、安装环境</a></li>
+    <li><a href="#三离线仓库制作可选">三、离线仓库制作（可选）</a></li>
+    <li><a href="#四软件安装">四、软件安装</a></li>
+    <li><a href="#五节点配置">五、节点配置</a></li>
+    <li><a href="#六负载均衡">六、负载均衡</a></li>
+    <li><a href="#七部署master-ha">七、部署Master HA</a></li>
+    <li><a href="#八加入节点">八、加入节点</a></li>
+    <li><a href="#九结束安装">九、结束安装</a></li>
   </ul>
 </nav>
 
