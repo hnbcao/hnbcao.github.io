@@ -43,7 +43,7 @@ volumes:
 
  Compose是用于定义和运行多容器应用的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。例如：一个Wordpress项目包含mysql数据库和wordpress应用，首先创建docker-compose.yml文件（建议在wordpress文件夹下创建，方便管理），然后在docker-compose.yml文件所在的目录下运行“docker-compose up -d”，Compose就会通过配置创建并启动Wordpress。
 
- ## 一、安装Docker Compose
+ ## 安装
 
  系统环境
 
@@ -59,7 +59,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
- ## 二、Compose常用命令简介
+## 常用命令
 
  本文只介绍在生产环境中经常会用到的几个命令，关于其他命令，可通过“docker-compose help”命令查询，或者查询[Docker官方网站](https://docs.docker.com/compose/reference/overview/)
 
@@ -76,7 +76,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 
  停止应用所有容器并删除compose创建的网络，存储和容器。
 
-  ## 三、docker-compose.yml介绍
+## 配置文件
 
 下面是wordpress应用的docker-compose.yml的内容，各部分介绍将会通过该文件展开：
 

@@ -14,11 +14,11 @@ tags:
 ---
 # 安装Cert Manager
 
-## 一、Installing the Chart
+## Installing the Chart
 
 [https://cert-manager.io/docs/installation/kubernetes/](https://cert-manager.io/docs/installation/kubernetes/)
 
-## 二、创建ClusterIssuer(集群内所有命名空间公用方案)
+## 创建ClusterIssuer(集群内所有命名空间公用方案)
 
 ```yaml
 apiVersion: cert-manager.io/v1alpha2
@@ -37,7 +37,7 @@ spec:
           class: traefik
 ```
 
-## 三、创建Issuer(集群内单个命名空间独享方案)
+## 创建Issuer(集群内单个命名空间独享方案)
 
 ```yaml
 apiVersion: cert-manager.io/v1alpha2
@@ -56,7 +56,7 @@ spec:
           class: traefik
 ```
 
-## 四、Ingress应用ClusterIssuer
+## Ingress应用ClusterIssuer
 
 ```yaml
 kind: Ingress
@@ -88,39 +88,6 @@ spec:
 ```
 
 Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。
-
-## 四、Ingress应用ClusterIssuer
-
-```yaml
-kind: Ingress
-apiVersion: extensions/v1beta1
-metadata:
-  name: harbor-ingress
-  namespace: ns-harbor
-  labels:
-    app: harbor
-    chart: harbor
-    heritage: Helm
-    release: harbor
-  annotations:
-    cert-manager.io/issuer: letsencrypt-prod
-spec:
-  tls:
-    - hosts:
-        - harbor.domian.io
-      secretName: harbor-letsencrypt-tls
-  rules:
-    - host: harbor.domian.io
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: harbor-harbor-portal
-              servicePort: 80
-
-```
-
-Ingress通过在annotations中添加cert-manager.io/issuer: letsencrypt-prod为ingress中的域名自动生成证书。
 
 ## 结束
 
