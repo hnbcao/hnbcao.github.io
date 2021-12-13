@@ -1,0 +1,26 @@
+@import "plugins/numbered";
+@import "plugins/scrollbars";
+// // Webkit
+// ::-webkit-scrollbar {
+//     width: $padding-8;
+//     background: var(--gray-200);
+// }
+  
+// ::-webkit-scrollbar-thumb {
+//     background: var(--gray-500);
+//     border-radius: $padding-8;
+// }
+  
+// :hover::-webkit-scrollbar-thumb {
+//     background: var(--gray-500);
+// }
+  
+//   // MS
+// body {
+//     -ms-overflow-style: scroll;
+// }
+  
+//   // Future
+// .book-menu nav {
+//     scrollbar-color: transparent var(--gray-500);
+// }
