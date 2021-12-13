@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="安装Cert Manager #  一、Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 四、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.">
+<meta name="description" content="安装Cert Manager #  Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
+创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Kubernetes集群安装Cert Manager" />
-<meta property="og:description" content="安装Cert Manager #  一、Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 四、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager." />
+<meta property="og:description" content="安装Cert Manager #  Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
+创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2019-12-31T17:31:17+00:00" />
@@ -17,9 +17,9 @@
 <title>Kubernetes集群安装Cert Manager | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -659,11 +659,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一installing-the-chart">一、Installing the Chart</a></li>
-    <li><a href="#二创建clusterissuer集群内所有命名空间公用方案">二、创建ClusterIssuer(集群内所有命名空间公用方案)</a></li>
-    <li><a href="#三创建issuer集群内单个命名空间独享方案">三、创建Issuer(集群内单个命名空间独享方案)</a></li>
-    <li><a href="#四ingress应用clusterissuer">四、Ingress应用ClusterIssuer</a></li>
-    <li><a href="#四ingress应用clusterissuer-1">四、Ingress应用ClusterIssuer</a></li>
+    <li><a href="#installing-the-chart">Installing the Chart</a></li>
+    <li><a href="#创建clusterissuer集群内所有命名空间公用方案">创建ClusterIssuer(集群内所有命名空间公用方案)</a></li>
+    <li><a href="#创建issuer集群内单个命名空间独享方案">创建Issuer(集群内单个命名空间独享方案)</a></li>
+    <li><a href="#ingress应用clusterissuer">Ingress应用ClusterIssuer</a></li>
     <li><a href="#结束">结束</a></li>
   </ul>
 </nav>
@@ -681,14 +680,14 @@ https://github.com/alex-shpak/hugo-book
   安装Cert Manager
   <a class="anchor" href="#%e5%ae%89%e8%a3%85cert-manager">#</a>
 </h1>
-<h2 id="一installing-the-chart">
-  一、Installing the Chart
-  <a class="anchor" href="#%e4%b8%80installing-the-chart">#</a>
+<h2 id="installing-the-chart">
+  Installing the Chart
+  <a class="anchor" href="#installing-the-chart">#</a>
 </h2>
 <p><a href="https://cert-manager.io/docs/installation/kubernetes/">https://cert-manager.io/docs/installation/kubernetes/</a></p>
-<h2 id="二创建clusterissuer集群内所有命名空间公用方案">
-  二、创建ClusterIssuer(集群内所有命名空间公用方案)
-  <a class="anchor" href="#%e4%ba%8c%e5%88%9b%e5%bb%baclusterissuer%e9%9b%86%e7%be%a4%e5%86%85%e6%89%80%e6%9c%89%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4%e5%85%ac%e7%94%a8%e6%96%b9%e6%a1%88">#</a>
+<h2 id="创建clusterissuer集群内所有命名空间公用方案">
+  创建ClusterIssuer(集群内所有命名空间公用方案)
+  <a class="anchor" href="#%e5%88%9b%e5%bb%baclusterissuer%e9%9b%86%e7%be%a4%e5%86%85%e6%89%80%e6%9c%89%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4%e5%85%ac%e7%94%a8%e6%96%b9%e6%a1%88">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1alpha2</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterIssuer</span>
@@ -704,9 +703,9 @@ https://github.com/alex-shpak/hugo-book
     - <span style="color:#f92672">http01</span>:
         <span style="color:#f92672">ingress</span>:
           <span style="color:#f92672">class</span>: <span style="color:#ae81ff">traefik</span>
-</code></pre></div><h2 id="三创建issuer集群内单个命名空间独享方案">
-  三、创建Issuer(集群内单个命名空间独享方案)
-  <a class="anchor" href="#%e4%b8%89%e5%88%9b%e5%bb%baissuer%e9%9b%86%e7%be%a4%e5%86%85%e5%8d%95%e4%b8%aa%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4%e7%8b%ac%e4%ba%ab%e6%96%b9%e6%a1%88">#</a>
+</code></pre></div><h2 id="创建issuer集群内单个命名空间独享方案">
+  创建Issuer(集群内单个命名空间独享方案)
+  <a class="anchor" href="#%e5%88%9b%e5%bb%baissuer%e9%9b%86%e7%be%a4%e5%86%85%e5%8d%95%e4%b8%aa%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4%e7%8b%ac%e4%ba%ab%e6%96%b9%e6%a1%88">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1alpha2</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Issuer</span>
@@ -722,9 +721,9 @@ https://github.com/alex-shpak/hugo-book
     - <span style="color:#f92672">http01</span>:
         <span style="color:#f92672">ingress</span>:
           <span style="color:#f92672">class</span>: <span style="color:#ae81ff">traefik</span>
-</code></pre></div><h2 id="四ingress应用clusterissuer">
-  四、Ingress应用ClusterIssuer
-  <a class="anchor" href="#%e5%9b%9bingress%e5%ba%94%e7%94%a8clusterissuer">#</a>
+</code></pre></div><h2 id="ingress应用clusterissuer">
+  Ingress应用ClusterIssuer
+  <a class="anchor" href="#ingress%e5%ba%94%e7%94%a8clusterissuer">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
 <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
@@ -753,37 +752,6 @@ https://github.com/alex-shpak/hugo-book
               <span style="color:#f92672">servicePort</span>: <span style="color:#ae81ff">80</span>
 
 </code></pre></div><p>Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。</p>
-<h2 id="四ingress应用clusterissuer-1">
-  四、Ingress应用ClusterIssuer
-  <a class="anchor" href="#%e5%9b%9bingress%e5%ba%94%e7%94%a8clusterissuer-1">#</a>
-</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
-<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
-<span style="color:#f92672">metadata</span>:
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">harbor-ingress</span>
-  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ns-harbor</span>
-  <span style="color:#f92672">labels</span>:
-    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">harbor</span>
-    <span style="color:#f92672">chart</span>: <span style="color:#ae81ff">harbor</span>
-    <span style="color:#f92672">heritage</span>: <span style="color:#ae81ff">Helm</span>
-    <span style="color:#f92672">release</span>: <span style="color:#ae81ff">harbor</span>
-  <span style="color:#f92672">annotations</span>:
-    <span style="color:#f92672">cert-manager.io/issuer</span>: <span style="color:#ae81ff">letsencrypt-prod</span>
-<span style="color:#f92672">spec</span>:
-  <span style="color:#f92672">tls</span>:
-    - <span style="color:#f92672">hosts</span>:
-        - <span style="color:#ae81ff">harbor.domian.io</span>
-      <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">harbor-letsencrypt-tls</span>
-  <span style="color:#f92672">rules</span>:
-    - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">harbor.domian.io</span>
-      <span style="color:#f92672">http</span>:
-        <span style="color:#f92672">paths</span>:
-          - <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/</span>
-            <span style="color:#f92672">backend</span>:
-              <span style="color:#f92672">serviceName</span>: <span style="color:#ae81ff">harbor-harbor-portal</span>
-              <span style="color:#f92672">servicePort</span>: <span style="color:#ae81ff">80</span>
-
-</code></pre></div><p>Ingress通过在annotations中添加cert-manager.io/issuer: letsencrypt-prod为ingress中的域名自动生成证书。</p>
 <h2 id="结束">
   结束
   <a class="anchor" href="#%e7%bb%93%e6%9d%9f">#</a>
@@ -832,11 +800,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一installing-the-chart">一、Installing the Chart</a></li>
-    <li><a href="#二创建clusterissuer集群内所有命名空间公用方案">二、创建ClusterIssuer(集群内所有命名空间公用方案)</a></li>
-    <li><a href="#三创建issuer集群内单个命名空间独享方案">三、创建Issuer(集群内单个命名空间独享方案)</a></li>
-    <li><a href="#四ingress应用clusterissuer">四、Ingress应用ClusterIssuer</a></li>
-    <li><a href="#四ingress应用clusterissuer-1">四、Ingress应用ClusterIssuer</a></li>
+    <li><a href="#installing-the-chart">Installing the Chart</a></li>
+    <li><a href="#创建clusterissuer集群内所有命名空间公用方案">创建ClusterIssuer(集群内所有命名空间公用方案)</a></li>
+    <li><a href="#创建issuer集群内单个命名空间独享方案">创建Issuer(集群内单个命名空间独享方案)</a></li>
+    <li><a href="#ingress应用clusterissuer">Ingress应用ClusterIssuer</a></li>
     <li><a href="#结束">结束</a></li>
   </ul>
 </nav>

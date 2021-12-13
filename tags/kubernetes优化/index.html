@@ -13,9 +13,9 @@
 <title>Kubernetes优化 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.d0603c1e1f10baa272d4a418b6753048d76af7b967b0b4f550cf656637882628.css" integrity="sha256-0GA8Hh8QuqJy1KQYtnUwSNdq97lnsLT1UM9lZjeIJig=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.4ea6536c9966b69a06b412bb583f9945a942f9cb817c4f23f7d2420373829da8.js" integrity="sha256-TqZTbJlmtpoGtBK7WD&#43;ZRalC&#43;cuBfE8j99JCA3OCnag=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.133ab9494a8401de16e81a7d05aad9823cfa93733111aee1ab545ad8ddbf6611.js" integrity="sha256-Ezq5SUqEAd4W6Bp9BarZgjz6k3MxEa7hq1Ra2N2/ZhE=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://hnbcao.vip/tags/kubernetes%E4%BC%98%E5%8C%96/index.xml" title="HNBCAO" />
 <!--
 Made with Book Theme
@@ -755,8 +755,8 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>安装Cert Manager #  一、Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 四、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.
+    <p>安装Cert Manager #  Installing the Chart #  https://cert-manager.io/docs/installation/kubernetes/
+创建ClusterIssuer(集群内所有命名空间公用方案) #  apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 创建Issuer(集群内单个命名空间独享方案) #  apiVersion: cert-manager.io/v1alpha2 kind: Issuer metadata: name: letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.
         <a href="/docs/container/kubernetes/2-kubernetes-cert-manager/">...</a>
       
     </p>
@@ -864,8 +864,8 @@ DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpa
 
 
 
-    <p>创建ImagePullSecret #  一、登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件 #  { &#34;auths&#34;: { &#34;harbor.hnbcao.tech&#34;: { &#34;auth&#34;: &#34;YWRtaW4******lRlY2g=&#34; } }, &#34;HttpHeaders&#34;: { &#34;User-Agent&#34;: &#34;Docker-Client/***&#34; } } 二、执行如下命令创建ImagePullSecret #  kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
- harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  四、为项目添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
+    <p>创建ImagePullSecret #  登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件 #  { &#34;auths&#34;: { &#34;harbor.hnbcao.tech&#34;: { &#34;auth&#34;: &#34;YWRtaW4******lRlY2g=&#34; } }, &#34;HttpHeaders&#34;: { &#34;User-Agent&#34;: &#34;Docker-Client/***&#34; } } 执行如下命令创建ImagePullSecret #  kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
+ harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  为项目添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
 kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao spec: containers: - name: hnbcao image: nginx imagePullSecrets: - name: harbor-admin-secret 结束 #  附上官网教程：https://kubernetes.
         <a href="/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/">...</a>
       
