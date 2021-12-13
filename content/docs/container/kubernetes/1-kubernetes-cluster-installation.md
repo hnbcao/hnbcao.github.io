@@ -13,7 +13,7 @@ tags:
 ---
 # Kubernetes集群搭建
 
-## 概述
+## 一、概述
 
 1. 本文基于[kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora](https://www.kubernetes.org.cn/4948.html)编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。
 2. 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。
@@ -34,7 +34,7 @@ tags:
 - metrics插件：metrics-server
 - 界面：kubernetes-dashboard
 
-## 安装环境
+## 二、安装环境
 
 | Host Name | Role | IP |
 | ------ | ------ | ------ |
@@ -45,7 +45,7 @@ tags:
 | node2 | node2 | 192.168.56.107 |
 | node3 | node3 | 192.168.56.108 |
 
-## 离线仓库制作（可选）
+## 三、离线仓库制作（可选）
 
 具体制作方式见：[CentOS离线镜像仓库创建](https://hnbcao.vip/2021/02/24/centos-chi-xian-jing-xiang-cang-ku-chuang-jian/)
 
@@ -141,7 +141,7 @@ EOF
 
 
 
-## 软件安装
+## 四、软件安装
 
 ```sh
 
@@ -175,7 +175,7 @@ yum install wget
 
 ```
 
-## 节点配置
+## 五、节点配置
 
 * 关闭SELinux、防火墙
 
@@ -310,7 +310,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub  用户名字@192.168.x.xxx
 
 **、 Kubernetes要求集群中所有机器具有不同的Mac地址、产品uuid、Hostname。
 
-## 负载均衡
+## 六、负载均衡
 
 ```sh
 cd ~/
@@ -431,7 +431,7 @@ systemctl enable haproxy
 systemctl start haproxy
 ```
 
-## 部署Master HA 
+## 七、部署Master HA 
 
 HA Master的部署过程已经自动化，请在master-1上执行如下命令，并注意修改IP;
 
@@ -512,7 +512,7 @@ ssh ${ip} "${JOIN_CMD} --control-plane"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master/v1.14.0/kube-ha.sh)"
 ```
 
-## 加入节点
+## 八、加入节点
 
 * 节点加入命令获取
 
@@ -520,7 +520,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/hnbcao/kubeadm-ha-master
 #master节点执行该命令，再在节点执行获取到的命令
 kubeadm token create --print-join-command
 ```
-## 结束安装
+## 九、结束安装
 
 此时集群还需要安装网络组件，我选择了calico。具体安装方式可访问[calico官网](https://www.projectcalico.org/)，或者运行本仓库里面addons/calico下的配置。注意替换里面的镜像和Deployment里面的环境变量CALICO_IPV4POOL_CIDR为/etc/kubernetes/kubeadm-config.yaml里面networking.podSubnet的值。
 

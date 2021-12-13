@@ -14,7 +14,9 @@ tags:
 ---
 # 创建ImagePullSecret
 
-## 登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
+## 一、登录仓库
+
+登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
 
 ```json
 {
@@ -29,7 +31,9 @@ tags:
 }
 ```
 
-## 执行如下命令创建ImagePullSecret
+## 二、创建ImagePullSecret
+
+执行如下命令创建ImagePullSecret
 
 ```sh
 kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore
@@ -41,7 +45,7 @@ kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=
 - type： 指定secret类型为kubernetes.io/dockerconfigjson
 - namespace：secret命名空间
 
-## 为项目添加ImagePullSecret
+## 三、添加ImagePullSecret
 
 - Deployment
 
@@ -71,6 +75,6 @@ spec:
         - name: harbor-admin-secret
 ```
 
-## 结束
+## 四、结束
 
 附上官网教程：[https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)

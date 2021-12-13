@@ -14,7 +14,9 @@ tags:
 ---
 # 部署TraefikIngress
 
-## 使用OpenSSL创建TLS证书（已有证书则跳过该选项）
+## 一、创建证书
+
+使用OpenSSL创建TLS证书（已有证书则跳过该选项）
 
 - 设置证书信息
 
@@ -56,7 +58,7 @@ emailAddress_value              = hnbcao@163.com
 openssl req -newkey rsa:4096 -nodes -config ~/tls/openssl.cnf -days 3650 -x509 -out ~/tls/tls.crt -keyout ~/tls/tls.key
 ```
 
-## 部署Traefik
+## 二、部署Traefik
 
 - 添加证书至集群
 

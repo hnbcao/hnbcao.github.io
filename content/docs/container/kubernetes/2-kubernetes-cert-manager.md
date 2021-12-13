@@ -14,11 +14,13 @@ tags:
 ---
 # 安装Cert Manager
 
-## Installing the Chart
+## 一、安装
 
 [https://cert-manager.io/docs/installation/kubernetes/](https://cert-manager.io/docs/installation/kubernetes/)
 
-## 创建ClusterIssuer(集群内所有命名空间公用方案)
+## 二、创建ClusterIssuer
+
+集群内所有命名空间公用方案
 
 ```yaml
 apiVersion: cert-manager.io/v1alpha2
@@ -37,26 +39,7 @@ spec:
           class: traefik
 ```
 
-## 创建Issuer(集群内单个命名空间独享方案)
-
-```yaml
-apiVersion: cert-manager.io/v1alpha2
-kind: Issuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: hnbcao@qq.com
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - http01:
-        ingress:
-          class: traefik
-```
-
-## Ingress应用ClusterIssuer
+## 三、Ingress应用ClusterIssuer
 
 ```yaml
 kind: Ingress
@@ -89,7 +72,7 @@ spec:
 
 Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。
 
-## 结束
+## 四、结束
 
 - 使用Cert Manager时，ingress中host配置的域名必须指定，不能有通配符；
 

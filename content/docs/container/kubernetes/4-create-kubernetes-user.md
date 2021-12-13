@@ -14,7 +14,7 @@ tags:
 ---
 # 创建集群用户
 
-1、创建用户
+## 一、创建用户
 
 ```yaml
 apiVersion: v1
@@ -39,13 +39,15 @@ subjects:
   namespace: kube-system
 ```
 
-2、获取管理员用户的Token，通过执行如下命令获取系统Token信息
+## 二、获取Token
+
+获取管理员用户的Token，通过执行如下命令获取系统Token信息
 
 ```sh
 kubectl describe secret admin-user --namespace=kube-system
 ```
 
-3、导入kubeconfig文件
+## 三、导出配置
 
 ```sh
 DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d)
