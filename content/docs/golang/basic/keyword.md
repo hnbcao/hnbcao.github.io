@@ -1,11 +1,13 @@
 ---
-title: Select 关键字
-weight: 1
+title: 2. 常用关键字
+weight: 2
 ---
 
-# Select 关键字
+# 常用关键字
 
-## 一、实现原理
+## 2.1. Select
+
+### 2.1.1. 实现原理
 
 - **直接阻塞**：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
 - **单一管道**：select 条件只包含一个 case；如果当前的 select 条件只包含一个 case，当 case 中的 Channel 是空指针时，就会直接挂起当前 Goroutine 并永久休眠。
@@ -30,7 +32,7 @@ weight: 1
   }
   ```
 
-## 二、小结
+### 2.1.2. 小结
 
 我们简单总结一下 select 结构的执行过程与实现原理，首先在编译期间，Go 语言会对 select 语句进行优化，它会根据 select 中 case 的不同选择不同的优化路径：
 

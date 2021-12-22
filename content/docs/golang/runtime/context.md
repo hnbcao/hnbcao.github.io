@@ -1,11 +1,11 @@
 ---
-title: 上下文 Context
+title: 1. 上下文 Context
 weight: 1
 ---
 
 # 上下文 Context
 
-## 一、方法实现
+## 1.1. 方法实现
 
 context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
 
@@ -21,7 +21,7 @@ context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接
 
 4. Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；
 
-## 二、默认上下文 
+## 1.2. 默认上下文 
 
 从源代码来看，context.Background 和 context.TODO 也只是互为别名，没有太大的差别，只是在使用和语义上稍有不同：
 
@@ -31,7 +31,7 @@ context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接
 
 在多数情况下，如果当前函数没有上下文作为入参，我们都会使用 context.Background 作为起始的上下文向下传递。
 
-## 三、小结
+## 1.3. 小结
 
 Go 语言中的 context.Context 的主要作用还是在多个 Goroutine 组成的树中同步取消信号以减少对资源的消耗和占用，虽然它也有传值的功能，但是这个功能我们还是很少用到。
 
