@@ -3,35 +3,33 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="上下文 Context #  一、方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
+<meta name="description" content="上下文 Context #  1.1. 方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
   Deadline — 返回 context.Context 被取消的时间，也就是完成工作的截止日期；
   Done — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 Done 方法会返回同一个 Channel；
   Err — 返回 context.Context 结束的原因，它只会在 Done 方法对应的 Channel 关闭时返回非空的值；
   如果 context.Context 被取消，会返回 Canceled 错误；
   如果 context.Context 超时，会返回 DeadlineExceeded 错误；
-    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；
-  二、默认上下文 #  从源代码来看，context.">
+    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="上下文 Context" />
-<meta property="og:description" content="上下文 Context #  一、方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="1. 上下文 Context" />
+<meta property="og:description" content="上下文 Context #  1.1. 方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
   Deadline — 返回 context.Context 被取消的时间，也就是完成工作的截止日期；
   Done — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 Done 方法会返回同一个 Channel；
   Err — 返回 context.Context 结束的原因，它只会在 Done 方法对应的 Channel 关闭时返回非空的值；
   如果 context.Context 被取消，会返回 Canceled 错误；
   如果 context.Context 超时，会返回 DeadlineExceeded 错误；
-    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；
-  二、默认上下文 #  从源代码来看，context." />
+    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/golang/runtime/context/" /><meta property="article:section" content="docs" />
 
 
 
-<title>上下文 Context | HNBCAO</title>
+<title>1. 上下文 Context | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.531289f5ea7bd80a92ae0e1fad45453d32d52dc39bad0bf16b54e299045f79d7.js" integrity="sha256-UxKJ9ep72AqSrg4frUVFPTLVLcObrQvxa1TimQRfedc=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -112,7 +110,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+    <a href="https://hnbcao.vip/docs/golang/basic/basic/" class="">1. 语言基础</a>
   
 
         </li>
@@ -125,7 +123,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+    <a href="https://hnbcao.vip/docs/golang/basic/keyword/" class="">2. 常用关键字</a>
   
 
         </li>
@@ -159,7 +157,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class=" active">上下文 Context</a>
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class=" active">1. 上下文 Context</a>
   
 
         </li>
@@ -172,7 +170,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">同步原语与锁</a>
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">2. 同步原语与锁</a>
   
 
         </li>
@@ -206,7 +204,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">1. 逃逸分析</a>
   
 
         </li>
@@ -590,7 +588,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>上下文 Context</strong>
+  <strong>1. 上下文 Context</strong>
 
   <label for="toc-control">
     
@@ -606,9 +604,9 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一方法实现">一、方法实现</a></li>
-    <li><a href="#二默认上下文">二、默认上下文</a></li>
-    <li><a href="#三小结">三、小结</a></li>
+    <li><a href="#11-方法实现">1.1. 方法实现</a></li>
+    <li><a href="#12-默认上下文">1.2. 默认上下文</a></li>
+    <li><a href="#13-小结">1.3. 小结</a></li>
   </ul>
 </nav>
 
@@ -625,9 +623,9 @@ https://github.com/alex-shpak/hugo-book
   上下文 Context
   <a class="anchor" href="#%e4%b8%8a%e4%b8%8b%e6%96%87-context">#</a>
 </h1>
-<h2 id="一方法实现">
-  一、方法实现
-  <a class="anchor" href="#%e4%b8%80%e6%96%b9%e6%b3%95%e5%ae%9e%e7%8e%b0">#</a>
+<h2 id="11-方法实现">
+  1.1. 方法实现
+  <a class="anchor" href="#11-%e6%96%b9%e6%b3%95%e5%ae%9e%e7%8e%b0">#</a>
 </h2>
 <p>context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：</p>
 <ol>
@@ -652,9 +650,9 @@ https://github.com/alex-shpak/hugo-book
 <p>Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；</p>
 </li>
 </ol>
-<h2 id="二默认上下文">
-  二、默认上下文
-  <a class="anchor" href="#%e4%ba%8c%e9%bb%98%e8%ae%a4%e4%b8%8a%e4%b8%8b%e6%96%87">#</a>
+<h2 id="12-默认上下文">
+  1.2. 默认上下文
+  <a class="anchor" href="#12-%e9%bb%98%e8%ae%a4%e4%b8%8a%e4%b8%8b%e6%96%87">#</a>
 </h2>
 <p>从源代码来看，context.Background 和 context.TODO 也只是互为别名，没有太大的差别，只是在使用和语义上稍有不同：</p>
 <ul>
@@ -666,9 +664,9 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <p>在多数情况下，如果当前函数没有上下文作为入参，我们都会使用 context.Background 作为起始的上下文向下传递。</p>
-<h2 id="三小结">
-  三、小结
-  <a class="anchor" href="#%e4%b8%89%e5%b0%8f%e7%bb%93">#</a>
+<h2 id="13-小结">
+  1.3. 小结
+  <a class="anchor" href="#13-%e5%b0%8f%e7%bb%93">#</a>
 </h2>
 <p>Go 语言中的 context.Context 的主要作用还是在多个 Goroutine 组成的树中同步取消信号以减少对资源的消耗和占用，虽然它也有传值的功能，但是这个功能我们还是很少用到。</p>
 <p>在真正使用传值的功能时我们也应该非常谨慎，使用 context.Context 进行传递参数请求的所有参数一种非常差的设计，比较常见的使用场景是传递请求对应用户的认证令牌以及用于进行分布式追踪的请求 ID。</p>
@@ -713,9 +711,9 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一方法实现">一、方法实现</a></li>
-    <li><a href="#二默认上下文">二、默认上下文</a></li>
-    <li><a href="#三小结">三、小结</a></li>
+    <li><a href="#11-方法实现">1.1. 方法实现</a></li>
+    <li><a href="#12-默认上下文">1.2. 默认上下文</a></li>
+    <li><a href="#13-小结">1.3. 小结</a></li>
   </ul>
 </nav>
 

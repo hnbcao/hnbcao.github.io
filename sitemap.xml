@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hnbcao.vip/docs/example/</loc>
-  </url><url>
-    <loc>https://hnbcao.vip/docs/golang/basic/for-and-range/</loc>
-  </url><url>
-    <loc>https://hnbcao.vip/docs/golang/basic/select/</loc>
-  </url><url>
-    <loc>https://hnbcao.vip/docs/example/table-of-contents/with-toc/</loc>
-  </url><url>
     <loc>https://hnbcao.vip/docs/golang/runtime/context/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/golang/basic/basic/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/golang/runtime/mutex/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</loc>
+    <loc>https://hnbcao.vip/docs/example/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/example/table-of-contents/with-toc/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/golang/basic/keyword/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/example/table-of-contents/without-toc/</loc>
   </url><url>

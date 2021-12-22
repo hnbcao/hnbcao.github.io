@@ -8,30 +8,60 @@
     <language>zn-ch</language>
     <lastBuildDate>Tue, 16 Jun 2020 14:16:38 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>for 和 range</title>
-      <link>https://hnbcao.vip/docs/golang/basic/for-and-range/</link>
+      <title>1. 上下文 Context</title>
+      <link>https://hnbcao.vip/docs/golang/runtime/context/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/golang/basic/for-and-range/</guid>
-      <description>for 和 range #  一、数组和切片 #  循环永动机：对于所有的 range 循环，Go 语言都会在编译期将原切片或者数组赋值给一个新变量 ha，在赋值的过程中就发生了拷贝，而我们又通过 len 关键字预先获取了切片的长度，所以在循环中追加新的元素也不会改变循环执行的次数，这也就解释了循环永动机一节提到的现象。
-二、哈希表 #  首先会选出一个绿色的正常桶开始遍历，随后遍历所有黄色的溢出桶，最后依次按照索引顺序遍历哈希表中其他的桶，直到所有的桶都被遍历完成。
-三、字符串 #  遍历字符串时拿到的值都是 rune 类型的变量，for i, r := range s {} 的结构都会被转换成如下所示的形式：
-ha := s for hv1 := 0; hv1 &amp;lt; len(ha); { hv1t := hv1 hv2 := rune(ha[hv1]) if hv2 &amp;lt; utf8.RuneSelf { hv1++ } else { hv2, hv1 = decoderune(ha, hv1) } v1, v2 = hv1t, hv2 } 四、通道 #  使用 range 遍历 Channel 也是比较常见的做法，一个形如 for v := range ch {} 的语句最终会被转换成如下的格式：</description>
+      <guid>https://hnbcao.vip/docs/golang/runtime/context/</guid>
+      <description>上下文 Context #  1.1. 方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
+  Deadline — 返回 context.Context 被取消的时间，也就是完成工作的截止日期；
+  Done — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 Done 方法会返回同一个 Channel；
+  Err — 返回 context.Context 结束的原因，它只会在 Done 方法对应的 Channel 关闭时返回非空的值；
+  如果 context.Context 被取消，会返回 Canceled 错误；
+  如果 context.Context 超时，会返回 DeadlineExceeded 错误；
+    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；</description>
     </item>
     
     <item>
-      <title>Select 关键字</title>
-      <link>https://hnbcao.vip/docs/golang/basic/select/</link>
+      <title>1. 语言基础</title>
+      <link>https://hnbcao.vip/docs/golang/basic/basic/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/golang/basic/select/</guid>
-      <description>Select 关键字 #  一、实现原理 #    直接阻塞：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
-  单一管道：select 条件只包含一个 case；如果当前的 select 条件只包含一个 case，当 case 中的 Channel 是空指针时，就会直接挂起当前 Goroutine 并永久休眠。
-  非阻塞操作：当 select 中仅包含两个 case，并且其中一个是 default 时，Go 语言的编译器就会认为这是一次非阻塞的收发操作。如果 select 控制结构中包含 default 语句，那么这个 select 语句在执行时会遇到以下两种情况：
-1.当存在可以收发的 Channel 时，直接处理该 Channel 对应的 case；
-2.当不存在可以收发的 Channel 是，执行 default 中的语句；
-当我们运行下面的代码时就不会阻塞当前的 Goroutine，它会直接执行 default 中的代码并返回。
-func main() { ch := make(chan int) select { case i := &amp;lt;-ch: println(i) default: println(&amp;#34;default&amp;#34;) } }   二、小结 #  我们简单总结一下 select 结构的执行过程与实现原理，首先在编译期间，Go 语言会对 select 语句进行优化，它会根据 select 中 case 的不同选择不同的优化路径：</description>
+      <guid>https://hnbcao.vip/docs/golang/basic/basic/</guid>
+      <description>语言基础 #  1.1. 数组和切片 #  循环永动机：对于所有的 range 循环，Go 语言都会在编译期将原切片或者数组赋值给一个新变量 ha，在赋值的过程中就发生了拷贝，而我们又通过 len 关键字预先获取了切片的长度，所以在循环中追加新的元素也不会改变循环执行的次数，这也就解释了循环永动机一节提到的现象。
+1.2. 哈希表 #  首先会选出一个绿色的正常桶开始遍历，随后遍历所有黄色的溢出桶，最后依次按照索引顺序遍历哈希表中其他的桶，直到所有的桶都被遍历完成。
+1.3. 字符串 #  遍历字符串时拿到的值都是 rune 类型的变量，for i, r := range s {} 的结构都会被转换成如下所示的形式：
+ha := s for hv1 := 0; hv1 &amp;lt; len(ha); { hv1t := hv1 hv2 := rune(ha[hv1]) if hv2 &amp;lt; utf8.RuneSelf { hv1++ } else { hv2, hv1 = decoderune(ha, hv1) } v1, v2 = hv1t, hv2 } 1.</description>
+    </item>
+    
+    <item>
+      <title>1. 逃逸分析</title>
+      <link>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</guid>
+      <description>逃逸分析 #  1.1. 什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
+在函数中申请一个新的对象：
+ 如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
+1.2. 逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
+  指针逃逸： Go可以返回局部变量指针，示例代码如下：
+package main type User struct { Name string } func main() { user := structFunc() user.Name = &amp;#34;2&amp;#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;amp;User{ Name: &amp;#34;123&amp;#34;, } user.Name = &amp;#34;234&amp;#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
+  动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
+如下代码所示：</description>
+    </item>
+    
+    <item>
+      <title>2. 同步原语与锁</title>
+      <link>https://hnbcao.vip/docs/golang/runtime/mutex/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/golang/runtime/mutex/</guid>
+      <description>同步原语与锁 #  2.1. 概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
+2.2. 互斥锁（Mutex） #  2.2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
+在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
+在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
+2.2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
+ 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：</description>
     </item>
     
     <item>
@@ -45,50 +75,18 @@ func main() { ch := make(chan int) select { case i := &amp;lt;-ch: println(i) de
     </item>
     
     <item>
-      <title>上下文 Context</title>
-      <link>https://hnbcao.vip/docs/golang/runtime/context/</link>
+      <title>2. 常用关键字</title>
+      <link>https://hnbcao.vip/docs/golang/basic/keyword/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/golang/runtime/context/</guid>
-      <description>上下文 Context #  一、方法实现 #  context.Context 是 Go 语言在 1.7 版本中引入标准库的接口1，该接口定义了四个需要实现的方法，其中包括：
-  Deadline — 返回 context.Context 被取消的时间，也就是完成工作的截止日期；
-  Done — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 Done 方法会返回同一个 Channel；
-  Err — 返回 context.Context 结束的原因，它只会在 Done 方法对应的 Channel 关闭时返回非空的值；
-  如果 context.Context 被取消，会返回 Canceled 错误；
-  如果 context.Context 超时，会返回 DeadlineExceeded 错误；
-    Value — 从 context.Context 中获取键对应的值，对于同一个上下文来说，多次调用 Value 并传入相同的 Key 会返回相同的结果，该方法可以用来传递请求特定的数据；
-  二、默认上下文 #  从源代码来看，context.</description>
-    </item>
-    
-    <item>
-      <title>同步原语与锁</title>
-      <link>https://hnbcao.vip/docs/golang/runtime/mutex/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hnbcao.vip/docs/golang/runtime/mutex/</guid>
-      <description>同步原语与锁 #  一、概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
-二、互斥锁（Mutex） #  2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
-在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
-在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
-2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
- 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：</description>
-    </item>
-    
-    <item>
-      <title>逃逸分析</title>
-      <link>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hnbcao.vip/docs/golang/advanced/escape_analysis/</guid>
-      <description>逃逸分析 #  一、什么是逃逸分析？ #  逃逸分析（Escape analysis）: 由语言决定变量分配到堆上还是栈上。在Java中，逃逸分析是在运行时发生；在Go语言中，逃逸分析在编译期间完成，编译器决定内存分配的位置，不需要程序员指定。
-在函数中申请一个新的对象：
- 如果分配在栈中，则函数执行结束可自动将内存回收； 如果分配在堆中，则函数执行结束可交给GC（垃圾回收）处理;  逃逸分析针对指针和大对象：除大对象外，一个值引用变量如果没有被取址，那么它永远不可能逃逸。
-二、逃逸场景 #  指针逃逸、动态类型逃逸、闭包引用对象逃逸属于指针逃逸，都会发生指针的传递；栈空间不足逃逸属于大对象逃逸，不一定有值传递，这种场景是由于对象过大，无法在栈上分配导致。
-  指针逃逸： Go可以返回局部变量指针，示例代码如下：
-package main type User struct { Name string } func main() { user := structFunc() user.Name = &amp;#34;2&amp;#34; } func structFunc() *User { // 局部变量user逃逸到堆 	user := &amp;amp;User{ Name: &amp;#34;123&amp;#34;, } user.Name = &amp;#34;234&amp;#34; return user } user 本身为一指针，其值通过函数返回值返回，其指向的内存地址不会是栈而是堆，这就是典型的逃逸案例，如果返回值不是指针而是值，此时会发生值拷贝，不会出现逃逸分析。
-  动态类型逃逸（不确定长度大小）:很多函数参数为interface类型，比如fmt.Println(a …interface{})，编译期间很难确定其参数的具体类型，也能产生逃逸。
-如下代码所示：
-package main import &amp;#34;fmt&amp;#34; func main() { s := &amp;#34;Escape&amp;#34; fmt.</description>
+      <guid>https://hnbcao.vip/docs/golang/basic/keyword/</guid>
+      <description>常用关键字 #  2.1. Select #  2.1.1. 实现原理 #    直接阻塞：空 select 语句；空的 select 语句会直接阻塞当前的 Goroutine，导致 Goroutine 进入无法被唤醒的永久休眠状态。
+  单一管道：select 条件只包含一个 case；如果当前的 select 条件只包含一个 case，当 case 中的 Channel 是空指针时，就会直接挂起当前 Goroutine 并永久休眠。
+  非阻塞操作：当 select 中仅包含两个 case，并且其中一个是 default 时，Go 语言的编译器就会认为这是一次非阻塞的收发操作。如果 select 控制结构中包含 default 语句，那么这个 select 语句在执行时会遇到以下两种情况：
+1.当存在可以收发的 Channel 时，直接处理该 Channel 对应的 case；
+2.当不存在可以收发的 Channel 是，执行 default 中的语句；
+当我们运行下面的代码时就不会阻塞当前的 Goroutine，它会直接执行 default 中的代码并返回。
+func main() { ch := make(chan int) select { case i := &amp;lt;-ch: println(i) default: println(&amp;#34;default&amp;#34;) } }   2.</description>
     </item>
     
     <item>

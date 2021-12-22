@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="同步原语与锁 #  一、概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
-二、互斥锁（Mutex） #  2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
+<meta name="description" content="同步原语与锁 #  2.1. 概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
+2.2. 互斥锁（Mutex） #  2.2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
 在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
 在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
-2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
- 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：">
+2.2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
+ 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="同步原语与锁" />
-<meta property="og:description" content="同步原语与锁 #  一、概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
-二、互斥锁（Mutex） #  2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="2. 同步原语与锁" />
+<meta property="og:description" content="同步原语与锁 #  2.1. 概述 #  ​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。
+2.2. 互斥锁（Mutex） #  2.2.1 正常模式和饥饿模式 #  sync.Mutex 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。
 在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。
 在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。
-2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
- 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：" />
+2.2.2 加锁和解锁 #  如果互斥锁的状态不是 0 时就会调用 sync.Mutex.lockSlow 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：
+ 判断当前 Goroutine 能否进入自旋； 通过自旋等待互斥锁的释放； 计算互斥锁的最新状态； 更新互斥锁的状态并获取锁；  2.2.3 自旋的条件 #  Goroutine 进入自旋的条件非常苛刻：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/golang/runtime/mutex/" /><meta property="article:section" content="docs" />
 
 
 
-<title>同步原语与锁 | HNBCAO</title>
+<title>2. 同步原语与锁 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.1a8992ac27b78939bf033da579362e5e8db25dd95ceffd0c55ba464c202a87b9.js" integrity="sha256-GomSrCe3iTm/Az2leTYuXo2yXdlc7/0MVbpGTCAqh7k=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.531289f5ea7bd80a92ae0e1fad45453d32d52dc39bad0bf16b54e299045f79d7.js" integrity="sha256-UxKJ9ep72AqSrg4frUVFPTLVLcObrQvxa1TimQRfedc=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -108,7 +108,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/basic/for-and-range/" class="">for 和 range</a>
+    <a href="https://hnbcao.vip/docs/golang/basic/basic/" class="">1. 语言基础</a>
   
 
         </li>
@@ -121,7 +121,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/basic/select/" class="">Select 关键字</a>
+    <a href="https://hnbcao.vip/docs/golang/basic/keyword/" class="">2. 常用关键字</a>
   
 
         </li>
@@ -155,7 +155,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">上下文 Context</a>
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">1. 上下文 Context</a>
   
 
         </li>
@@ -168,7 +168,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class=" active">同步原语与锁</a>
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class=" active">2. 同步原语与锁</a>
   
 
         </li>
@@ -202,7 +202,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">逃逸分析</a>
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">1. 逃逸分析</a>
   
 
         </li>
@@ -586,7 +586,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>同步原语与锁</strong>
+  <strong>2. 同步原语与锁</strong>
 
   <label for="toc-control">
     
@@ -602,15 +602,15 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一概述">一、概述</a></li>
-    <li><a href="#二互斥锁mutex">二、互斥锁（Mutex）</a>
+    <li><a href="#21-概述">2.1. 概述</a></li>
+    <li><a href="#22-互斥锁mutex">2.2. 互斥锁（Mutex）</a>
       <ul>
-        <li><a href="#21-正常模式和饥饿模式">2.1 正常模式和饥饿模式</a></li>
-        <li><a href="#22-加锁和解锁">2.2 加锁和解锁</a></li>
-        <li><a href="#23-自旋的条件">2.3 自旋的条件</a></li>
+        <li><a href="#221-正常模式和饥饿模式">2.2.1 正常模式和饥饿模式</a></li>
+        <li><a href="#222-加锁和解锁">2.2.2 加锁和解锁</a></li>
+        <li><a href="#223-自旋的条件">2.2.3 自旋的条件</a></li>
       </ul>
     </li>
-    <li><a href="#三小结">三、小结</a></li>
+    <li><a href="#23-小结">2.3. 小结</a></li>
   </ul>
 </nav>
 
@@ -627,25 +627,25 @@ https://github.com/alex-shpak/hugo-book
   同步原语与锁
   <a class="anchor" href="#%e5%90%8c%e6%ad%a5%e5%8e%9f%e8%af%ad%e4%b8%8e%e9%94%81">#</a>
 </h1>
-<h2 id="一概述">
-  一、概述
-  <a class="anchor" href="#%e4%b8%80%e6%a6%82%e8%bf%b0">#</a>
+<h2 id="21-概述">
+  2.1. 概述
+  <a class="anchor" href="#21-%e6%a6%82%e8%bf%b0">#</a>
 </h2>
 <p>​	本节会介绍 Go 语言中常见的同步原语 sync.Mutex、sync.RWMutex、sync.WaitGroup、sync.Once 和 sync.Cond 以及扩展原语 golang/sync/errgroup.Group、golang/sync/semaphore.Weighted 和 golang/sync/singleflight.Group 的实现原理，同时也会涉及互斥锁、信号量等并发编程中的常见概念。</p>
-<h2 id="二互斥锁mutex">
-  二、互斥锁（Mutex）
-  <a class="anchor" href="#%e4%ba%8c%e4%ba%92%e6%96%a5%e9%94%81mutex">#</a>
+<h2 id="22-互斥锁mutex">
+  2.2. 互斥锁（Mutex）
+  <a class="anchor" href="#22-%e4%ba%92%e6%96%a5%e9%94%81mutex">#</a>
 </h2>
-<h3 id="21-正常模式和饥饿模式">
-  2.1 正常模式和饥饿模式
-  <a class="anchor" href="#21-%e6%ad%a3%e5%b8%b8%e6%a8%a1%e5%bc%8f%e5%92%8c%e9%a5%a5%e9%a5%bf%e6%a8%a1%e5%bc%8f">#</a>
+<h3 id="221-正常模式和饥饿模式">
+  2.2.1 正常模式和饥饿模式
+  <a class="anchor" href="#221-%e6%ad%a3%e5%b8%b8%e6%a8%a1%e5%bc%8f%e5%92%8c%e9%a5%a5%e9%a5%bf%e6%a8%a1%e5%bc%8f">#</a>
 </h3>
 <p><a href="https://draveness.me/golang/tree/sync.Mutex"><code>sync.Mutex</code></a> 有两种模式 — 正常模式和饥饿模式。我们需要在这里先了解正常模式和饥饿模式都是什么以及它们有什么样的关系。</p>
 <p>在正常模式下，锁的等待者会按照先进先出的顺序获取锁。但是刚被唤起的 Goroutine 与新创建的 Goroutine 竞争时，大概率会获取不到锁，为了减少这种情况的出现，一旦 Goroutine 超过 1ms 没有获取到锁，它就会将当前互斥锁切换饥饿模式，防止部分 Goroutine 被『饿死』。</p>
 <p>在饥饿模式中，互斥锁会直接交给等待队列最前面的 Goroutine。新的 Goroutine 在该状态下不能获取锁、也不会进入自旋状态，它们只会在队列的末尾等待。如果一个 Goroutine 获得了互斥锁并且它在队列的末尾或者它等待的时间少于 1ms，那么当前的互斥锁就会切换回正常模式。</p>
-<h3 id="22-加锁和解锁">
-  2.2 加锁和解锁
-  <a class="anchor" href="#22-%e5%8a%a0%e9%94%81%e5%92%8c%e8%a7%a3%e9%94%81">#</a>
+<h3 id="222-加锁和解锁">
+  2.2.2 加锁和解锁
+  <a class="anchor" href="#222-%e5%8a%a0%e9%94%81%e5%92%8c%e8%a7%a3%e9%94%81">#</a>
 </h3>
 <p>如果互斥锁的状态不是 0 时就会调用 <a href="https://draveness.me/golang/tree/sync.Mutex.lockSlow"><code>sync.Mutex.lockSlow</code></a> 尝试通过自旋（Spinnig）等方式等待锁的释放，该方法的主体是一个非常大 for 循环，这里将它分成几个部分介绍获取锁的过程：</p>
 <ol>
@@ -654,9 +654,9 @@ https://github.com/alex-shpak/hugo-book
 <li>计算互斥锁的最新状态；</li>
 <li>更新互斥锁的状态并获取锁；</li>
 </ol>
-<h3 id="23-自旋的条件">
-  2.3 自旋的条件
-  <a class="anchor" href="#23-%e8%87%aa%e6%97%8b%e7%9a%84%e6%9d%a1%e4%bb%b6">#</a>
+<h3 id="223-自旋的条件">
+  2.2.3 自旋的条件
+  <a class="anchor" href="#223-%e8%87%aa%e6%97%8b%e7%9a%84%e6%9d%a1%e4%bb%b6">#</a>
 </h3>
 <p>Goroutine 进入自旋的条件非常苛刻：</p>
 <ol>
@@ -670,9 +670,9 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ol>
 <p>一旦当前 Goroutine 能够进入自旋就会调用<code>runtime.sync_runtime_doSpin</code>和 <code>runtime.procyield</code>并执行 30 次的 <code>PAUSE</code> 指令，该指令只会占用 CPU 并消耗 CPU 时间：</p>
-<h2 id="三小结">
-  三、小结
-  <a class="anchor" href="#%e4%b8%89%e5%b0%8f%e7%bb%93">#</a>
+<h2 id="23-小结">
+  2.3. 小结
+  <a class="anchor" href="#23-%e5%b0%8f%e7%bb%93">#</a>
 </h2>
 <p>我们已经从多个方面分析了互斥锁 <code>sync.Mutex</code> 的实现原理，这里我们从加锁和解锁两个方面总结注意事项。</p>
 <p>互斥锁的加锁过程比较复杂，它涉及自旋、信号量以及调度等概念：</p>
@@ -730,15 +730,15 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一概述">一、概述</a></li>
-    <li><a href="#二互斥锁mutex">二、互斥锁（Mutex）</a>
+    <li><a href="#21-概述">2.1. 概述</a></li>
+    <li><a href="#22-互斥锁mutex">2.2. 互斥锁（Mutex）</a>
       <ul>
-        <li><a href="#21-正常模式和饥饿模式">2.1 正常模式和饥饿模式</a></li>
-        <li><a href="#22-加锁和解锁">2.2 加锁和解锁</a></li>
-        <li><a href="#23-自旋的条件">2.3 自旋的条件</a></li>
+        <li><a href="#221-正常模式和饥饿模式">2.2.1 正常模式和饥饿模式</a></li>
+        <li><a href="#222-加锁和解锁">2.2.2 加锁和解锁</a></li>
+        <li><a href="#223-自旋的条件">2.2.3 自旋的条件</a></li>
       </ul>
     </li>
-    <li><a href="#三小结">三、小结</a></li>
+    <li><a href="#23-小结">2.3. 小结</a></li>
   </ul>
 </nav>
 
