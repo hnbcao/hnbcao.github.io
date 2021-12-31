@@ -1,9 +1,9 @@
 ---
-title: "About This Blog"
+title: "书签"
 date: 2014-09-28
 weight: 10
 ---
 
 ## Introduction
 
-记录工作记录以及学习笔记。
+[draveness](https://draveness.me/golang/)
