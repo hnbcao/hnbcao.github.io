@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>大数据 on HNBCAO</title>
+    <link>https://hnbcao.vip/docs/seo/bigdata/</link>
+    <description>Recent content in 大数据 on HNBCAO</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-ch</language><atom:link href="https://hnbcao.vip/docs/seo/bigdata/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hive操作指南</title>
+      <link>https://hnbcao.vip/docs/seo/bigdata/hive-sql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/seo/bigdata/hive-sql/</guid>
+      <description>Hive操作指南 #  1.1 CREATE DATABASE #  CREATE DARABASE name; show tables; --显示表  show databases; --显示数据库  show partitions table_name; --显示表名为table_name的表的所有分区  show functions ; --显示所有函数  describe extended table_name col_name; --查看表中字段 1.2 DDL(Data Defination Language) #  1.2.1 CREATE TABLE #  CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name [(col_name data_type [COMMENT col_comment], ...)] [COMMENT table_comment] [PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)] [CLUSTERED BY (col_name, col_name, .</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

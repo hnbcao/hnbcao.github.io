@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Centos安装Mysql #  1.1 基础准备 #   安装yum-utils  yum -y install yum-utils  删除已安装的MySQL（MariaDB）  # 1. 检查MariaDB rpm -qa|grep mariadb # mariadb-server-5.5.60-1.el7_5.x86_64 # mariadb-5.5.60-1.el7_5.x86_64 # mariadb-libs-5.5.60-1.el7_5.x86_64 # 2. 删除mariadb rpm -e --nodeps mariadb-server rpm -e --nodeps mariadb rpm -e --nodeps mariadb-libs # 3. 检查MySQL rpm -qa|grep mysql # 2. 删除MySQL rpm -e --nodeps xxx 1.2 安装Mysql #   下载MySQL源  官网地址：https://dev.mysql.com/downloads/repo/yum/
+# 选择对应的版本进行下载，例如CentOS 7当前在官网查看最新Yum源的下载地址为： wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm  安装MySQL源  # sudo rpm -Uvh platform-and-version-specific-package-name.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Centos安装Mysql" />
+<meta property="og:description" content="Centos安装Mysql #  1.1 基础准备 #   安装yum-utils  yum -y install yum-utils  删除已安装的MySQL（MariaDB）  # 1. 检查MariaDB rpm -qa|grep mariadb # mariadb-server-5.5.60-1.el7_5.x86_64 # mariadb-5.5.60-1.el7_5.x86_64 # mariadb-libs-5.5.60-1.el7_5.x86_64 # 2. 删除mariadb rpm -e --nodeps mariadb-server rpm -e --nodeps mariadb rpm -e --nodeps mariadb-libs # 3. 检查MySQL rpm -qa|grep mysql # 2. 删除MySQL rpm -e --nodeps xxx 1.2 安装Mysql #   下载MySQL源  官网地址：https://dev.mysql.com/downloads/repo/yum/
+# 选择对应的版本进行下载，例如CentOS 7当前在官网查看最新Yum源的下载地址为： wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm  安装MySQL源  # sudo rpm -Uvh platform-and-version-specific-package-name." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/seo/middleware/mysql-installation/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Centos安装Mysql | HNBCAO</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.7257b5c1bdab5b451d20769c862f47f9503142bf05e5d13863af77dbcda197fa.js" integrity="sha256-cle1wb2rW0UdIHachi9H&#43;VAxQr8F5dE4Y693282hl/o=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>HNBCAO</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Golang学习笔记</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1c612c7b4b8439389939ab8807294c71" class="toggle"  />
+    <label for="section-1c612c7b4b8439389939ab8807294c71" class="flex justify-between">
+      <a role="button" class="">基础知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/basic/" class="">1. 语言基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/basic/keyword/" class="">2. 常用关键字</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
+    <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
+      <a role="button" class="">运行时</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/context/" class="">1. 上下文 Context</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/runtime/mutex/" class="">2. 同步原语与锁</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-08b535e490eca27ad24a819af5f72970" class="toggle"  />
+    <label for="section-08b535e490eca27ad24a819af5f72970" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/golang/advanced/escape_analysis/" class="">1. 逃逸分析</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>容器化</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-de0837145b8d41bd524e86425c79ce30" class="toggle"  />
+    <label for="section-de0837145b8d41bd524e86425c79ce30" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/docker/docker-compose-installation/" class="">Docker Compose安装使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class="">Kubernetes集群安装Cert Manager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>运维管理</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2fdb1b25835f7654408a6759bed146e9" class="toggle"  />
+    <label for="section-2fdb1b25835f7654408a6759bed146e9" class="flex justify-between">
+      <a role="button" class="">操作系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/" class="">CentOS离线镜像仓库创建</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0bad6e65e759e297a009b1e26f924cc0" class="toggle" checked />
+    <label for="section-0bad6e65e759e297a009b1e26f924cc0" class="flex justify-between">
+      <a role="button" class="">中间件</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/canal-installation/" class="">Canal安装部署</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ceph-installation/" class="">Ceph集群安装</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/ftp-installation/" class="">FTP服务器搭建</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/" class="">Fluent-bit日志插件配置说明</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/middleware/mysql-installation/" class=" active">Centos安装Mysql</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9eb246663d1aef22f58ce7aee5e54604" class="toggle"  />
+    <label for="section-9eb246663d1aef22f58ce7aee5e54604" class="flex justify-between">
+      <a role="button" class="">大数据</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" class="">Hive操作指南</a>
+  
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>软件工程</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/design/design-pattern/" class="">设计模式简介</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Centos安装Mysql</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-基础准备">1.1 基础准备</a></li>
+    <li><a href="#12-安装mysql">1.2 安装Mysql</a></li>
+    <li><a href="#13-配置mysql">1.3 配置Mysql</a></li>
+    <li><a href="#14-主从模式">1.4 主从模式</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="centos安装mysql">
+  Centos安装Mysql
+  <a class="anchor" href="#centos%e5%ae%89%e8%a3%85mysql">#</a>
+</h1>
+<h2 id="11-基础准备">
+  1.1 基础准备
+  <a class="anchor" href="#11-%e5%9f%ba%e7%a1%80%e5%87%86%e5%a4%87">#</a>
+</h2>
+<ul>
+<li>安装yum-utils</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">yum -y install yum-utils
+</code></pre></div><ul>
+<li>删除已安装的MySQL（MariaDB）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 1. 检查MariaDB</span>
+rpm -qa|grep mariadb
+<span style="color:#75715e"># mariadb-server-5.5.60-1.el7_5.x86_64</span>
+<span style="color:#75715e"># mariadb-5.5.60-1.el7_5.x86_64</span>
+<span style="color:#75715e"># mariadb-libs-5.5.60-1.el7_5.x86_64</span>
+
+<span style="color:#75715e"># 2. 删除mariadb</span>
+rpm -e --nodeps mariadb-server
+rpm -e --nodeps mariadb
+rpm -e --nodeps mariadb-libs
+
+<span style="color:#75715e"># 3. 检查MySQL</span>
+rpm -qa|grep mysql
+
+<span style="color:#75715e"># 2. 删除MySQL</span>
+rpm -e --nodeps xxx
+</code></pre></div><h2 id="12-安装mysql">
+  1.2 安装Mysql
+  <a class="anchor" href="#12-%e5%ae%89%e8%a3%85mysql">#</a>
+</h2>
+<ul>
+<li>下载MySQL源</li>
+</ul>
+<p>官网地址：<a href="https://dev.mysql.com/downloads/repo/yum/">https://dev.mysql.com/downloads/repo/yum/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 选择对应的版本进行下载，例如CentOS 7当前在官网查看最新Yum源的下载地址为：</span>
+wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+</code></pre></div><ul>
+<li>安装MySQL源</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># sudo rpm -Uvh platform-and-version-specific-package-name.rpm</span>
+sudo rpm -Uvh mysql80-community-release-el7-3.noarch.rpm
+</code></pre></div><ul>
+<li>选择MySQL版本</li>
+</ul>
+<p>使用MySQL Yum Repository安装MySQL，默认会选择当前最新的稳定版本，例如通过上面的MySQL源进行安装的话，默安装会选择MySQL 8.0版本，如果就是想要安装该版本，可以直接跳过此步骤，如果不是，比如我这里希望安装MySQL5.7版本，就需要切换版本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 查看当前MySQL Yum Repository中所有MySQL版本y</span>
+yum repolist all | grep mysql
+
+<span style="color:#75715e"># 切换版本</span>
+sudo yum-config-manager --disable mysql80-community
+sudo yum-config-manager --enable mysql57-community
+</code></pre></div><ul>
+<li>安装MySQL</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 安装MySQL</span>
+sudo yum install mysql-community-server
+
+<span style="color:#75715e"># 启动MySQL</span>
+sudo systemctl start mysqld.service
+
+<span style="color:#75715e"># 开机自启动</span>
+sudo systemctl enable mysqld.service
+</code></pre></div><ul>
+<li>修改密码</li>
+</ul>
+<p>MySQL第一次启动后会创建超级管理员账号root@localhost，初始密码存储在日志文件中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo grep <span style="color:#e6db74">&#39;temporary password&#39;</span> /var/log/mysqld.log
+</code></pre></div><h2 id="13-配置mysql">
+  1.3 配置Mysql
+  <a class="anchor" href="#13-%e9%85%8d%e7%bd%aemysql">#</a>
+</h2>
+<p>配置文件位置在/etc/my.cnf，修改该文件对mysql进行配置。</p>
+<ul>
+<li>设置编码为utf8</li>
+</ul>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">[mysqld]
+character_set_server=utf8
+init-connect='SET NAMES utf8'
+</code></pre><h2 id="14-主从模式">
+  1.4 主从模式
+  <a class="anchor" href="#14-%e4%b8%bb%e4%bb%8e%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
+<ul>
+<li>修改配置</li>
+</ul>
+<p>主节点：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 主从复制配置
+# 保证与主节点server-id不一致，该配置为主要配置，其他配置项目可选
+server-id=1
+
+# 以下所有配置从节点可忽略
+
+log-bin=mysql-bin
+binlog_format=row
+# 不需要备份的数据库，可以设置多个数据库，一般不会同步mysql这个库
+binlog-ignore-db=mysql
+binlog-ignore-db=information_schema
+binlog-ignore-db=performance_schema
+binlog_ignore_db=sys
+# 控制binlog的写入频率。每执行多少次事务写入一次(这个参数性能消耗很大，但可减小MySQL崩溃造成的损失) 
+sync_binlog=1                    
+# 这个参数一般用在主主同步中，用来错开自增值, 防止键值冲突
+auto_increment_offset=1           
+# 这个参数一般用在主主同步中，用来错开自增值, 防止键值冲突
+auto_increment_increment=1            
+# 二进制日志自动删除/过期的天数。默认值为0，表示不自动删除
+expire_logs_days=7
+# 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。
+# 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致
+slave_skip_errors=1062
+</code></pre><p>从节点：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 主从复制配置
+log-bin=mysql-bin
+server-id=2
+binlog_format=row
+# 不需要备份的数据库，可以设置多个数据库，一般不会同步mysql这个库
+binlog-ignore-db=mysql
+binlog-ignore-db=information_schema
+binlog-ignore-db=performance_schema
+binlog_ignore_db=sys
+# 控制binlog的写入频率。每执行多少次事务写入一次(这个参数性能消耗很大，但可减小MySQL崩溃造成的损失) 
+sync_binlog=1                    
+# 这个参数一般用在主主同步中，用来错开自增值, 防止键值冲突
+auto_increment_offset=1           
+# 这个参数一般用在主主同步中，用来错开自增值, 防止键值冲突
+auto_increment_increment=1            
+# 二进制日志自动删除/过期的天数。默认值为0，表示不自动删除
+expire_logs_days=7
+# 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。
+# 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致
+slave_skip_errors=1062
+</code></pre><ul>
+<li>新建同步账号</li>
+</ul>
+<p><strong>主节点</strong>:</p>
+<p>新建账户，并授权slave权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">GRANT</span> REPLICATION SLAVE <span style="color:#66d9ef">ON</span> <span style="color:#f92672">*</span>.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> <span style="color:#e6db74">&#39;username&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;IP&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;password&#39;</span>;
+</code></pre></div><p>查看主节点状态，并记录binlog文件（File）以及偏移量（Position）</p>
+<pre tabindex="0"><code>mysql&gt; SHOW MASTER STATUS;
++------------------+-----------+--------------+-------------------------------------------------+--------------------------------------------------+
+| File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB                                | Executed_Gtid_Set                                |
++------------------+-----------+--------------+-------------------------------------------------+--------------------------------------------------+
+| mysql-bin.000004 | 129583619 |              | mysql,information_schema,performance_schema,sys | cc2be86e-a98d-11eb-b08c-fa163e2beef8:1-684160635 |
++------------------+-----------+--------------+-------------------------------------------------+--------------------------------------------------+
+</code></pre><p><strong>从节点</strong>:</p>
+<p>停止Slave</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">stop slave;
+</code></pre></div><p>配置主库连接信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#f92672">//</span> master的ip地址
+change master <span style="color:#66d9ef">to</span> master_host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;192.168.1.205&#39;</span>,
+<span style="color:#f92672">//</span> master授权的用户
+master_user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;username&#39;</span>,
+<span style="color:#f92672">//</span> master的授权用户密码
+master_password<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;password&#39;</span>,
+<span style="color:#f92672">//</span> master的访问端口  <span style="color:#960050;background-color:#1e0010">不要带引号，必须是整型，否则会报错</span>
+master_port<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>,
+<span style="color:#f92672">//</span> master的binlog日志名称<span style="color:#960050;background-color:#1e0010">，这里使用上述“</span><span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">”命令搜索出来的为准</span>
+master_log_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mysql-bin.000004&#39;</span>,
+<span style="color:#f92672">//</span> master的日志位置 <span style="color:#960050;background-color:#1e0010">这里使用上述“</span><span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">”命令搜索出来的为准，不能带引号，必须是整型，否则会报错</span>
+master_log_pos<span style="color:#f92672">=</span><span style="color:#ae81ff">129583619</span>,
+<span style="color:#f92672">//</span> <span style="color:#960050;background-color:#1e0010">重试时间、单位秒</span>
+master_connect_retry<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>;
+</code></pre></div><p>启动Slave</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">start</span> slave;
+</code></pre></div><p>检查从库状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">show</span> slave status <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">G</span>
+</code></pre></div><p>Slave_IO_Running和Slave_SQL_Running为True时表示从库连接主库成功</p>
+<pre tabindex="0"><code>*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 10.75.8.150
+                  Master_User: slave
+                  Master_Port: 3307
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000004
+          Read_Master_Log_Pos: 129583619
+               Relay_Log_File: node5-relay-bin.000008
+                Relay_Log_Pos: 129583832
+        Relay_Master_Log_File: mysql-bin.000004
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB: 
+          Replicate_Ignore_DB: 
+           Replicate_Do_Table: 
+       Replicate_Ignore_Table: 
+      Replicate_Wild_Do_Table: 
+  Replicate_Wild_Ignore_Table: 
+                   Last_Errno: 0
+                   Last_Error: 
+                 Skip_Counter: 0
+          Exec_Master_Log_Pos: 129583619
+              Relay_Log_Space: 129584086
+              Until_Condition: None
+               Until_Log_File: 
+                Until_Log_Pos: 0
+           Master_SSL_Allowed: No
+           Master_SSL_CA_File: 
+           Master_SSL_CA_Path: 
+              Master_SSL_Cert: 
+            Master_SSL_Cipher: 
+               Master_SSL_Key: 
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error: 
+               Last_SQL_Errno: 0
+               Last_SQL_Error: 
+  Replicate_Ignore_Server_Ids: 
+             Master_Server_Id: 1
+                  Master_UUID: 41e57c0a-687e-11ec-8b18-08f1ea86c50c
+             Master_Info_File: /data/mysql/master.info
+                    SQL_Delay: 0
+          SQL_Remaining_Delay: NULL
+      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
+           Master_Retry_Count: 86400
+                  Master_Bind: 
+      Last_IO_Error_Timestamp: 
+     Last_SQL_Error_Timestamp: 
+               Master_SSL_Crl: 
+           Master_SSL_Crlpath: 
+           Retrieved_Gtid_Set: 
+            Executed_Gtid_Set: 
+                Auto_Position: 0
+         Replicate_Rewrite_DB: 
+                 Channel_Name: 
+           Master_TLS_Version: 
+1 row in set (0.01 sec)
+</code></pre><p>参考文章</p>
+<p><a href="https://www.jianshu.com/p/b0cf461451fb">https://www.jianshu.com/p/b0cf461451fb</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-基础准备">1.1 基础准备</a></li>
+    <li><a href="#12-安装mysql">1.2 安装Mysql</a></li>
+    <li><a href="#13-配置mysql">1.3 配置Mysql</a></li>
+    <li><a href="#14-主从模式">1.4 主从模式</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

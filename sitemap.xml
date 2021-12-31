@@ -52,6 +52,8 @@
   </url><url>
     <loc>https://hnbcao.vip/docs/golang/runtime/</loc>
   </url><url>
+    <loc>https://hnbcao.vip/docs/seo/bigdata/</loc>
+  </url><url>
     <loc>https://hnbcao.vip/docs/java/note/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/golang/advanced/</loc>
@@ -65,6 +67,8 @@
     <loc>https://hnbcao.vip/docs/seo/middleware/canal-installation/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/seo/bigdata/hive-sql/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/</loc>
     <lastmod>2019-12-31T17:31:17+00:00</lastmod>
@@ -83,6 +87,8 @@
   </url><url>
     <loc>https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/</loc>
     <lastmod>2019-12-31T17:23:44+00:00</lastmod>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/seo/middleware/mysql-installation/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/</loc>
     <lastmod>2020-01-02T09:17:08+00:00</lastmod>
@@ -134,6 +140,8 @@
     <loc>https://hnbcao.vip/docs/example/collapsed/3rd-level/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/example/hidden/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/java/note/java/</loc>
   </url><url>

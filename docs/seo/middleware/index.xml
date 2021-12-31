@@ -44,5 +44,15 @@
    Interface Description(英文) Description(中文)     Input Entry point of data. Implemented through Input Plugins, this interface allows to gather or receive data. E.g: log file content, data over TCP, built-in metrics, etc. 数据的入口点。通过输入插件实现，此接口允许收集或接收数据。例如：日志文件内容，TCP上的数据，内置指标等。   Parser Parsers allow to convert unstructured data gathered from the Input interface into a structured one. Parsers are optional and depends on Input plugins.</description>
     </item>
     
+    <item>
+      <title>Centos安装Mysql</title>
+      <link>https://hnbcao.vip/docs/seo/middleware/mysql-installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/seo/middleware/mysql-installation/</guid>
+      <description>Centos安装Mysql #  1.1 基础准备 #   安装yum-utils  yum -y install yum-utils  删除已安装的MySQL（MariaDB）  # 1. 检查MariaDB rpm -qa|grep mariadb # mariadb-server-5.5.60-1.el7_5.x86_64 # mariadb-5.5.60-1.el7_5.x86_64 # mariadb-libs-5.5.60-1.el7_5.x86_64 # 2. 删除mariadb rpm -e --nodeps mariadb-server rpm -e --nodeps mariadb rpm -e --nodeps mariadb-libs # 3. 检查MySQL rpm -qa|grep mysql # 2. 删除MySQL rpm -e --nodeps xxx 1.2 安装Mysql #   下载MySQL源  官网地址：https://dev.mysql.com/downloads/repo/yum/
+# 选择对应的版本进行下载，例如CentOS 7当前在官网查看最新Yum源的下载地址为： wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm  安装MySQL源  # sudo rpm -Uvh platform-and-version-specific-package-name.</description>
+    </item>
+    
   </channel>
 </rss>

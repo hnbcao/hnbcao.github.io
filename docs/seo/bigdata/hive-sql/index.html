@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Caput vino delphine in tamen vias #  Cognita laeva illo fracta #  Lorem markdownum pavent auras, surgit nunc cingentibus libet Laomedonque que est. Pastor An arbor filia foedat, ne fugit aliter, per. Helicona illas et callida neptem est Oresitrophos caput, dentibus est venit. Tenet reddite famuli praesentem fortibus, quaeque vis foret si frondes gelidos gravidae circumtulit inpulit armenta nativum.
- Te at cruciabere vides rubentis manebo Maturuit in praetemptat ruborem ignara postquam habitasse Subitarum supplevit quoque fontesque venabula spretis modo Montis tot est mali quasque gravis Quinquennem domus arsit ipse Pellem turis pugnabant locavit  Natus quaerere #  Pectora et sine mulcere, coniuge dum tincta incurvae.">
+<meta name="description" content="Hive操作指南 #  1.1 CREATE DATABASE #  CREATE DARABASE name; show tables; --显示表  show databases; --显示数据库  show partitions table_name; --显示表名为table_name的表的所有分区  show functions ; --显示所有函数  describe extended table_name col_name; --查看表中字段 1.2 DDL(Data Defination Language) #  1.2.1 CREATE TABLE #  CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name [(col_name data_type [COMMENT col_comment], ...)] [COMMENT table_comment] [PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)] [CLUSTERED BY (col_name, col_name, .">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="With ToC" />
-<meta property="og:description" content="Caput vino delphine in tamen vias #  Cognita laeva illo fracta #  Lorem markdownum pavent auras, surgit nunc cingentibus libet Laomedonque que est. Pastor An arbor filia foedat, ne fugit aliter, per. Helicona illas et callida neptem est Oresitrophos caput, dentibus est venit. Tenet reddite famuli praesentem fortibus, quaeque vis foret si frondes gelidos gravidae circumtulit inpulit armenta nativum.
- Te at cruciabere vides rubentis manebo Maturuit in praetemptat ruborem ignara postquam habitasse Subitarum supplevit quoque fontesque venabula spretis modo Montis tot est mali quasque gravis Quinquennem domus arsit ipse Pellem turis pugnabant locavit  Natus quaerere #  Pectora et sine mulcere, coniuge dum tincta incurvae." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Hive操作指南" />
+<meta property="og:description" content="Hive操作指南 #  1.1 CREATE DATABASE #  CREATE DARABASE name; show tables; --显示表  show databases; --显示数据库  show partitions table_name; --显示表名为table_name的表的所有分区  show functions ; --显示所有函数  describe extended table_name col_name; --查看表中字段 1.2 DDL(Data Defination Language) #  1.2.1 CREATE TABLE #  CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name [(col_name data_type [COMMENT col_comment], ...)] [COMMENT table_comment] [PARTITIONED BY (col_name data_type [COMMENT col_comment], ...)] [CLUSTERED BY (col_name, col_name, ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://hnbcao.vip/docs/example/table-of-contents/with-toc/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" /><meta property="article:section" content="docs" />
 
 
 
-<title>With ToC | HNBCAO</title>
+<title>Hive操作指南 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
@@ -514,7 +512,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-9eb246663d1aef22f58ce7aee5e54604" class="toggle"  />
+    <input type="checkbox" id="section-9eb246663d1aef22f58ce7aee5e54604" class="toggle" checked />
     <label for="section-9eb246663d1aef22f58ce7aee5e54604" class="flex justify-between">
       <a role="button" class="">大数据</a>
     </label>
@@ -530,7 +528,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" class="">Hive操作指南</a>
+    <a href="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" class=" active">Hive操作指南</a>
   
 
         </li>
@@ -627,7 +625,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>With ToC</strong>
+  <strong>Hive操作指南</strong>
 
   <label for="toc-control">
     
@@ -643,11 +641,12 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#cognita-laeva-illo-fracta">Cognita laeva illo fracta</a></li>
-    <li><a href="#natus-quaerere">Natus quaerere</a></li>
-    <li><a href="#limitibus-misere-sit">Limitibus misere sit</a></li>
-    <li><a href="#enim-sua">Enim sua</a></li>
-    <li><a href="#germana-aves-pignus-tecta">Germana aves pignus tecta</a></li>
+    <li><a href="#11-create-database">1.1 CREATE DATABASE</a></li>
+    <li><a href="#12-ddldata-defination-language">1.2 DDL(Data Defination Language)</a>
+      <ul>
+        <li><a href="#121-create-table">1.2.1 CREATE TABLE</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -660,76 +659,82 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="caput-vino-delphine-in-tamen-vias">
-  Caput vino delphine in tamen vias
-  <a class="anchor" href="#caput-vino-delphine-in-tamen-vias">#</a>
+  <article class="markdown"><h1 id="hive操作指南">
+  Hive操作指南
+  <a class="anchor" href="#hive%e6%93%8d%e4%bd%9c%e6%8c%87%e5%8d%97">#</a>
 </h1>
-<h2 id="cognita-laeva-illo-fracta">
-  Cognita laeva illo fracta
-  <a class="anchor" href="#cognita-laeva-illo-fracta">#</a>
+<h2 id="11-create-database">
+  1.1 CREATE DATABASE
+  <a class="anchor" href="#11-create-database">#</a>
 </h2>
-<p>Lorem markdownum pavent auras, surgit nunc cingentibus libet <strong>Laomedonque que</strong>
-est. Pastor <a href="http://est.org/ire.aspx">An</a> arbor filia foedat, ne <a href="http://www.indiciumturbam.org/moramquid.php">fugit
-aliter</a>, per. Helicona illas et
-callida neptem est <em>Oresitrophos</em> caput, dentibus est venit. Tenet reddite
-<a href="http://www.antro-et.net/">famuli</a> praesentem fortibus, quaeque vis foret si
-frondes <em>gelidos</em> gravidae circumtulit <a href="http://incurvasustulit.io/illi-virtute.html">inpulit armenta
-nativum</a>.</p>
-<ol>
-<li>Te at cruciabere vides rubentis manebo</li>
-<li>Maturuit in praetemptat ruborem ignara postquam habitasse</li>
-<li>Subitarum supplevit quoque fontesque venabula spretis modo</li>
-<li>Montis tot est mali quasque gravis</li>
-<li>Quinquennem domus arsit ipse</li>
-<li>Pellem turis pugnabant locavit</li>
-</ol>
-<h2 id="natus-quaerere">
-  Natus quaerere
-  <a class="anchor" href="#natus-quaerere">#</a>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> DARABASE name;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">show</span> tables; <span style="color:#75715e">--显示表
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">show</span> databases; <span style="color:#75715e">--显示数据库
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">show</span> partitions <span style="color:#66d9ef">table_name</span>; <span style="color:#75715e">--显示表名为table_name的表的所有分区
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">show</span> functions ; <span style="color:#75715e">--显示所有函数
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">describe</span> extended <span style="color:#66d9ef">table_name</span> col_name; <span style="color:#75715e">--查看表中字段
+</span></code></pre></div><h2 id="12-ddldata-defination-language">
+  1.2 DDL(Data Defination Language)
+  <a class="anchor" href="#12-ddldata-defination-language">#</a>
 </h2>
-<p>Pectora et sine mulcere, coniuge dum tincta incurvae. Quis iam; est dextra
-Peneosque, metuis a verba, primo. Illa sed colloque suis: magno: gramen, aera
-excutiunt concipit.</p>
-<blockquote>
-<p>Phrygiae petendo suisque extimuit, super, pars quod audet! Turba negarem.
-Fuerat attonitus; et dextra retinet sidera ulnas undas instimulat vacuae
-generis? <em>Agnus</em> dabat et ignotis dextera, sic tibi pacis <strong>feriente at mora</strong>
-euhoeque <em>comites hostem</em> vestras Phineus. Vultuque sanguine dominoque <a href="http://iuvat.org/eundem.php">metuit
-risi</a> fama vergit summaque meus clarissimus
-artesque tinguebat successor nominis cervice caelicolae.</p>
-</blockquote>
-<h2 id="limitibus-misere-sit">
-  Limitibus misere sit
-  <a class="anchor" href="#limitibus-misere-sit">#</a>
-</h2>
-<p>Aurea non fata repertis praerupit feruntur simul, meae hosti lentaque <em>citius
-levibus</em>, cum sede dixit, Phaethon texta. <em>Albentibus summos</em> multifidasque
-iungitur loquendi an pectore, mihi ursaque omnia adfata, aeno parvumque in animi
-perlucentes. Epytus agis ait vixque clamat ornum adversam spondet, quid sceptra
-ipsum <strong>est</strong>. Reseret nec; saeva suo passu debentia linguam terga et aures et
-cervix <a href="http://www.amnem.io/pervenit.aspx">de</a> ubera. Coercet gelidumque manus,
-doluit volvitur induta?</p>
-<h2 id="enim-sua">
-  Enim sua
-  <a class="anchor" href="#enim-sua">#</a>
-</h2>
-<p>Iuvenilior filia inlustre templa quidem herbis permittat trahens huic. In
-cruribus proceres sole crescitque <em>fata</em>, quos quos; merui maris se non tamen
-in, mea.</p>
-<h2 id="germana-aves-pignus-tecta">
-  Germana aves pignus tecta
-  <a class="anchor" href="#germana-aves-pignus-tecta">#</a>
-</h2>
-<p>Mortalia rudibusque caelum cognosceret tantum aquis redito felicior texit, nec,
-aris parvo acre. Me parum contulerant multi tenentem, gratissime suis; vultum tu
-occupat deficeret corpora, sonum. E Actaea inplevit Phinea concepit nomenque
-potest sanguine captam nulla et, in duxisses campis non; mercede. Dicere cur
-Leucothoen obitum?</p>
-<p>Postibus mittam est <em>nubibus principium pluma</em>, exsecratur facta et. Iunge
-Mnemonidas pallamque pars; vere restitit alis flumina quae <strong>quoque</strong>, est
-ignara infestus Pyrrha. Di ducis terris maculatum At sede praemia manes
-nullaque!</p>
-</article>
+<h3 id="121-create-table">
+  1.2.1 CREATE TABLE
+  <a class="anchor" href="#121-create-table">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> [<span style="color:#66d9ef">EXTERNAL</span>] <span style="color:#66d9ef">TABLE</span> [<span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span>] <span style="color:#66d9ef">table_name</span>
+
+[(col_name data_type [<span style="color:#66d9ef">COMMENT</span> col_comment], ...)]
+
+[<span style="color:#66d9ef">COMMENT</span> table_comment]
+
+[PARTITIONED <span style="color:#66d9ef">BY</span> (col_name data_type [<span style="color:#66d9ef">COMMENT</span> col_comment], ...)]
+
+[CLUSTERED <span style="color:#66d9ef">BY</span> (col_name, col_name, ...)
+
+[SORTED <span style="color:#66d9ef">BY</span> (col_name [<span style="color:#66d9ef">ASC</span><span style="color:#f92672">|</span><span style="color:#66d9ef">DESC</span>], ...)] <span style="color:#66d9ef">INTO</span> num_buckets BUCKETS]
+
+[<span style="color:#66d9ef">ROW</span> FORMAT row_format]
+
+[STORED <span style="color:#66d9ef">AS</span> file_format]
+
+[<span style="color:#66d9ef">LOCATION</span> hdfs_path]
+</code></pre></div><ul>
+<li>
+<p>CREATE TABLE 创建一个指定名字的表。如果相同名字的表已经存在，则抛出异常；用户可以用 IF NOT EXIST 选项来忽略这个异常</p>
+</li>
+<li>
+<p>EXTERNAL 关键字可以让用户创建一个外部表，在建表的同时指定一个指向实际数据的路径（LOCATION）</p>
+</li>
+<li>
+<p>LIKE 允许用户复制现有的表结构，但是不复制数据</p>
+</li>
+<li>
+<p>COMMENT可以为表与字段增加描述</p>
+</li>
+<li>
+<p>ROW FORMAT 设置行数据分割格式</p>
+</li>
+</ul>
+<p>eg:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">table_name</span><span style="color:#f92672">`</span> (
+<span style="color:#f92672">`</span>row01<span style="color:#f92672">`</span> BIGINT <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;COMMENT01&#39;</span>,
+<span style="color:#f92672">`</span>row02<span style="color:#f92672">`</span> STRING <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;COMMENT02&#39;</span>,
+<span style="color:#f92672">`</span>row03<span style="color:#f92672">`</span> TINYINT <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;COMMENT03&#39;</span>,
+<span style="color:#f92672">`</span>row04<span style="color:#f92672">`</span> DOUBLE <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;COMMENT04&#39;</span>,
+<span style="color:#f92672">`</span>row05<span style="color:#f92672">`</span> STRING <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;COMMENT05&#39;</span>)
+PARTITIONED <span style="color:#66d9ef">BY</span> (<span style="color:#f92672">`</span>partition_name<span style="color:#f92672">`</span> string <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;partition comment&#39;</span>)
+STORED <span style="color:#66d9ef">AS</span> PARQUET TBLPROPERTIES(<span style="color:#e6db74">&#39;parquet.compression&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;SNAPPY&#39;</span>);
+</code></pre></div><ul>
+<li>INSERT DATA</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#66d9ef">TABLE</span> test1
+PARTITION (p_day<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2021-12-20&#34;</span>)
+<span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">123</span>,<span style="color:#e6db74">&#39;1&#39;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;3&#39;</span>);
+</code></pre></div></article>
  
       
 
@@ -770,11 +775,12 @@ nullaque!</p>
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#cognita-laeva-illo-fracta">Cognita laeva illo fracta</a></li>
-    <li><a href="#natus-quaerere">Natus quaerere</a></li>
-    <li><a href="#limitibus-misere-sit">Limitibus misere sit</a></li>
-    <li><a href="#enim-sua">Enim sua</a></li>
-    <li><a href="#germana-aves-pignus-tecta">Germana aves pignus tecta</a></li>
+    <li><a href="#11-create-database">1.1 CREATE DATABASE</a></li>
+    <li><a href="#12-ddldata-defination-language">1.2 DDL(Data Defination Language)</a>
+      <ul>
+        <li><a href="#121-create-table">1.2.1 CREATE TABLE</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
