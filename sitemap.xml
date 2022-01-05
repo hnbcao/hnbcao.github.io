@@ -58,10 +58,13 @@
   </url><url>
     <loc>https://hnbcao.vip/docs/golang/advanced/</loc>
   </url><url>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/</loc>
+    <lastmod>2020-06-16T14:16:38+00:00</lastmod>
+  </url><url>
     <loc>https://hnbcao.vip/docs/container/docker/docker-compose-installation/</loc>
     <lastmod>2020-03-17T15:42:28+00:00</lastmod>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/1-kubernetes-cluster-installation/</loc>
     <lastmod>2019-12-31T16:16:02+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/canal-installation/</loc>
@@ -70,30 +73,32 @@
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/bigdata/hive-sql/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/advance/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/</loc>
     <lastmod>2019-12-31T17:31:17+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/ceph-installation/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/3-kubernetes-traefik-ingress/</loc>
     <lastmod>2019-12-31T17:21:39+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/ftp-installation/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/</loc>
     <lastmod>2019-12-31T17:27:30+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/fluent-bit-configuration/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/5-kubernetes-create-image-pull-secret/</loc>
     <lastmod>2019-12-31T17:23:44+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/mysql-installation/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/6-kubernetes-seo/</loc>
     <lastmod>2020-01-02T09:17:08+00:00</lastmod>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/</loc>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/base/7-kubernetes-with-aliyungpu/</loc>
     <lastmod>2020-06-16T14:16:38+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/categories/</loc>

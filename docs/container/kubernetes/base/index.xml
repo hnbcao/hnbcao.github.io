@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>容器化 on HNBCAO</title>
-    <link>https://hnbcao.vip/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/</link>
-    <description>Recent content in 容器化 on HNBCAO</description>
+    <title>基础运维 on HNBCAO</title>
+    <link>https://hnbcao.vip/docs/container/kubernetes/base/</link>
+    <description>Recent content in 基础运维 on HNBCAO</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-ch</language>
-    <lastBuildDate>Tue, 16 Jun 2020 14:16:38 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Jun 2020 14:16:38 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/docs/container/kubernetes/base/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>1. Kubernetes集群安装</title>
       <link>https://hnbcao.vip/docs/container/kubernetes/base/1-kubernetes-cluster-installation/</link>

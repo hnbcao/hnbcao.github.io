@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="安装Cert Manager #  一、安装 #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer #  集群内所有命名空间公用方案
-apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.domian.io http: paths: - path: / backend: serviceName: harbor-harbor-portal servicePort: 80 Ingress通过在annotations中添加cert-manager.">
+<meta name="description" content="安装Cert Manager #  2.1. 安装 #  https://cert-manager.io/docs/installation/kubernetes/
+2.2. 创建ClusterIssuer #  集群内所有命名空间公用方案
+apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 2.3. Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Kubernetes集群安装Cert Manager" />
-<meta property="og:description" content="安装Cert Manager #  一、安装 #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer #  集群内所有命名空间公用方案
-apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.domian.io http: paths: - path: / backend: serviceName: harbor-harbor-portal servicePort: 80 Ingress通过在annotations中添加cert-manager." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="2. Kubernetes集群安装Cert Manager" />
+<meta property="og:description" content="安装Cert Manager #  2.1. 安装 #  https://cert-manager.io/docs/installation/kubernetes/
+2.2. 创建ClusterIssuer #  集群内所有命名空间公用方案
+apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 2.3. Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2019-12-31T17:31:17+00:00" />
 <meta property="article:modified_time" content="2019-12-31T17:31:17+00:00" />
 
-<title>Kubernetes集群安装Cert Manager | HNBCAO</title>
+<title>2. Kubernetes集群安装Cert Manager | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.7257b5c1bdab5b451d20769c862f47f9503142bf05e5d13863af77dbcda197fa.js" integrity="sha256-cle1wb2rW0UdIHachi9H&#43;VAxQr8F5dE4Y693282hl/o=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.de7dfa7614da40f92e213c39deda784b732a4ec2c0bf4140573ffae482172526.js" integrity="sha256-3n36dhTaQPkuITw53tp4S3MqTsLAv0FAVz/65IIXJSY=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -282,7 +282,23 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/1-kubernetes-cluster-installation/" class="">Kubernetes集群安装</a>
+    <input type="checkbox" id="section-3c6543081f217afba3ddb1aadf1fc864" class="toggle" checked />
+    <label for="section-3c6543081f217afba3ddb1aadf1fc864" class="flex justify-between">
+      <a role="button" class="">基础运维</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/1-kubernetes-cluster-installation/" class="">1. Kubernetes集群安装</a>
   
 
         </li>
@@ -295,7 +311,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/" class=" active">Kubernetes集群安装Cert Manager</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/" class=" active">2. Kubernetes集群安装Cert Manager</a>
   
 
         </li>
@@ -308,7 +324,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/" class="">Kubernetes集群安装Traefik Ingress</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/3-kubernetes-traefik-ingress/" class="">3. Kubernetes集群安装Traefik Ingress</a>
   
 
         </li>
@@ -321,7 +337,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/" class="">Kubernetes集群创建用户</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/" class="">4. Kubernetes集群创建用户</a>
   
 
         </li>
@@ -334,7 +350,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/" class="">Kubernetes集群创建Image Pull Secret</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/5-kubernetes-create-image-pull-secret/" class="">5. Kubernetes集群创建Image Pull Secret</a>
   
 
         </li>
@@ -347,7 +363,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/6-kubernetes-seo/" class="">kubernetes集群运行问题记录</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/6-kubernetes-seo/" class="">6. Kubernetes集群运行问题记录</a>
   
 
         </li>
@@ -360,8 +376,34 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/7-kubernetes-with-aliyungpu/" class="">Kubernetes集群GPU共享解决方案</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/7-kubernetes-with-aliyungpu/" class="">7. Kubernetes集群GPU共享解决方案</a>
   
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-28c10833f075a7f05ae1e8b08f510de0" class="toggle"  />
+    <label for="section-28c10833f075a7f05ae1e8b08f510de0" class="flex justify-between">
+      <a role="button" class="">进阶知识</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
 
         </li>
       
@@ -532,7 +574,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" class="">Hive操作指南</a>
+    <a href="https://hnbcao.vip/docs/seo/bigdata/hive-sql/" class="">Hive SQL操作指南</a>
   
 
         </li>
@@ -629,7 +671,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Kubernetes集群安装Cert Manager</strong>
+  <strong>2. Kubernetes集群安装Cert Manager</strong>
 
   <label for="toc-control">
     
@@ -645,10 +687,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一安装">一、安装</a></li>
-    <li><a href="#二创建clusterissuer">二、创建ClusterIssuer</a></li>
-    <li><a href="#三ingress应用clusterissuer">三、Ingress应用ClusterIssuer</a></li>
-    <li><a href="#四结束">四、结束</a></li>
+    <li><a href="#21-安装">2.1. 安装</a></li>
+    <li><a href="#22-创建clusterissuer">2.2. 创建ClusterIssuer</a></li>
+    <li><a href="#23-ingress应用clusterissuer">2.3. Ingress应用ClusterIssuer</a></li>
+    <li><a href="#24-结束">2.4. 结束</a></li>
   </ul>
 </nav>
 
@@ -665,14 +707,14 @@ https://github.com/alex-shpak/hugo-book
   安装Cert Manager
   <a class="anchor" href="#%e5%ae%89%e8%a3%85cert-manager">#</a>
 </h1>
-<h2 id="一安装">
-  一、安装
-  <a class="anchor" href="#%e4%b8%80%e5%ae%89%e8%a3%85">#</a>
+<h2 id="21-安装">
+  2.1. 安装
+  <a class="anchor" href="#21-%e5%ae%89%e8%a3%85">#</a>
 </h2>
 <p><a href="https://cert-manager.io/docs/installation/kubernetes/">https://cert-manager.io/docs/installation/kubernetes/</a></p>
-<h2 id="二创建clusterissuer">
-  二、创建ClusterIssuer
-  <a class="anchor" href="#%e4%ba%8c%e5%88%9b%e5%bb%baclusterissuer">#</a>
+<h2 id="22-创建clusterissuer">
+  2.2. 创建ClusterIssuer
+  <a class="anchor" href="#22-%e5%88%9b%e5%bb%baclusterissuer">#</a>
 </h2>
 <p>集群内所有命名空间公用方案</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1alpha2</span>
@@ -689,9 +731,9 @@ https://github.com/alex-shpak/hugo-book
     - <span style="color:#f92672">http01</span>:
         <span style="color:#f92672">ingress</span>:
           <span style="color:#f92672">class</span>: <span style="color:#ae81ff">traefik</span>
-</code></pre></div><h2 id="三ingress应用clusterissuer">
-  三、Ingress应用ClusterIssuer
-  <a class="anchor" href="#%e4%b8%89ingress%e5%ba%94%e7%94%a8clusterissuer">#</a>
+</code></pre></div><h2 id="23-ingress应用clusterissuer">
+  2.3. Ingress应用ClusterIssuer
+  <a class="anchor" href="#23-ingress%e5%ba%94%e7%94%a8clusterissuer">#</a>
 </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
 <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
@@ -720,9 +762,9 @@ https://github.com/alex-shpak/hugo-book
               <span style="color:#f92672">servicePort</span>: <span style="color:#ae81ff">80</span>
 
 </code></pre></div><p>Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。</p>
-<h2 id="四结束">
-  四、结束
-  <a class="anchor" href="#%e5%9b%9b%e7%bb%93%e6%9d%9f">#</a>
+<h2 id="24-结束">
+  2.4. 结束
+  <a class="anchor" href="#24-%e7%bb%93%e6%9d%9f">#</a>
 </h2>
 <ul>
 <li>使用Cert Manager时，ingress中host配置的域名必须指定，不能有通配符；</li>
@@ -768,10 +810,10 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#一安装">一、安装</a></li>
-    <li><a href="#二创建clusterissuer">二、创建ClusterIssuer</a></li>
-    <li><a href="#三ingress应用clusterissuer">三、Ingress应用ClusterIssuer</a></li>
-    <li><a href="#四结束">四、结束</a></li>
+    <li><a href="#21-安装">2.1. 安装</a></li>
+    <li><a href="#22-创建clusterissuer">2.2. 创建ClusterIssuer</a></li>
+    <li><a href="#23-ingress应用clusterissuer">2.3. Ingress应用ClusterIssuer</a></li>
+    <li><a href="#24-结束">2.4. 结束</a></li>
   </ul>
 </nav>
 

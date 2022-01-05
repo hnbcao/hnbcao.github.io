@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="创建集群用户 #  4.1. 创建用户 #  apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 4.2. 获取Token #  获取管理员用户的Token，通过执行如下命令获取系统Token信息
+kubectl describe secret admin-user --namespace=kube-system 4.3. 导出配置 #  DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="运行时" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://hnbcao.vip/docs/golang/runtime/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="4. Kubernetes集群创建用户" />
+<meta property="og:description" content="创建集群用户 #  4.1. 创建用户 #  apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 4.2. 获取Token #  获取管理员用户的Token，通过执行如下命令获取系统Token信息
+kubectl describe secret admin-user --namespace=kube-system 4.3. 导出配置 #  DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2019-12-31T17:27:30+00:00" />
+<meta property="article:modified_time" content="2019-12-31T17:27:30+00:00" />
 
-<title>运行时 | HNBCAO</title>
+<title>4. Kubernetes集群创建用户 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
   <script defer src="/en.search.min.de7dfa7614da40f92e213c39deda784b732a4ec2c0bf4140573ffae482172526.js" integrity="sha256-3n36dhTaQPkuITw53tp4S3MqTsLAv0FAVz/65IIXJSY=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://hnbcao.vip/docs/golang/runtime/index.xml" title="HNBCAO" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -128,9 +131,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle" checked />
+    <input type="checkbox" id="section-cb87749ee672152a5caec4a87698c2a8" class="toggle"  />
     <label for="section-cb87749ee672152a5caec4a87698c2a8" class="flex justify-between">
-      <a role="button" class="active">运行时</a>
+      <a role="button" class="">运行时</a>
     </label>
   
 
@@ -261,7 +264,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle"  />
+    <input type="checkbox" id="section-c9c13742e83e082551e7692418cffc0e" class="toggle" checked />
     <label for="section-c9c13742e83e082551e7692418cffc0e" class="flex justify-between">
       <a role="button" class="">Kubernetes</a>
     </label>
@@ -277,7 +280,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3c6543081f217afba3ddb1aadf1fc864" class="toggle"  />
+    <input type="checkbox" id="section-3c6543081f217afba3ddb1aadf1fc864" class="toggle" checked />
     <label for="section-3c6543081f217afba3ddb1aadf1fc864" class="flex justify-between">
       <a role="button" class="">基础运维</a>
     </label>
@@ -332,7 +335,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/" class="">4. Kubernetes集群创建用户</a>
+    <a href="https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/" class=" active">4. Kubernetes集群创建用户</a>
   
 
         </li>
@@ -666,7 +669,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>运行时</strong>
+  <strong>4. Kubernetes集群创建用户</strong>
 
   <label for="toc-control">
     
@@ -680,7 +683,13 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#41-创建用户">4.1. 创建用户</a></li>
+    <li><a href="#42-获取token">4.2. 获取Token</a></li>
+    <li><a href="#43-导出配置">4.3. 导出配置</a></li>
+  </ul>
+</nav>
 
 
 
@@ -691,7 +700,55 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><h1 id="创建集群用户">
+  创建集群用户
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e9%9b%86%e7%be%a4%e7%94%a8%e6%88%b7">#</a>
+</h1>
+<h2 id="41-创建用户">
+  4.1. 创建用户
+  <a class="anchor" href="#41-%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin-user</span>
+  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">kube-system</span>
+---
+<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1beta1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+<span style="color:#f92672">metadata</span>: 
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin-user</span>
+  <span style="color:#f92672">annotations</span>:
+    <span style="color:#f92672">rbac.authorization.kubernetes.io/autoupdate</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+<span style="color:#f92672">roleRef</span>:
+  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-admin</span>
+<span style="color:#f92672">subjects</span>:
+- <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin-user</span>
+  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">kube-system</span>
+</code></pre></div><h2 id="42-获取token">
+  4.2. 获取Token
+  <a class="anchor" href="#42-%e8%8e%b7%e5%8f%96token">#</a>
+</h2>
+<p>获取管理员用户的Token，通过执行如下命令获取系统Token信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl describe secret admin-user --namespace<span style="color:#f92672">=</span>kube-system
+</code></pre></div><h2 id="43-导出配置">
+  4.3. 导出配置
+  <a class="anchor" href="#43-%e5%af%bc%e5%87%ba%e9%85%8d%e7%bd%ae">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">DASH_TOCKEN<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath<span style="color:#f92672">={</span>.data.token<span style="color:#f92672">}</span>|base64 -d<span style="color:#66d9ef">)</span>
+
+kubectl config set-cluster kubernetes --server<span style="color:#f92672">=</span>https://172.16.0.9:8443 --kubeconfig<span style="color:#f92672">=</span>/root/kube-admin.conf
+
+kubectl config set-credentials admin-user --token<span style="color:#f92672">=</span>$DASH_TOCKEN --kubeconfig<span style="color:#f92672">=</span>/root/kube-admin.conf
+
+kubectl config set-context admin-user@kubernetes --cluster<span style="color:#f92672">=</span>kubernetes --user<span style="color:#f92672">=</span>admin-user --kubeconfig<span style="color:#f92672">=</span>/root/kube-admin.conf
+
+kubectl config use-context admin-user@kubernetes --kubeconfig<span style="color:#f92672">=</span>/root/kube-admin.conf
+
+</code></pre></div></article>
  
       
 
@@ -716,6 +773,10 @@ https://github.com/alex-shpak/hugo-book
 
       
   
+  <div class="book-comments">
+
+</div>
+  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -726,7 +787,13 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#41-创建用户">4.1. 创建用户</a></li>
+    <li><a href="#42-获取token">4.2. 获取Token</a></li>
+    <li><a href="#43-导出配置">4.3. 导出配置</a></li>
+  </ul>
+</nav>
 
 
  

@@ -8,47 +8,47 @@
     <language>zn-ch</language>
     <lastBuildDate>Tue, 31 Dec 2019 17:31:17 +0000</lastBuildDate><atom:link href="https://hnbcao.vip/tags/kubernetes%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Kubernetes集群安装Cert Manager</title>
-      <link>https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/</link>
+      <title>2. Kubernetes集群安装Cert Manager</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/</link>
       <pubDate>Tue, 31 Dec 2019 17:31:17 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/container/kubernetes/2-kubernetes-cert-manager/</guid>
-      <description>安装Cert Manager #  一、安装 #  https://cert-manager.io/docs/installation/kubernetes/
-二、创建ClusterIssuer #  集群内所有命名空间公用方案
-apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 三、Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.domian.io http: paths: - path: / backend: serviceName: harbor-harbor-portal servicePort: 80 Ingress通过在annotations中添加cert-manager.</description>
+      <guid>https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/</guid>
+      <description>安装Cert Manager #  2.1. 安装 #  https://cert-manager.io/docs/installation/kubernetes/
+2.2. 创建ClusterIssuer #  集群内所有命名空间公用方案
+apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster-letsencrypt-prod spec: acme: email: hnbcao@qq.com privateKeySecretRef: name: cluster-letsencrypt-prod server: https://acme-v02.api.letsencrypt.org/directory solvers: - http01: ingress: class: traefik 2.3. Ingress应用ClusterIssuer #  kind: Ingress apiVersion: extensions/v1beta1 metadata: name: harbor-ingress namespace: ns-harbor labels: app: harbor chart: harbor heritage: Helm release: harbor annotations: cert-manager.io/cluster-issuer: cluster-letsencrypt-prod spec: tls: - hosts: - harbor.domian.io secretName: harbor-letsencrypt-tls rules: - host: harbor.</description>
     </item>
     
     <item>
-      <title>Kubernetes集群安装Traefik Ingress</title>
-      <link>https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/</link>
+      <title>3. Kubernetes集群安装Traefik Ingress</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/base/3-kubernetes-traefik-ingress/</link>
       <pubDate>Tue, 31 Dec 2019 17:21:39 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/container/kubernetes/3-kubernetes-traefik-ingress/</guid>
-      <description>部署TraefikIngress #  一、创建证书 #  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
+      <guid>https://hnbcao.vip/docs/container/kubernetes/base/3-kubernetes-traefik-ingress/</guid>
+      <description>部署TraefikIngress #  3.1. 创建证书 #  使用OpenSSL创建TLS证书（已有证书则跳过该选项）
  设置证书信息  cd ~ &amp;amp;&amp;amp; mkdir tls echo &amp;#34;&amp;#34;&amp;#34; [req] distinguished_name = req_distinguished_name prompt = yes [ req_distinguished_name ] countryName = Country Name (2 letter code) countryName_value = CN stateOrProvinceName = State or Province Name (full name) stateOrProvinceName_value = Chongqing localityName = Locality Name (eg, city) localityName_value = Yubei organizationName = Organization Name (eg, company) organizationName_value = HNBCAO organizationalUnitName = Organizational Unit Name (eg, section) organizationalUnitName_value = R &amp;amp; D Department commonName = Common Name (eg, your name or your server\&amp;#39;s hostname) commonName_value = *.</description>
     </item>
     
     <item>
-      <title>Kubernetes集群创建用户</title>
-      <link>https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/</link>
+      <title>4. Kubernetes集群创建用户</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/</link>
       <pubDate>Tue, 31 Dec 2019 17:27:30 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/container/kubernetes/4-create-kubernetes-user/</guid>
-      <description>创建集群用户 #  一、创建用户 #  apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &amp;#34;true&amp;#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 二、获取Token #  获取管理员用户的Token，通过执行如下命令获取系统Token信息
-kubectl describe secret admin-user --namespace=kube-system 三、导出配置 #  DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.conf kubectl config set-credentials admin-user --token=$DASH_TOCKEN --kubeconfig=/root/kube-admin.</description>
+      <guid>https://hnbcao.vip/docs/container/kubernetes/base/4-create-kubernetes-user/</guid>
+      <description>创建集群用户 #  4.1. 创建用户 #  apiVersion: v1 kind: ServiceAccount metadata: name: admin-user namespace: kube-system --- apiVersion: rbac.authorization.k8s.io/v1beta1 kind: ClusterRoleBinding metadata: name: admin-user annotations: rbac.authorization.kubernetes.io/autoupdate: &amp;#34;true&amp;#34; roleRef: apiGroup: rbac.authorization.k8s.io kind: ClusterRole name: cluster-admin subjects: - kind: ServiceAccount name: admin-user namespace: kube-system 4.2. 获取Token #  获取管理员用户的Token，通过执行如下命令获取系统Token信息
+kubectl describe secret admin-user --namespace=kube-system 4.3. 导出配置 #  DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d) kubectl config set-cluster kubernetes --server=https://172.16.0.9:8443 --kubeconfig=/root/kube-admin.</description>
     </item>
     
     <item>
-      <title>Kubernetes集群创建Image Pull Secret</title>
-      <link>https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/</link>
+      <title>5. Kubernetes集群创建Image Pull Secret</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/base/5-kubernetes-create-image-pull-secret/</link>
       <pubDate>Tue, 31 Dec 2019 17:23:44 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/container/kubernetes/5-kubernetes-create-image-pull-secret/</guid>
-      <description>创建ImagePullSecret #  一、登录仓库 #  登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
-{ &amp;#34;auths&amp;#34;: { &amp;#34;harbor.hnbcao.tech&amp;#34;: { &amp;#34;auth&amp;#34;: &amp;#34;YWRtaW4******lRlY2g=&amp;#34; } }, &amp;#34;HttpHeaders&amp;#34;: { &amp;#34;User-Agent&amp;#34;: &amp;#34;Docker-Client/***&amp;#34; } } 二、创建ImagePullSecret #  执行如下命令创建ImagePullSecret
+      <guid>https://hnbcao.vip/docs/container/kubernetes/base/5-kubernetes-create-image-pull-secret/</guid>
+      <description>创建ImagePullSecret #  5.1. 登录仓库 #  登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
+{ &amp;#34;auths&amp;#34;: { &amp;#34;harbor.hnbcao.tech&amp;#34;: { &amp;#34;auth&amp;#34;: &amp;#34;YWRtaW4******lRlY2g=&amp;#34; } }, &amp;#34;HttpHeaders&amp;#34;: { &amp;#34;User-Agent&amp;#34;: &amp;#34;Docker-Client/***&amp;#34; } } 5.2. 创建ImagePullSecret #  执行如下命令创建ImagePullSecret
 kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson --namespace hnbcao-mixing-ore 说明：
- harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  三、添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
-kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.kubernetes.io/instance: app-test app.</description>
+ harbor-admin-secret： ImagePullSecret名字 type： 指定secret类型为kubernetes.io/dockerconfigjson namespace：secret命名空间  5.3. 添加ImagePullSecret #   Deployment  在配置项的spec.template.spec.imagePullSecrets下添加secret：harbor-admin-secret。例如，Deployment的配置如下：
+kind: Deployment apiVersion: apps/v1 metadata: name: app-test spec: replicas: 1 selector: matchLabels: app.kubernetes.io/instance: app-test app.kubernetes.io/name: hnbcao template: metadata: labels: app.</description>
     </item>
     
   </channel>
