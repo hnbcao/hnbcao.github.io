@@ -1,5 +1,5 @@
 ---
-title: Kubernetes集群创建Image Pull Secret
+title: 5. Kubernetes集群创建Image Pull Secret
 weight: 35
 date: 2019-12-31 17:23:44
 top: false
@@ -14,7 +14,7 @@ tags:
 ---
 # 创建ImagePullSecret
 
-## 一、登录仓库
+## 5.1. 登录仓库
 
 登录镜像仓库，成功之后会生成如下/root/.docker/config.json文件
 
@@ -31,7 +31,7 @@ tags:
 }
 ```
 
-## 二、创建ImagePullSecret
+## 5.2. 创建ImagePullSecret
 
 执行如下命令创建ImagePullSecret
 
@@ -45,7 +45,7 @@ kubectl create secret generic harbor-admin-secret --from-file=.dockerconfigjson=
 - type： 指定secret类型为kubernetes.io/dockerconfigjson
 - namespace：secret命名空间
 
-## 三、添加ImagePullSecret
+## 5.3. 添加ImagePullSecret
 
 - Deployment
 
@@ -75,6 +75,6 @@ spec:
         - name: harbor-admin-secret
 ```
 
-## 四、结束
+## 5.4. 结束
 
 附上官网教程：[https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)

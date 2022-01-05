@@ -1,5 +1,5 @@
 ---
-title: Kubernetes集群GPU共享解决方案
+title: 7. Kubernetes集群GPU共享解决方案
 weight: 37
 date: 2020-06-16 14:16:38
 top: false

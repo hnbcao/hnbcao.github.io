@@ -1,5 +1,5 @@
 ---
-title: Kubernetes集群安装Cert Manager
+title: 2. Kubernetes集群安装Cert Manager
 weight: 32
 date: 2019-12-31 17:31:17
 top: false
@@ -14,11 +14,11 @@ tags:
 ---
 # 安装Cert Manager
 
-## 一、安装
+## 2.1. 安装
 
 [https://cert-manager.io/docs/installation/kubernetes/](https://cert-manager.io/docs/installation/kubernetes/)
 
-## 二、创建ClusterIssuer
+## 2.2. 创建ClusterIssuer
 
 集群内所有命名空间公用方案
 
@@ -39,7 +39,7 @@ spec:
           class: traefik
 ```
 
-## 三、Ingress应用ClusterIssuer
+## 2.3. Ingress应用ClusterIssuer
 
 ```yaml
 kind: Ingress
@@ -72,7 +72,7 @@ spec:
 
 Ingress通过在annotations中添加cert-manager.io/cluster-issuer: cluster-letsencrypt-prod为ingress中的域名自动生成证书。
 
-## 四、结束
+## 2.4. 结束
 
 - 使用Cert Manager时，ingress中host配置的域名必须指定，不能有通配符；
 

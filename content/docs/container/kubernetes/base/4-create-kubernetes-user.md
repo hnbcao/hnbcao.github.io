@@ -1,5 +1,5 @@
 ---
-title: Kubernetes集群创建用户
+title: 4. Kubernetes集群创建用户
 weight: 34
 date: 2019-12-31 17:27:30
 top: false
@@ -14,7 +14,7 @@ tags:
 ---
 # 创建集群用户
 
-## 一、创建用户
+## 4.1. 创建用户
 
 ```yaml
 apiVersion: v1
@@ -39,7 +39,7 @@ subjects:
   namespace: kube-system
 ```
 
-## 二、获取Token
+## 4.2. 获取Token
 
 获取管理员用户的Token，通过执行如下命令获取系统Token信息
 
@@ -47,7 +47,7 @@ subjects:
 kubectl describe secret admin-user --namespace=kube-system
 ```
 
-## 三、导出配置
+## 4.3. 导出配置
 
 ```sh
 DASH_TOCKEN=$(kubectl get secret -n kube-system admin-user-token-4j272 -o jsonpath={.data.token}|base64 -d)

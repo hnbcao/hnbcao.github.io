@@ -1,5 +1,5 @@
 ---
-title: Kubernetes集群安装Traefik Ingress
+title: 3. Kubernetes集群安装Traefik Ingress
 weight: 33
 date: 2019-12-31 17:21:39
 top: false
@@ -14,7 +14,7 @@ tags:
 ---
 # 部署TraefikIngress
 
-## 一、创建证书
+## 3.1. 创建证书
 
 使用OpenSSL创建TLS证书（已有证书则跳过该选项）
 
@@ -58,7 +58,7 @@ emailAddress_value              = hnbcao@163.com
 openssl req -newkey rsa:4096 -nodes -config ~/tls/openssl.cnf -days 3650 -x509 -out ~/tls/tls.crt -keyout ~/tls/tls.key
 ```
 
-## 二、部署Traefik
+## 3.2. 部署Traefik
 
 - 添加证书至集群
 

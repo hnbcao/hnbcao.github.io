@@ -1,5 +1,5 @@
 ---
-title: Hive操作指南
+title: Hive SQL操作指南
 weight: 31
 ---
 
