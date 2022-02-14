@@ -16,12 +16,19 @@
     </item>
     
     <item>
-      <title></title>
+      <title>Flink On CDH Parcel包创建</title>
       <link>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</guid>
-      <description></description>
+      <description>1、下载Flink源代码
+下载地址：https://flink.apache.org/downloads.html
+2、编译Flink
+  环境准备
+JDK-1.8、Git、Maven-3.6.3、Node-v12.19.0
+  配置修改
+  parent项目的pom.xml中增加proflie
+&amp;lt;profile&amp;gt; &amp;lt;id&amp;gt;vendor-repos&amp;lt;/id&amp;gt; &amp;lt;activation&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;vendor-repos&amp;lt;/name&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;/activation&amp;gt; &amp;lt;!-- Add vendor maven repositories --&amp;gt; &amp;lt;repositories&amp;gt; &amp;lt;!-- Cloudera --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;cloudera-releases&amp;lt;/id&amp;gt; &amp;lt;url&amp;gt;https://repository.cloudera.com/artifactory/cloudera-repos&amp;lt;/url&amp;gt; &amp;lt;releases&amp;gt; &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt; &amp;lt;/releases&amp;gt; &amp;lt;snapshots&amp;gt; &amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt; &amp;lt;/snapshots&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;!-- Hortonworks --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;HDPReleases&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;HDP Releases&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;https://repo.hortonworks.com/content/repositories/releases/&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;HortonworksJettyHadoop&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;HDP Jetty&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;https://repo.hortonworks.com/content/repositories/jetty-hadoop&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;!-- MapR --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;mapr-releases&amp;lt;/id&amp;gt; &amp;lt;url&amp;gt;https://repository.mapr.com/maven/&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;/repositories&amp;gt; &amp;lt;/profile&amp;gt; flink-runtime-web项目下node打包配置中增加npm淘宝源代理</description>
     </item>
     
   </channel>

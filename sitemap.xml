@@ -67,18 +67,27 @@
     <loc>https://hnbcao.vip/docs/container/kubernetes/base/1-kubernetes-cluster-installation/</loc>
     <lastmod>2019-12-31T16:16:02+00:00</lastmod>
   </url><url>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/advance/1-kubernetes-kustomize/</loc>
+    <lastmod>2019-12-31T16:16:02+00:00</lastmod>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/</loc>
+    <lastmod>2019-12-31T16:16:02+00:00</lastmod>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/container/kubernetes/advance/</loc>
+    <lastmod>2019-12-31T16:16:02+00:00</lastmod>
+  </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/canal-installation/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/system/create-offline-yum-repo/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/bigdata/hive-sql/</loc>
   </url><url>
-    <loc>https://hnbcao.vip/docs/container/kubernetes/advance/</loc>
-  </url><url>
     <loc>https://hnbcao.vip/docs/container/kubernetes/base/2-kubernetes-cert-manager/</loc>
     <lastmod>2019-12-31T17:31:17+00:00</lastmod>
   </url><url>
     <loc>https://hnbcao.vip/docs/seo/middleware/ceph-installation/</loc>
+  </url><url>
+    <loc>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/container/kubernetes/base/3-kubernetes-traefik-ingress/</loc>
     <lastmod>2019-12-31T17:21:39+00:00</lastmod>
@@ -145,8 +154,6 @@
     <loc>https://hnbcao.vip/docs/example/collapsed/3rd-level/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/example/hidden/</loc>
-  </url><url>
-    <loc>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</loc>
   </url><url>
     <loc>https://hnbcao.vip/docs/java/note/java/</loc>
   </url><url>

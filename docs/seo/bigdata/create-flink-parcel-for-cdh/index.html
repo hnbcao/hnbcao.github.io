@@ -3,21 +3,35 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="1、下载Flink源代码
+下载地址：https://flink.apache.org/downloads.html
+2、编译Flink
+  环境准备
+JDK-1.8、Git、Maven-3.6.3、Node-v12.19.0
+  配置修改
+  parent项目的pom.xml中增加proflie
+&lt;profile&gt; &lt;id&gt;vendor-repos&lt;/id&gt; &lt;activation&gt; &lt;property&gt; &lt;name&gt;vendor-repos&lt;/name&gt; &lt;/property&gt; &lt;/activation&gt; &lt;!-- Add vendor maven repositories --&gt; &lt;repositories&gt; &lt;!-- Cloudera --&gt; &lt;repository&gt; &lt;id&gt;cloudera-releases&lt;/id&gt; &lt;url&gt;https://repository.cloudera.com/artifactory/cloudera-repos&lt;/url&gt; &lt;releases&gt; &lt;enabled&gt;true&lt;/enabled&gt; &lt;/releases&gt; &lt;snapshots&gt; &lt;enabled&gt;false&lt;/enabled&gt; &lt;/snapshots&gt; &lt;/repository&gt; &lt;!-- Hortonworks --&gt; &lt;repository&gt; &lt;id&gt;HDPReleases&lt;/id&gt; &lt;name&gt;HDP Releases&lt;/name&gt; &lt;url&gt;https://repo.hortonworks.com/content/repositories/releases/&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;repository&gt; &lt;id&gt;HortonworksJettyHadoop&lt;/id&gt; &lt;name&gt;HDP Jetty&lt;/name&gt; &lt;url&gt;https://repo.hortonworks.com/content/repositories/jetty-hadoop&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;!-- MapR --&gt; &lt;repository&gt; &lt;id&gt;mapr-releases&lt;/id&gt; &lt;url&gt;https://repository.mapr.com/maven/&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;/repositories&gt; &lt;/profile&gt; flink-runtime-web项目下node打包配置中增加npm淘宝源代理">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Flink On CDH Parcel包创建" />
+<meta property="og:description" content="1、下载Flink源代码
+下载地址：https://flink.apache.org/downloads.html
+2、编译Flink
+  环境准备
+JDK-1.8、Git、Maven-3.6.3、Node-v12.19.0
+  配置修改
+  parent项目的pom.xml中增加proflie
+&lt;profile&gt; &lt;id&gt;vendor-repos&lt;/id&gt; &lt;activation&gt; &lt;property&gt; &lt;name&gt;vendor-repos&lt;/name&gt; &lt;/property&gt; &lt;/activation&gt; &lt;!-- Add vendor maven repositories --&gt; &lt;repositories&gt; &lt;!-- Cloudera --&gt; &lt;repository&gt; &lt;id&gt;cloudera-releases&lt;/id&gt; &lt;url&gt;https://repository.cloudera.com/artifactory/cloudera-repos&lt;/url&gt; &lt;releases&gt; &lt;enabled&gt;true&lt;/enabled&gt; &lt;/releases&gt; &lt;snapshots&gt; &lt;enabled&gt;false&lt;/enabled&gt; &lt;/snapshots&gt; &lt;/repository&gt; &lt;!-- Hortonworks --&gt; &lt;repository&gt; &lt;id&gt;HDPReleases&lt;/id&gt; &lt;name&gt;HDP Releases&lt;/name&gt; &lt;url&gt;https://repo.hortonworks.com/content/repositories/releases/&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;repository&gt; &lt;id&gt;HortonworksJettyHadoop&lt;/id&gt; &lt;name&gt;HDP Jetty&lt;/name&gt; &lt;url&gt;https://repo.hortonworks.com/content/repositories/jetty-hadoop&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;!-- MapR --&gt; &lt;repository&gt; &lt;id&gt;mapr-releases&lt;/id&gt; &lt;url&gt;https://repository.mapr.com/maven/&lt;/url&gt; &lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;/repository&gt; &lt;/repositories&gt; &lt;/profile&gt; flink-runtime-web项目下node打包配置中增加npm淘宝源代理" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/" /><meta property="article:section" content="docs" />
 
 
 
-<title>Create Flink Parcel for Cdh | HNBCAO</title>
+<title>Flink On CDH Parcel包创建 | HNBCAO</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.e17ad8ce61aee52ff95c08d23607efba0cbf6cb70820abe7a05c9159c5185ce1.css" integrity="sha256-4XrYzmGu5S/5XAjSNgfvugy/bLcIIKvnoFyRWcUYXOE=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.de7dfa7614da40f92e213c39deda784b732a4ec2c0bf4140573ffae482172526.js" integrity="sha256-3n36dhTaQPkuITw53tp4S3MqTsLAv0FAVz/65IIXJSY=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.55784b47e43cdab257d8dd600402ce5f81b59a5636ea4da473d606445a5fd4bb.js" integrity="sha256-VXhLR&#43;Q82rJX2N1gBALOX4G1mlY26k2kc9YGRFpf1Ls=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -399,6 +413,32 @@ https://github.com/alex-shpak/hugo-book
           
   <ul>
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/advance/1-kubernetes-kustomize/" class="">1. Kustomize声明式管理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/" class="">1. Kustomize声明式管理</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -577,6 +617,17 @@ https://github.com/alex-shpak/hugo-book
       
     
       
+        <li>
+          
+  
+  
+
+  
+    <a href="https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/" class=" active">Flink On CDH Parcel包创建</a>
+  
+
+        </li>
+      
     
   </ul>
 
@@ -667,7 +718,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Create Flink Parcel for Cdh</strong>
+  <strong>Flink On CDH Parcel包创建</strong>
 
   <label for="toc-control">
     
@@ -692,7 +743,187 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>1、下载Flink源代码</p>
+<p>下载地址：https://flink.apache.org/downloads.html</p>
+<p>2、编译Flink</p>
+<ul>
+<li>
+<p>环境准备</p>
+<p>JDK-1.8、Git、Maven-3.6.3、Node-v12.19.0</p>
+</li>
+<li>
+<p>配置修改</p>
+</li>
+</ul>
+<p>parent项目的pom.xml中增加proflie</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;profile&gt;</span>
+	<span style="color:#f92672">&lt;id&gt;</span>vendor-repos<span style="color:#f92672">&lt;/id&gt;</span>
+	<span style="color:#f92672">&lt;activation&gt;</span>
+		<span style="color:#f92672">&lt;property&gt;</span>
+			<span style="color:#f92672">&lt;name&gt;</span>vendor-repos<span style="color:#f92672">&lt;/name&gt;</span>
+		<span style="color:#f92672">&lt;/property&gt;</span>
+	<span style="color:#f92672">&lt;/activation&gt;</span>
+	<span style="color:#75715e">&lt;!-- Add vendor maven repositories --&gt;</span>
+	<span style="color:#f92672">&lt;repositories&gt;</span>
+		<span style="color:#75715e">&lt;!-- Cloudera --&gt;</span>
+		<span style="color:#f92672">&lt;repository&gt;</span>
+			<span style="color:#f92672">&lt;id&gt;</span>cloudera-releases<span style="color:#f92672">&lt;/id&gt;</span>
+			<span style="color:#f92672">&lt;url&gt;</span>https://repository.cloudera.com/artifactory/cloudera-repos<span style="color:#f92672">&lt;/url&gt;</span>
+			<span style="color:#f92672">&lt;releases&gt;</span>
+				<span style="color:#f92672">&lt;enabled&gt;</span>true<span style="color:#f92672">&lt;/enabled&gt;</span>
+			<span style="color:#f92672">&lt;/releases&gt;</span>
+			<span style="color:#f92672">&lt;snapshots&gt;</span>
+				<span style="color:#f92672">&lt;enabled&gt;</span>false<span style="color:#f92672">&lt;/enabled&gt;</span>
+			<span style="color:#f92672">&lt;/snapshots&gt;</span>
+		<span style="color:#f92672">&lt;/repository&gt;</span>
+		<span style="color:#75715e">&lt;!-- Hortonworks --&gt;</span>
+		<span style="color:#f92672">&lt;repository&gt;</span>
+			<span style="color:#f92672">&lt;id&gt;</span>HDPReleases<span style="color:#f92672">&lt;/id&gt;</span>
+			<span style="color:#f92672">&lt;name&gt;</span>HDP Releases<span style="color:#f92672">&lt;/name&gt;</span>
+			<span style="color:#f92672">&lt;url&gt;</span>https://repo.hortonworks.com/content/repositories/releases/<span style="color:#f92672">&lt;/url&gt;</span>
+			<span style="color:#f92672">&lt;snapshots&gt;&lt;enabled&gt;</span>false<span style="color:#f92672">&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+			<span style="color:#f92672">&lt;releases&gt;&lt;enabled&gt;</span>true<span style="color:#f92672">&lt;/enabled&gt;&lt;/releases&gt;</span>
+		<span style="color:#f92672">&lt;/repository&gt;</span>
+		<span style="color:#f92672">&lt;repository&gt;</span>
+			<span style="color:#f92672">&lt;id&gt;</span>HortonworksJettyHadoop<span style="color:#f92672">&lt;/id&gt;</span>
+			<span style="color:#f92672">&lt;name&gt;</span>HDP Jetty<span style="color:#f92672">&lt;/name&gt;</span>
+			<span style="color:#f92672">&lt;url&gt;</span>https://repo.hortonworks.com/content/repositories/jetty-hadoop<span style="color:#f92672">&lt;/url&gt;</span>
+			<span style="color:#f92672">&lt;snapshots&gt;&lt;enabled&gt;</span>false<span style="color:#f92672">&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+			<span style="color:#f92672">&lt;releases&gt;&lt;enabled&gt;</span>true<span style="color:#f92672">&lt;/enabled&gt;&lt;/releases&gt;</span>
+		<span style="color:#f92672">&lt;/repository&gt;</span>
+		<span style="color:#75715e">&lt;!-- MapR --&gt;</span>
+		<span style="color:#f92672">&lt;repository&gt;</span>
+			<span style="color:#f92672">&lt;id&gt;</span>mapr-releases<span style="color:#f92672">&lt;/id&gt;</span>
+			<span style="color:#f92672">&lt;url&gt;</span>https://repository.mapr.com/maven/<span style="color:#f92672">&lt;/url&gt;</span>
+			<span style="color:#f92672">&lt;snapshots&gt;&lt;enabled&gt;</span>false<span style="color:#f92672">&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+			<span style="color:#f92672">&lt;releases&gt;&lt;enabled&gt;</span>true<span style="color:#f92672">&lt;/enabled&gt;&lt;/releases&gt;</span>
+		<span style="color:#f92672">&lt;/repository&gt;</span>
+	<span style="color:#f92672">&lt;/repositories&gt;</span>
+<span style="color:#f92672">&lt;/profile&gt;</span>
+</code></pre></div><p>flink-runtime-web项目下node打包配置中增加npm淘宝源代理</p>
+<pre tabindex="0"><code>&lt;plugin&gt;
+    &lt;groupId&gt;com.github.eirslett&lt;/groupId&gt;
+    &lt;artifactId&gt;frontend-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.6&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;install node and npm&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;install-node-and-npm&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;nodeVersion&gt;v10.9.0&lt;/nodeVersion&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+        &lt;execution&gt;
+            &lt;id&gt;npm install&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;npm&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;arguments&gt;ci -registry=https://registry.npm.taobao.org --cache-max=0 --no-save&lt;/arguments&gt;
+                &lt;environmentVariables&gt;
+                    &lt;HUSKY_SKIP_INSTALL&gt;true&lt;/HUSKY_SKIP_INSTALL&gt;
+                &lt;/environmentVariables&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+        &lt;execution&gt;
+            &lt;id&gt;npm run build&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;npm&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+                &lt;arguments&gt;run build -registry=https://registry.npm.taobao.org&lt;/arguments&gt;
+            &lt;/configuration&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+    &lt;configuration&gt;
+        &lt;workingDirectory&gt;web-dashboard&lt;/workingDirectory&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre><ul>
+<li>开始编译</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#开始编译</span>
+mvn clean install -DskipTests -Dfast -Drat.skip<span style="color:#f92672">=</span>true -Dhaoop.version<span style="color:#f92672">=</span>3.0.0-cdh6.3.3 -Pvendor-repos -Dinclude-hadoop -Dscala-2.11 -T4C
+
+参数说明
+<span style="color:#75715e"># -Dfast  #在flink根目录下pom.xml文件中fast配置项目中含快速设置,其中包含了多项构建时的跳过参数. #例如apache的文件头(rat)合法校验，代码风格检查，javadoc生成的跳过等，详细可阅读pom.xml</span>
+<span style="color:#75715e"># install maven的安装命令</span>
+<span style="color:#75715e"># -T4C #支持多处理器或者处理器核数参数,加快构建速度,推荐Maven3.3及以上</span>
+<span style="color:#75715e"># -Pinclude-hadoop  将hadoop的 jar包，打入到lib/中</span>
+<span style="color:#75715e"># -Pvendor-repos   # 如果需要指定hadoop的发行商，如CDH，需要使用-Pvendor-repos</span>
+<span style="color:#75715e"># -Dscala-2.11     # 指定scala的版本为2.11</span>
+<span style="color:#75715e"># -Dhadoop.version=3.0.0-cdh6.3.3  指定 hadoop 的版本，这里的版本与CDH集群版本的Hadoop一致就行</span>
+
+<span style="color:#75715e">#  Flink1.10与Flink1.11的版本编译没有太大差异，需要了解的是</span>
+
+<span style="color:#75715e">#  Flink1.11使用的是flink-shaded release-11.0版本，已经移除掉了flink-shaded-hadoop-2模块，故在最终生成的flink编译后目录中不会有flink-shaded-hadoop-2-uber包</span>
+<span style="color:#75715e">#  Flink1.10使用的是flink-shaded release-9.0的版本，如果在maven编译的过程中，无法下载flink-shaded-hadoop-2-uber-2.7.5-9.0.jar，下载wget https://github.com/apache/flink-shaded/archive/release-9.0.zip，</span>
+编译：mvn clean install -T4C -Pinclude-hadoop -Dhadoop.version<span style="color:#f92672">=</span>2.7.5 -DskipTests -Dscala-2.11
+
+<span style="color:#75715e"># 不推荐以Scala版本为2.12编译，在启动start-scala-shell.sh的时候会报错，错误信息为： Error: Could not find or load main class org.apache.flink.api.scala.FlinkShell</span>
+<span style="color:#75715e">#  这是 flink 的一个 bug，基于 scala 2.12 编译的 flink 会存在这个问题，使用基于 scala 2.11 编译的 flink 就不会有这个问题了。这个 bug 之后应该会修复，当前已知在 flink 1.11 中这个问题依然存在。</span>
+
+</code></pre></div><ul>
+<li>压缩flink安装包</li>
+</ul>
+<pre tabindex="0"><code>cd flink-release-1.13.1/flink-dist/target/flink-1.13.1-bin/flink-1.13.1
+tar zcvf flink-1.13.1-cdh6.3.0.tgz flink-1.10.2
+</code></pre><p>3、parcel包制作</p>
+<ul>
+<li>
+<p>下载https://github.com/hnbcao/flink-parcel，并将打包好的flink拷贝到flink-parcel下。</p>
+</li>
+<li>
+<p>配置打包程序</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd flink-parcel
+vim flink-parcel.properties
+</code></pre></div><pre tabindex="0"><code>#FLINk 下载地址
+#FLINK_URL=  /Users/guiyifei/Dev/learn/flink/flink-dist/target/flink-1.12.4-bin/flink-1.12.4-cdh6.2.1-0001.tgz
+FLINK_URL=/data/flink-parcel/flink-parcel/flink-1.13.1.tgz
+
+#flink版本号
+FLINK_VERSION=1.13.1
+
+#扩展版本号
+EXTENS_VERSION=CDH6.3.0
+
+#操作系统版本，以centos为例
+OS_VERSION=7
+
+#CDH 小版本
+CDH_MIN_FULL=6.2
+CDH_MAX_FULL=6.4
+
+#CDH大版本
+CDH_MIN=5
+CDH_MAX=6
+
+</code></pre><ul>
+<li>制作parcel包</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sh build.sh parcel
+<span style="color:#75715e"># 生成的parcel包在FLINK-1.13.1-CDH6.3.0_build目录下</span>
+</code></pre></div><ul>
+<li>制作CSD文件</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sh build.sh csd
+生成的csd为 FLINK_ON_YARN-1.13.1.jar
+</code></pre></div><p>4、CDH部署Flink</p>
+<p>在flink-parcel-master目录下会生成FLINK_ON_YARN-1.10.2.jar，在FLINK-1.10.2-CDH6.3.3-0001_build目录下会生成FLINK-1.10.2-CDH6.3.3-0001-el7.parcel FLINK-1.10.2-CDH6.3.3-0001-el7.parcel.sha manifest.json 3个文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#在CDH 主节点进行操作</span>
+<span style="color:#75715e">#将原来的manifest.json备份</span>
+mv /opt/cloudera/parcel-repo/manifest.json /opt/cloudera/parcel-repo/manifest.back.json
+cp FLINK_ON_YARN-1.10.2.jar  /opt/cloudera/csd/ 
+cp FLINK-1.10.2-CDH6.3.3-0001_build/* /opt/cloudera/parcel-repo/ 
+systemctl restart cloudera-scm-server
+</code></pre></div><p>安装：CDH界面操作</p>
+<p>5、Flink On Yarn Session HA</p>
+<p>见https://www.jianshu.com/p/8f1e650ebcad</p>
+</article>
  
       
 
@@ -716,6 +947,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 

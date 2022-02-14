@@ -109,7 +109,9 @@ Quam iugulum regia simulacra, plus meruit humo pecorumque haesit, ab discedunt d
       <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hnbcao.vip/posts/me/</guid>
-      <description>Introduction #  draveness</description>
+      <description>个人收藏书签 #  draveness
+Etcd 架构与实现解析
+jimmysong</description>
     </item>
     
     <item>
@@ -146,6 +148,36 @@ version: &amp;#39;2.0&amp;#39; services: web: build: . ports: - &amp;#34;5000:50
       <guid>https://hnbcao.vip/docs/container/kubernetes/base/1-kubernetes-cluster-installation/</guid>
       <description>Kubernetes集群搭建 #  1.1. 概述 #   本文基于kubeadm HA master(v1.13.0)离线包 + 自动化脚本 + 常用插件 For Centos/Fedora编写，修改了master之间的负载均衡方式为HAProxy+keeplived方式。 此离线教程必须保证目标安装环境与离线包下载环境一致，或者是考虑做yum镜像源。 关于keepalived+haproxy负载均衡，由于是在阿里云上搭建的，事实上是没有实现的，至于为何也成功部署了环境，其实是每台机器上keepalived都处于激活状态，对虚拟ip的访问都映射到了本机，本机又通过haproxy将请求负载到了api-server上。这是个神奇的事情，直到现在才搞清楚keepalived+haproxy的原理，如果是在阿里云上部署，这块建议使用阿里云的负载均衡功能。（keepalived+haproxy是为了实现api-server的负载均衡） 关于内核，实际上升不升级应该问题都不是很大，至少目前环境没出现过问题。 关于kubernetes版本，目前该教程能支持最新的v1.15.3版本的安装，注意修改版本号。  集群方案：
  发行版：CentOS 7 容器运行时 内核： 4.18.12-1.el7.elrepo.x86_64 版本：Kubernetes: 1.14.0 网络方案: Calico kube-proxy mode: IPVS master高可用方案：HAProxy keepalived LVS DNS插件: CoreDNS metrics插件：metrics-server 界面：kubernetes-dashboard  1.2. 安装环境 #     Host Name Role IP     master1 master1 192.168.56.103   master2 master2 192.168.56.104   master3 master3 192.</description>
+    </item>
+    
+    <item>
+      <title>1. Kustomize声明式管理</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/advance/1-kubernetes-kustomize/</link>
+      <pubDate>Tue, 31 Dec 2019 16:16:02 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/container/kubernetes/advance/1-kubernetes-kustomize/</guid>
+      <description>Kustomize声明式管理 #  1.1. 简介 #  本文来自于官方文档
+Kustomize 是一个独立的工具，用来通过 kustomization 文件 定制 Kubernetes 对象。它提供以下功能特性来管理 应用配置文件：
+ 从其他来源生成资源 为资源设置贯穿性（Cross-Cutting）字段 组织和定制资源集合  从 1.14 版本开始，kubectl 也开始支持使用 kustomization 文件来管理 Kubernetes 对象。 要查看包含 kustomization 文件的目录中的资源，执行下面的命令：
+kubectl kustomize &amp;lt;kustomization_directory&amp;gt; 要应用这些资源，使用参数 &amp;ndash;kustomize 或 -k 标志来执行 kubectl apply：
+kubectl apply -k &amp;lt;kustomization_directory&amp;gt; 1.2. 资源配置 #  1.2.1. configMapGenerator #  要生成 ConfigMap，可以在 configMapGenerator 中添加对应的表项，主要有files、envs以及literals。
+具体示例如下（通过kubectl kustomize查看生成结果）：
+ 根据文件中的数据生成ConfigMap  cat &amp;lt;&amp;lt;EOF &amp;gt;tempconfig.properties VAR01=01 VAR02=02 EOF cat &amp;lt;&amp;lt;EOF &amp;gt;kustomization.</description>
+    </item>
+    
+    <item>
+      <title>1. Kustomize声明式管理</title>
+      <link>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/</link>
+      <pubDate>Tue, 31 Dec 2019 16:16:02 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/</guid>
+      <description>Kustomize声明式管理 #  1.1. 简介 #  本文来自于官方文档
+Kustomize 是一个独立的工具，用来通过 kustomization 文件 定制 Kubernetes 对象。它提供以下功能特性来管理 应用配置文件：
+ 从其他来源生成资源 为资源设置贯穿性（Cross-Cutting）字段 组织和定制资源集合  从 1.14 版本开始，kubectl 也开始支持使用 kustomization 文件来管理 Kubernetes 对象。 要查看包含 kustomization 文件的目录中的资源，执行下面的命令：
+kubectl kustomize &amp;lt;kustomization_directory&amp;gt; 要应用这些资源，使用参数 &amp;ndash;kustomize 或 -k 标志来执行 kubectl apply：
+kubectl apply -k &amp;lt;kustomization_directory&amp;gt; 1.2. 资源配置 #  1.2.1. configMapGenerator #  要生成 ConfigMap，可以在 configMapGenerator 中添加对应的表项，主要有files、envs以及literals。
+具体示例如下（通过kubectl kustomize查看生成结果）：
+ 根据文件中的数据生成ConfigMap  cat &amp;lt;&amp;lt;EOF &amp;gt;tempconfig.properties VAR01=01 VAR02=02 EOF cat &amp;lt;&amp;lt;EOF &amp;gt;kustomization.</description>
     </item>
     
     <item>
@@ -196,6 +228,22 @@ apiVersion: cert-manager.io/v1alpha2 kind: ClusterIssuer metadata: name: cluster
       
       <guid>https://hnbcao.vip/docs/seo/middleware/ceph-installation/</guid>
       <description>CephFS集群安装 #  一、集群规划 #     节点 ip os 节点说明     master1 10.73.13.61 centos7.4 mon+rgw+manger节点、ceph-deploy   master2 10.73.13.60 centos7.4 mon+rgw+manger节点   master3 10.73.13.59 centos7.4 mon+rgw+manger节点    二、安装ceph-deploy #   Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:Install and enable the Extra Packages for Enterprise Linux (EPEL) repository:  sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 添加ceph仓库（阿里源，同时在所有节点进行如下操作）  cat &amp;lt;&amp;lt; EOM &amp;gt; /etc/yum.</description>
+    </item>
+    
+    <item>
+      <title>Flink On CDH Parcel包创建</title>
+      <link>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</guid>
+      <description>1、下载Flink源代码
+下载地址：https://flink.apache.org/downloads.html
+2、编译Flink
+  环境准备
+JDK-1.8、Git、Maven-3.6.3、Node-v12.19.0
+  配置修改
+  parent项目的pom.xml中增加proflie
+&amp;lt;profile&amp;gt; &amp;lt;id&amp;gt;vendor-repos&amp;lt;/id&amp;gt; &amp;lt;activation&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;vendor-repos&amp;lt;/name&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;/activation&amp;gt; &amp;lt;!-- Add vendor maven repositories --&amp;gt; &amp;lt;repositories&amp;gt; &amp;lt;!-- Cloudera --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;cloudera-releases&amp;lt;/id&amp;gt; &amp;lt;url&amp;gt;https://repository.cloudera.com/artifactory/cloudera-repos&amp;lt;/url&amp;gt; &amp;lt;releases&amp;gt; &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt; &amp;lt;/releases&amp;gt; &amp;lt;snapshots&amp;gt; &amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt; &amp;lt;/snapshots&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;!-- Hortonworks --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;HDPReleases&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;HDP Releases&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;https://repo.hortonworks.com/content/repositories/releases/&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;HortonworksJettyHadoop&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;HDP Jetty&amp;lt;/name&amp;gt; &amp;lt;url&amp;gt;https://repo.hortonworks.com/content/repositories/jetty-hadoop&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;!-- MapR --&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;id&amp;gt;mapr-releases&amp;lt;/id&amp;gt; &amp;lt;url&amp;gt;https://repository.mapr.com/maven/&amp;lt;/url&amp;gt; &amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt; &amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt; &amp;lt;/repository&amp;gt; &amp;lt;/repositories&amp;gt; &amp;lt;/profile&amp;gt; flink-runtime-web项目下node打包配置中增加npm淘宝源代理</description>
     </item>
     
     <item>
@@ -303,15 +351,6 @@ Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii.
       <guid>https://hnbcao.vip/docs/example/hidden/</guid>
       <description>This page is hidden in menu #  Quondam non pater est dignior ille Eurotas #  Latent te facies #  Lorem markdownum arma ignoscas vocavit quoque ille texit mandata mentis ultimus, frementes, qui in vel. Hippotades Peleus pennas conscia cuiquam Caeneus quas.
  Pater demittere evincitque reddunt Maxime adhuc pressit huc Danaas quid freta Soror ego Luctus linguam saxa ultroque prior Tatiumque inquit Saepe liquitur subita superata dederat Anius sudor  Cum honorum Latona #  O fallor in sustinui iussorum equidem.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hnbcao.vip/docs/seo/bigdata/create-flink-parcel-for-cdh/</guid>
-      <description></description>
     </item>
     
     <item>
