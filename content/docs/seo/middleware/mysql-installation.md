@@ -86,6 +86,22 @@ MySQL第一次启动后会创建超级管理员账号root@localhost，初始密�
 sudo grep 'temporary password' /var/log/mysqld.log
 ```
 
+进入MySQL.
+
+进入之后直接修改密码：
+
+```sql
+alter user user() identified by "XXXXXX";
+```
+
+设置访问权限
+
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+```
+
+
 ## 1.3 配置Mysql
 
 配置文件位置在/etc/my.cnf，修改该文件对mysql进行配置。
@@ -163,7 +179,7 @@ slave_skip_errors=1062
 新建账户，并授权slave权限
 
 ```sql
-GRANT REPLICATION SLAVE ON *.* TO 'username'@'IP' IDENTIFIED BY 'password';
+GRANT REPLICATION SLAVE ON *.* TO 'slave'@'10.75.8.151' IDENTIFIED BY '123@DataBench';
 ```
 
 查看主节点状态，并记录binlog文件（File）以及偏移量（Position）
