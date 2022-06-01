@@ -167,10 +167,10 @@ kubectl apply -k &amp;lt;kustomization_directory&amp;gt; 1.2. 资源配置 #  1.
     
     <item>
       <title>1. Kustomize声明式管理</title>
-      <link>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/</link>
+      <link>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio-introduce/</link>
       <pubDate>Tue, 31 Dec 2019 16:16:02 +0000</pubDate>
       
-      <guid>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio/</guid>
+      <guid>https://hnbcao.vip/docs/container/kubernetes/advance/2-istio-introduce/</guid>
       <description>Kustomize声明式管理 #  1.1. 简介 #  本文来自于官方文档
 Kustomize 是一个独立的工具，用来通过 kustomization 文件 定制 Kubernetes 对象。它提供以下功能特性来管理 应用配置文件：
  从其他来源生成资源 为资源设置贯穿性（Cross-Cutting）字段 组织和定制资源集合  从 1.14 版本开始，kubectl 也开始支持使用 kustomization 文件来管理 Kubernetes 对象。 要查看包含 kustomization 文件的目录中的资源，执行下面的命令：
