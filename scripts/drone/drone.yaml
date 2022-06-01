@@ -1,0 +1,130 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: drone
+    component: server
+    release: drone
+    version: v1
+  name: drone-server
+  namespace: drone-core
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: drone
+      component: server
+      release: drone
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: drone
+        component: server
+        release: drone
+    spec:
+      containers:
+      - env:
+        - name: DRONE_RUNNER_PRIVILEGED_IMAGES
+          value: hub.segma.tech/drone/plugins/docker:19.03.8,harbor.local.segma.tech/drone/plugins/docker:19.03.8
+        - name: DRONE_KUBERNETES_ENABLED
+          value: "true"
+        - name: DRONE_KUBERNETES_NAMESPACE
+          value: kube-drone
+        - name: DRONE_KUBERNETES_SERVICE_ACCOUNT
+          value: drone-drone-pipeline
+        - name: DRONE_KUBERNETES_IMAGE
+          value: hub.d.cisdigital.cn/drone/drone-controller:for-databench
+        - name: DRONE_GIT_ALWAYS_AUTH
+          value: "false"
+        - name: DRONE_SERVER_HOST
+          value: drone.d.cisdigital.cn
+        - name: DRONE_RPC_PROTO
+          value: http
+        - name: DRONE_RPC_HOST
+          value: drone-drone.kube-drone:80
+        - name: DRONE_SERVER_PROTO
+          value: http
+        - name: DRONE_RPC_SECRET
+          value: 123a00e97c522b4316455f2ae
+        - name: DRONE_DATABASE_DATASOURCE
+          value: root:segma@cisdi@tcp(mysql.kube-drone:3306)/cisdigital-git-drone?parseTime=true
+        - name: DRONE_DATABASE_DRIVER
+          value: mysql
+        - name: DRONE_LOGS_DEBUG
+          value: "true"
+        - name: DRONE_GITLAB_CLIENT_ID
+          value: aeb4fa65e31e8cbd34331bdebe531e25bb307f41f546a8f90729c49864bc7286
+        - name: DRONE_GITLAB_SERVER
+          value: https://git.cisdigital.cn
+        - name: DRONE_GITLAB_CLIENT_SECRET
+          value: b82ce4aaf458c5b5ed7e0fcd6c81eea286eac1a12e179e6e0e82a5e2584ecda6
+        image: hub.d.cisdigital.cn/drone/drone-server:for-databench
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          periodSeconds: 120
+          successThreshold: 1
+          timeoutSeconds: 60
+        name: server
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 443
+          name: https
+          protocol: TCP
+        - containerPort: 9000
+          name: grpc
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/drone
+          name: data
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: drone-drone
+      serviceAccountName: drone-drone
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: drone-drone
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: drone-drone
+  namespace: drone-core
+  selfLink: /api/v1/namespaces/kube-drone/persistentvolumeclaims/drone-drone
+  uid: ebff1ef1-bc92-431b-a6d7-e3784059dbc3
+  resourceVersion: '3123342'
+  creationTimestamp: '2019-12-02T09:07:08Z'
+  annotations:
+    pv.kubernetes.io/bind-completed: 'yes'
+    pv.kubernetes.io/bound-by-controller: 'yes'
+    volume.beta.kubernetes.io/storage-provisioner: fuseim.pri/ifs
+  finalizers:
+    - kubernetes.io/pvc-protection
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pvc-ebff1ef1-bc92-431b-a6d7-e3784059dbc3
+  storageClassName: nfs-storage

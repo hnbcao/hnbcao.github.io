@@ -1,4 +1,5 @@
 .DS_Store
 public
 .idea/
-tmp/
+tmp/
+bin/*
