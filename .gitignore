@@ -1,5 +1,6 @@
 .DS_Store
 public
 .idea/
-tmp/
+tmp/*
 bin/*
+scripts/istio/istio-1.13.4/bin/istioctl
