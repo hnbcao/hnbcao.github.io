@@ -429,7 +429,8 @@ metadata:
     version: "v2.5.0"
 spec:
   ports:
-    - port: 5432
+    - name: tcp-db
+      port: 5432
   selector:
     release: harbor
     app: "harbor"
@@ -471,7 +472,8 @@ metadata:
     version: "v2.5.0"
 spec:
   ports:
-    - port: 80
+    - name: http-portal
+      port: 80
       targetPort: 8080
   selector:
     release: harbor
@@ -492,7 +494,8 @@ metadata:
     version: "v2.5.0"
 spec:
   ports:
-    - port: 6379
+    - name: tcp-redis
+      port: 6379
   selector:
     release: harbor
     app: "harbor"
